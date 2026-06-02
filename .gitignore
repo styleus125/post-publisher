@@ -1,0 +1,41 @@
+# Secrets & credentials
+.env
+.env.*
+credentials.json
+credentials_not-working.json
+token.json
+
+# Runtime state
+agent.log
+*.log
+app.pid
+*.pid
+instagram_used_titles.json
+schedule.json
+
+# MoviePy temp files
+tmp*.mp4
+*TEMP_MPY*.mp4
+*TEMP_MPY_wvf_snd.mp4
+
+# Generated output
+reels_output/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+
+# Editor / OS
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

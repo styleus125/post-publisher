@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Styleus Instagram Agent</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a1628;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: #0f2040;
+      border: 1px solid #1e3a5f;
+      border-radius: 16px;
+      padding: 36px 40px;
+      width: 100%;
+      max-width: 640px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      overflow: visible;
+    }
+
+    /* Header */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: #3b82f6;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .logo h1 { font-size: 20px; font-weight: 700; color: #fff; }
+    .logo span { font-size: 13px; color: #64748b; display: block; }
+    .stat-badge {
+      background: #0a1628;
+      border: 1px solid #1e3a5f;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      color: #64748b;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    .stat-badge b { color: #3b82f6; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: #0a1628;
+      border: 1px solid #1e3a5f;
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+    .tab {
+      flex: 1;
+      padding: 9px;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      background: transparent;
+      color: #64748b;
+      transition: all 0.2s;
+    }
+    .tab.active { background: #3b82f6; color: #fff; box-shadow: 0 2px 8px rgba(59,130,246,0.4); }
+
+    /* Panels */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* Mode toggle */
+    .mode-toggle {
+      display: flex;
+      background: #0a1628;
+      border: 1px solid #1e3a5f;
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 20px;
+    }
+    .mode-btn {
+      flex: 1; padding: 10px;
+      border: none; border-radius: 7px;
+      cursor: pointer; font-size: 14px; font-weight: 600;
+      transition: all 0.2s;
+      background: transparent; color: #64748b;
+    }
+    .mode-btn.active {
+      background: #3b82f6; color: #fff;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.4);
+    }
+
+    /* Fields */
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block; font-size: 12px; font-weight: 600;
+      color: #94a3b8; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 8px;
+    }
+    .field input, .field select {
+      width: 100%;
+      background: #0a1628; border: 1px solid #1e3a5f;
+      border-radius: 8px; padding: 11px 14px;
+      font-size: 14px; color: #e2e8f0; outline: none;
+      transition: border-color 0.2s;
+    }
+    .field input::placeholder { color: #334155; }
+    .field input:focus, .field select:focus { border-color: #3b82f6; }
+    .field select option { background: #0f2040; }
+
+    /* Toggle switch */
+    .toggle-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .toggle-row label { font-size: 14px; color: #94a3b8; font-weight: 600; }
+    .switch { position: relative; width: 44px; height: 24px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; inset: 0;
+      background: #1e3a5f; border-radius: 24px;
+      cursor: pointer; transition: 0.2s;
+    }
+    .slider:before {
+      content: ''; position: absolute;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: #fff; left: 3px; top: 3px;
+      transition: 0.2s;
+    }
+    input:checked + .slider { background: #3b82f6; }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%; padding: 14px;
+      background: #3b82f6; color: #fff;
+      border: none; border-radius: 10px;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+      margin-bottom: 24px; letter-spacing: 0.02em;
+    }
+    .btn-primary:hover:not(:disabled) { background: #2563eb; transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .btn-secondary {
+      width: 100%; padding: 11px;
+      background: transparent;
+      border: 1px solid #3b82f6; color: #3b82f6;
+      border-radius: 10px; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(59,130,246,0.1); }
+
+    /* Schedule info */
+    .sched-info {
+      background: #0a1628; border: 1px solid #1e3a5f;
+      border-radius: 8px; padding: 12px 16px;
+      font-size: 13px; color: #64748b;
+      margin-bottom: 20px;
+    }
+    .sched-info b { color: #3b82f6; }
+
+    /* Log */
+    .log-wrap { display: none; flex-direction: column; gap: 8px; }
+    .log-header {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600;
+      color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #3b82f6; animation: pulse 1s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .dot.done  { background: #22c55e; animation: none; }
+    .dot.error { background: #ef4444; animation: none; }
+
+    #log, #file-log {
+      background: #070e1a; border: 1px solid #1e3a5f;
+      border-radius: 10px; padding: 16px;
+      font-family: 'Cascadia Code','Fira Code','Consolas',monospace;
+      font-size: 12px; line-height: 1.7;
+      color: #94a3b8; overflow-y: auto;
+      white-space: pre-wrap; word-break: break-all;
+    }
+    #log { max-height: 260px; }
+    #file-log { max-height: 420px; }
+
+    #result {
+      display: none; border-radius: 10px;
+      padding: 14px 18px; font-size: 14px; font-weight: 600;
+      margin-top: 12px;
+    }
+    #result.success {
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.3); color: #4ade80;
+    }
+    #result.error {
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.3); color: #f87171;
+    }
+
+    .highlight { color: #3b82f6; }
+    .log-actions { display: flex; gap: 8px; margin-bottom: 8px; }
+    .log-actions button {
+      padding: 6px 14px; border-radius: 6px; font-size: 12px;
+      font-weight: 600; cursor: pointer; border: 1px solid #1e3a5f;
+      background: #0a1628; color: #64748b; transition: all 0.2s;
+    }
+    .log-actions button:hover { border-color: #3b82f6; color: #3b82f6; }
+
+    .saved-toast {
+      display: none; font-size: 12px; color: #22c55e;
+      margin-top: 8px; text-align: center;
+    }
+
+    .sched-block {
+      background: #0a1628;
+      border: 1px solid #1e3a5f;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      overflow: visible;
+    }
+    .sched-block-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      font-size: 14px; font-weight: 700; color: #e2e8f0;
+    }
+    .times-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 10px; }
+    .time-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: #0f2040; border: 1px solid #1e3a5f;
+      border-radius: 8px; padding: 5px 10px 5px 10px;
+    }
+    .time-chip select {
+      background: transparent; border: none; color: #e2e8f0;
+      font-size: 13px; font-weight: 600; outline: none; cursor: pointer;
+      padding: 0; -webkit-appearance: none; appearance: none; text-align: center;
+    }
+    .time-chip select option { background: #0f2040; color: #e2e8f0; }
+    .time-chip .sep { color: #475569; font-weight: 700; font-size: 13px; }
+    .time-chip button {
+      background: transparent; border: none; color: #475569;
+      cursor: pointer; font-size: 14px; line-height: 1; padding: 2px 4px;
+      border-radius: 4px; transition: color 0.15s; margin-left: 4px;
+    }
+    .time-chip button:hover { color: #ef4444; }
+    .add-time-btn {
+      background: transparent; border: 1px dashed #1e3a5f;
+      border-radius: 8px; color: #3b82f6; font-size: 12px;
+      font-weight: 600; padding: 6px 14px; cursor: pointer;
+      transition: all 0.2s; width: 100%;
+    }
+    .add-time-btn:hover { border-color: #3b82f6; background: rgba(59,130,246,0.06); }
+  </style>
+</head>
+<body>
+<div class="card">
+
+  <!-- Header -->
+  <div class="logo">
+    <div class="logo-icon">📸</div>
+    <div>
+      <h1>Styleus Agent</h1>
+      <span>Instagram Auto-Poster</span>
+    </div>
+    <div style="margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+      <div class="stat-badge"><b id="used-count">{{ used }}</b> / 500 titles used</div>
+      <div class="stat-badge" style="font-size:13px; color:#e2e8f0;">
+        🇮🇳 <b id="ist-clock">--:--:--</b> IST
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('post')">Post</button>
+    <button class="tab" onclick="switchTab('blog')">Blog</button>
+    <button class="tab" onclick="switchTab('schedule')">Schedule</button>
+    <button class="tab" onclick="switchTab('logs')">Logs</button>
+  </div>
+
+  <!-- ── POST PANEL ── -->
+  <div class="panel active" id="panel-post">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btn-photo" onclick="setMode('photo')">📷 Insta Post</button>
+      <button class="mode-btn" id="btn-reel" onclick="setMode('reel')">🎬 Insta Reel</button>
+    </div>
+
+    <div class="field">
+      <label>Custom Title (optional)</label>
+      <input type="text" id="title-input" placeholder="Leave blank to auto-pick from schedule" />
+    </div>
+
+    <button class="btn-primary" id="post-btn" onclick="startPost()">Post Now</button>
+
+    <div class="log-wrap" id="log-wrap">
+      <div class="log-header">
+        <div class="dot" id="dot"></div>
+        <span id="log-status">Running…</span>
+      </div>
+      <div id="log"></div>
+      <div id="result"></div>
+    </div>
+  </div>
+
+  <!-- ── BLOG PANEL ── -->
+  <div class="panel" id="panel-blog">
+    <div class="field">
+      <label>Custom Topic (optional)</label>
+      <input type="text" id="blog-topic-input" placeholder="Leave blank to use today's scheduled topic" />
+    </div>
+
+    <div class="sched-info" style="margin-bottom:20px; font-size:13px;">
+      Topic is auto-picked by day of month from a built-in list. If already posted today, Claude generates a fresh topic.
+    </div>
+
+    <button class="btn-primary" id="blog-btn" onclick="startBlog()">Post Blog Draft</button>
+
+    <div class="log-wrap" id="blog-log-wrap">
+      <div class="log-header">
+        <div class="dot" id="blog-dot"></div>
+        <span id="blog-log-status">Running…</span>
+      </div>
+      <div id="blog-log"></div>
+      <div id="blog-result"></div>
+    </div>
+  </div>
+
+  <!-- ── SCHEDULE PANEL ── -->
+  <div class="panel" id="panel-schedule">
+
+    <!-- Photo schedule -->
+    <div class="sched-block">
+      <div class="sched-block-header">
+        <span>📷 Insta Post</span>
+        <label class="switch">
+          <input type="checkbox" id="photo-enabled" onchange="schedChanged()">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <label style="font-size:12px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;">Times (IST)</label>
+      <div id="photo-times" class="times-list"></div>
+      <button class="add-time-btn" onclick="addTime('photo')">+ Add Time</button>
+    </div>
+
+    <!-- Reel schedule -->
+    <div class="sched-block">
+      <div class="sched-block-header">
+        <span>🎬 Insta Reel</span>
+        <label class="switch">
+          <input type="checkbox" id="reel-enabled" onchange="schedChanged()">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <label style="font-size:12px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;">Times (IST)</label>
+      <div id="reel-times" class="times-list"></div>
+      <button class="add-time-btn" onclick="addTime('reel')">+ Add Time</button>
+    </div>
+
+    <!-- Blog schedule -->
+    <div class="sched-block">
+      <div class="sched-block-header">
+        <span>✍️ Blog Draft</span>
+        <label class="switch">
+          <input type="checkbox" id="blog-enabled" onchange="schedChanged()">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <label style="font-size:12px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;">Times (IST)</label>
+      <div id="blog-times" class="times-list"></div>
+      <button class="add-time-btn" onclick="addTime('blog')">+ Add Time</button>
+    </div>
+
+    <div class="sched-info" id="sched-summary" style="margin-bottom:20px">Loading…</div>
+    <button class="btn-secondary" onclick="saveSchedule()">Save Schedule</button>
+    <div class="saved-toast" id="saved-toast">✅ Schedule saved</div>
+  </div>
+
+  <!-- ── LOGS PANEL ── -->
+  <div class="panel" id="panel-logs">
+    <div class="log-actions">
+      <button onclick="loadLogs()">↻ Refresh</button>
+      <button onclick="clearLogView()">Clear view</button>
+    </div>
+    <div id="file-log">Loading logs…</div>
+  </div>
+
+</div>
+
+<script>
+  let mode = 'photo';
+  let schedData = {};
+
+  // ── Tabs ──────────────────────────────────────────────────────────────────
+  const TAB_NAMES = ['post','blog','schedule','logs'];
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', TAB_NAMES[i] === name);
+    });
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    if (name === 'logs') loadLogs();
+    if (name === 'schedule') loadSchedule();
+  }
+
+  // ── Mode ──────────────────────────────────────────────────────────────────
+  function setMode(m) {
+    mode = m;
+    document.getElementById('btn-photo').classList.toggle('active', m === 'photo');
+    document.getElementById('btn-reel').classList.toggle('active', m === 'reel');
+  }
+
+  // ── Post ──────────────────────────────────────────────────────────────────
+  function startPost() {
+    const title  = document.getElementById('title-input').value.trim();
+    const btn    = document.getElementById('post-btn');
+    const log    = document.getElementById('log');
+    const wrap   = document.getElementById('log-wrap');
+    const dot    = document.getElementById('dot');
+    const status = document.getElementById('log-status');
+    const result = document.getElementById('result');
+
+    btn.disabled = true;
+    btn.textContent = 'Posting…';
+    log.textContent = '';
+    result.style.display = 'none';
+    result.className = '';
+    wrap.style.display = 'flex';
+    dot.className = 'dot';
+    status.textContent = 'Running…';
+
+    const params = new URLSearchParams({ mode });
+    if (title) params.set('title', title);
+
+    const es = new EventSource(`/post?${params}`);
+    es.onmessage = (e) => {
+      const line = e.data;
+      if (line.startsWith('__EXIT__')) {
+        es.close();
+        const code = parseInt(line.replace('__EXIT__', ''));
+        btn.disabled = false;
+        btn.textContent = 'Post Now';
+        if (code === 0) {
+          dot.className = 'dot done';
+          status.textContent = 'Done';
+          const postMatch  = log.textContent.match(/Post ID:\s*(\S+)/);
+          const driveMatch = log.textContent.match(/Drive link -> (https:\/\/\S+)/);
+          const idStr    = postMatch  ? ` — Post ID: <span class="highlight">${postMatch[1]}</span>` : '';
+          const driveStr = driveMatch ? `<br><a href="${driveMatch[1]}" target="_blank" style="color:#3b82f6;font-size:13px;">Open in Google Drive ↗</a>` : '';
+          result.innerHTML = `✅ Posted successfully${idStr}${driveStr}`;
+          result.className = 'success';
+          document.getElementById('used-count').textContent =
+            parseInt(document.getElementById('used-count').textContent) + 1;
+        } else {
+          dot.className = 'dot error';
+          status.textContent = 'Failed';
+          result.textContent = '❌ Post failed — check log above for details.';
+          result.className = 'error';
+        }
+        result.style.display = 'block';
+        return;
+      }
+      log.textContent += line + '\n';
+      log.scrollTop = log.scrollHeight;
+    };
+    es.onerror = () => {
+      es.close();
+      btn.disabled = false;
+      btn.textContent = 'Post Now';
+      dot.className = 'dot error';
+      status.textContent = 'Connection error';
+      result.textContent = '❌ Lost connection to server.';
+      result.className = 'error';
+      result.style.display = 'block';
+    };
+  }
+
+  // ── Blog ──────────────────────────────────────────────────────────────────
+  function startBlog() {
+    const topic  = document.getElementById('blog-topic-input').value.trim();
+    const btn    = document.getElementById('blog-btn');
+    const log    = document.getElementById('blog-log');
+    const wrap   = document.getElementById('blog-log-wrap');
+    const dot    = document.getElementById('blog-dot');
+    const status = document.getElementById('blog-log-status');
+    const result = document.getElementById('blog-result');
+
+    btn.disabled = true;
+    btn.textContent = 'Posting…';
+    log.textContent = '';
+    result.style.display = 'none';
+    result.className = '';
+    wrap.style.display = 'flex';
+    dot.className = 'dot';
+    status.textContent = 'Running…';
+
+    const params = new URLSearchParams();
+    if (topic) params.set('topic', topic);
+
+    const es = new EventSource(`/blog?${params}`);
+    es.onmessage = (e) => {
+      const line = e.data;
+      if (line.startsWith('__EXIT__')) {
+        es.close();
+        const code = parseInt(line.replace('__EXIT__', ''));
+        btn.disabled = false;
+        btn.textContent = 'Post Blog Draft';
+        if (code === 0) {
+          dot.className = 'dot done';
+          status.textContent = 'Done';
+          const slugMatch  = log.textContent.match(/slug=(\S+)/);
+          const adminMatch = log.textContent.match(/Review at:\s*(https:\/\/\S+)/);
+          const slugStr  = slugMatch  ? ` — <span class="highlight">${slugMatch[1]}</span>` : '';
+          const adminStr = adminMatch ? `<br><a href="${adminMatch[1]}" target="_blank" style="color:#3b82f6;font-size:13px;">Review on Styleus ↗</a>` : '';
+          result.innerHTML = `✅ Blog draft posted${slugStr}${adminStr}`;
+          result.className = 'success';
+        } else {
+          dot.className = 'dot error';
+          status.textContent = 'Failed';
+          result.textContent = '❌ Blog post failed — check log above.';
+          result.className = 'error';
+        }
+        result.style.display = 'block';
+        return;
+      }
+      log.textContent += line + '\n';
+      log.scrollTop = log.scrollHeight;
+    };
+    es.onerror = () => {
+      es.close();
+      btn.disabled = false;
+      btn.textContent = 'Post Blog Draft';
+      dot.className = 'dot error';
+      result.textContent = '❌ Lost connection to server.';
+      result.className = 'error';
+      result.style.display = 'block';
+    };
+  }
+
+  // ── Schedule ──────────────────────────────────────────────────────────────
+  function to12h(t24) {
+    const [h, m] = t24.split(':').map(Number);
+    return { h: String(h % 12 || 12), m: String(m).padStart(2,'0'), ampm: h >= 12 ? 'PM' : 'AM' };
+  }
+
+  function to24h(h, m, ampm) {
+    let hour = parseInt(h);
+    if (ampm === 'AM' && hour === 12) hour = 0;
+    if (ampm === 'PM' && hour !== 12) hour += 12;
+    return `${String(hour).padStart(2,'0')}:${m}`;
+  }
+
+  function makeHourOpts(sel) {
+    for (let i = 1; i <= 12; i++) {
+      const o = document.createElement('option');
+      o.value = o.textContent = String(i);
+      sel.appendChild(o);
+    }
+  }
+
+  function makeMinOpts(sel) {
+    for (let i = 0; i < 60; i += 5) {
+      const o = document.createElement('option');
+      o.value = o.textContent = String(i).padStart(2,'0');
+      sel.appendChild(o);
+    }
+  }
+
+  function renderTimes(mode, times) {
+    const container = document.getElementById(`${mode}-times`);
+    container.innerHTML = '';
+    (times || ['09:00']).forEach((t, i) => {
+      const { h, m, ampm } = to12h(t);
+      const chip = document.createElement('div');
+      chip.className = 'time-chip';
+
+      const hSel = document.createElement('select');
+      hSel.onchange = schedChanged;
+      makeHourOpts(hSel);
+      hSel.value = h;
+
+      const sep = document.createElement('span');
+      sep.className = 'sep'; sep.textContent = ':';
+
+      const mSel = document.createElement('select');
+      mSel.onchange = schedChanged;
+      makeMinOpts(mSel);
+      // add exact minute if not on 5-min boundary
+      if (!mSel.querySelector(`option[value="${m}"]`)) {
+        const o = document.createElement('option'); o.value = o.textContent = m;
+        mSel.appendChild(o);
+      }
+      mSel.value = m;
+
+      const amSel = document.createElement('select');
+      amSel.onchange = schedChanged;
+      ['AM','PM'].forEach(v => { const o = document.createElement('option'); o.value = o.textContent = v; amSel.appendChild(o); });
+      amSel.value = ampm;
+
+      const btn = document.createElement('button');
+      btn.textContent = '✕'; btn.title = 'Remove';
+      btn.onclick = () => removeTime(mode, i);
+
+      chip.append(hSel, sep, mSel, amSel, btn);
+      container.appendChild(chip);
+    });
+  }
+
+  function addTime(mode) {
+    const times = getTimes(mode);
+    times.push('12:00');
+    renderTimes(mode, times);
+    schedChanged();
+  }
+
+  function removeTime(mode, idx) {
+    const times = getTimes(mode).filter((_, i) => i !== idx);
+    if (times.length === 0) times.push('09:00');
+    renderTimes(mode, times);
+    schedChanged();
+  }
+
+  function getTimes(mode) {
+    return [...document.querySelectorAll(`#${mode}-times .time-chip`)].map(chip => {
+      const sels = chip.querySelectorAll('select');
+      return to24h(sels[0].value, sels[1].value, sels[2].value);
+    });
+  }
+
+  function loadSchedule() {
+    fetch('/schedule').then(r => r.json()).then(d => {
+      schedData = d;
+      document.getElementById('photo-enabled').checked = d.photo?.enabled || false;
+      document.getElementById('reel-enabled').checked  = d.reel?.enabled  || false;
+      document.getElementById('blog-enabled').checked  = d.blog?.enabled  || false;
+      renderTimes('photo', d.photo?.times || ['09:00']);
+      renderTimes('reel',  d.reel?.times  || ['18:00']);
+      renderTimes('blog',  d.blog?.times  || ['13:50']);
+      updateSchedSummary();
+    });
+  }
+
+  function schedChanged() {
+    schedData = {
+      photo: { enabled: document.getElementById('photo-enabled').checked, times: getTimes('photo') },
+      reel:  { enabled: document.getElementById('reel-enabled').checked,  times: getTimes('reel')  },
+      blog:  { enabled: document.getElementById('blog-enabled').checked,  times: getTimes('blog')  },
+    };
+    updateSchedSummary();
+  }
+
+  function fmt12h(t24) {
+    const [h, m] = t24.split(':').map(Number);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const hour = h % 12 || 12;
+    return `${hour}:${String(m).padStart(2,'0')} ${ampm}`;
+  }
+
+  function nextRunRemaining(t24) {
+    const now  = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const [h, m] = t24.split(':').map(Number);
+    const next = new Date(now);
+    next.setHours(h, m, 0, 0);
+    if (next <= now) next.setDate(next.getDate() + 1);
+    const diff = next - now;
+    const hrs  = Math.floor(diff / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    if (hrs >= 24) return 'tomorrow';
+    if (hrs > 0)   return `in ${hrs}h ${mins}m`;
+    if (mins > 0)  return `in ${mins}m`;
+    return 'now';
+  }
+
+  function nearestRun(times) {
+    const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    let minMs = Infinity, minTime = times[0];
+    times.forEach(t => {
+      const [h, m] = t.split(':').map(Number);
+      const next = new Date(now);
+      next.setHours(h, m, 0, 0);
+      if (next <= now) next.setDate(next.getDate() + 1);
+      const diff = next - now;
+      if (diff < minMs) { minMs = diff; minTime = t; }
+    });
+    return minTime;
+  }
+
+  function updateSchedSummary() {
+    const el = document.getElementById('sched-summary');
+    const parts = [];
+    const entries = [
+      { key: 'photo', icon: '📷', label: 'Post' },
+      { key: 'reel',  icon: '🎬', label: 'Reel' },
+      { key: 'blog',  icon: '✍️', label: 'Blog' },
+    ];
+    entries.forEach(({ key, icon, label }) => {
+      const cfg = schedData[key];
+      if (!cfg?.enabled || !cfg.times?.length) return;
+      const timeFmts  = cfg.times.map(fmt12h).join(', ');
+      const next      = nearestRun(cfg.times);
+      const remaining = nextRunRemaining(next);
+      parts.push(
+        `${icon} <b>${label}</b> at <b>${timeFmts}</b> IST &nbsp;` +
+        `<span style="color:#64748b;font-size:11px">(next: ${fmt12h(next)}, ${remaining})</span>`
+      );
+    });
+    el.innerHTML = parts.length ? parts.join('<br><br>') : 'No schedules enabled.';
+  }
+
+  function saveSchedule() {
+    fetch('/schedule', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(schedData),
+    }).then(() => {
+      const t = document.getElementById('saved-toast');
+      t.style.display = 'block';
+      setTimeout(() => t.style.display = 'none', 2500);
+    });
+  }
+
+  // ── Logs ──────────────────────────────────────────────────────────────────
+  function loadLogs() {
+    fetch('/logs?lines=150').then(r => r.json()).then(d => {
+      const el = document.getElementById('file-log');
+      el.textContent = d.log || '(no logs yet)';
+      el.scrollTop = el.scrollHeight;
+    });
+  }
+
+  function clearLogView() {
+    document.getElementById('file-log').textContent = '';
+  }
+
+  // ── IST Clock ─────────────────────────────────────────────────────────────
+  function updateClock() {
+    const now  = new Date();
+    const ist  = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    let   hh   = ist.getHours();
+    const ampm = hh >= 12 ? 'PM' : 'AM';
+    hh = hh % 12 || 12;
+    const mm = String(ist.getMinutes()).padStart(2, '0');
+    const ss = String(ist.getSeconds()).padStart(2, '0');
+    document.getElementById('ist-clock').textContent = `${hh}:${mm}:${ss} ${ampm}`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Refresh countdown every minute
+  setInterval(() => { if (Object.keys(schedData).length) updateSchedSummary(); }, 60000);
+
+  // Init
+  loadSchedule();
+</script>
+</body>
+</html>
