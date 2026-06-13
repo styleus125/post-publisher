@@ -1,0 +1,485 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - banner [ref=e5]:
+      - generic [ref=e6]:
+        - link "Pixabay" [ref=e8] [cursor=pointer]:
+          - /url: /
+          - img [ref=e10]
+        - generic [ref=e15]:
+          - button "Search Pixabay" [ref=e16] [cursor=pointer]:
+            - img "Search" [ref=e17]:
+              - img [ref=e18]
+          - searchbox "Search Pixabay" [ref=e21]
+          - button "Music" [ref=e24] [cursor=pointer]:
+            - generic: Music
+            - generic:
+              - img:
+                - img
+        - generic [ref=e25]:
+          - button "Explore" [ref=e29] [cursor=pointer]:
+            - generic: Explore
+            - generic:
+              - img:
+                - img
+          - button "Log in" [ref=e31] [cursor=pointer]:
+            - generic: Log in
+          - button "Join" [ref=e32] [cursor=pointer]:
+            - generic: Join
+          - button "Upload" [ref=e34] [cursor=pointer]:
+            - generic:
+              - img:
+                - img
+            - generic: Upload
+    - generic [ref=e35]:
+      - generic [ref=e36]:
+        - generic [ref=e39]:
+          - generic [ref=e49]:
+            - generic [ref=e50]: Carnaval
+            - link "Alec_Koff" [ref=e51] [cursor=pointer]:
+              - /url: /users/alec_koff-54645061/
+          - generic [ref=e52]:
+            - generic [ref=e53]: 0:00
+            - slider [ref=e55] [cursor=pointer]:
+              - img [ref=e56]:
+                - img
+                - img [ref=e57]
+            - generic [ref=e60]: 1:01
+          - button "paused" [ref=e63] [cursor=pointer]:
+            - img "Play" [ref=e64]:
+              - img [ref=e65]
+          - generic [ref=e67]:
+            - generic [ref=e68]:
+              - img "Shield" [ref=e69]:
+                - img [ref=e70]
+              - generic [ref=e72]: Content ID Registered
+              - img "Question" [ref=e74]:
+                - img [ref=e75]
+            - generic [ref=e77]:
+              - button "volume" [ref=e78] [cursor=pointer]:
+                - img "Volume" [ref=e79]:
+                  - img [ref=e80]
+              - slider "volume" [ref=e86]: "1"
+        - generic [ref=e87]:
+          - link "Auto-match your soundtrack to your footage with one-click Beat Sync. Try Canva Pro for free" [ref=e89] [cursor=pointer]:
+            - /url: https://www.canva.com/features/beat-sync/?utm_medium=partner&utm_source=pixabay&utm_campaign=canva_brand&utm_content=beat_sync_v1&utm_term=72.2
+            - generic [ref=e90]:
+              - img [ref=e91]
+              - generic [ref=e92]:
+                - img [ref=e93]
+                - generic [ref=e94]: Auto-match your soundtrack to your footage with one-click Beat Sync.
+              - button "Try Canva Pro for free" [ref=e96]:
+                - generic: Try Canva Pro for free
+          - generic [ref=e97]:
+            - generic [ref=e99]:
+              - img "EditorsChoice" [ref=e100]:
+                - img [ref=e101]
+              - generic [ref=e105]: Editor's Choice
+            - generic [ref=e106]:
+              - heading "Carnaval, Carnaval music, Carnaval background music. Free for use." [level=1] [ref=e107]:
+                - generic [ref=e108]: Carnaval, Carnaval music, Carnaval background music. Free for use.
+              - generic [ref=e109]: Brazil, Carnival, Carnaval, Samba, Brasilia, Latin, Drums
+          - link "Trophy Pixabay Contest Winner Brazil Contest ArrowUpRight" [ref=e111] [cursor=pointer]:
+            - /url: /contests/brazil-contest-35/
+            - img "Trophy" [ref=e113]:
+              - img [ref=e114]
+            - generic [ref=e116]:
+              - generic [ref=e117]: Pixabay Contest Winner
+              - generic [ref=e118]: Brazil Contest
+            - img "ArrowUpRight" [ref=e120]:
+              - img [ref=e121]
+          - generic [ref=e123]:
+            - generic [ref=e124]: 1 comment
+            - generic [ref=e125]:
+              - img "CommentFilled" [ref=e126]:
+                - img [ref=e127]
+              - generic [ref=e129]: The community are waiting to hear from you!
+              - generic [ref=e130]: Log in or Join Pixabay to view comments
+              - generic [ref=e131]:
+                - button "Log in" [ref=e132] [cursor=pointer]:
+                  - generic: Log in
+                - button "Join Pixabay" [ref=e133] [cursor=pointer]:
+                  - generic: Join Pixabay
+          - generic [ref=e134]:
+            - link "Carnaval" [ref=e135] [cursor=pointer]:
+              - /url: /music/search/carnaval/
+              - generic [ref=e136]: Carnaval
+            - link "Carnaval Music" [ref=e137] [cursor=pointer]:
+              - /url: /music/search/carnaval%20music/
+              - generic [ref=e138]: Carnaval Music
+            - link "Carnaval Background" [ref=e139] [cursor=pointer]:
+              - /url: /music/search/carnaval%20background/
+              - generic [ref=e140]: Carnaval Background
+            - link "Carnaval Background Music" [ref=e141] [cursor=pointer]:
+              - /url: /music/search/carnaval%20background%20music/
+              - generic [ref=e142]: Carnaval Background Music
+            - link "Carnaval Sound" [ref=e143] [cursor=pointer]:
+              - /url: /music/search/carnaval%20sound/
+              - generic [ref=e144]: Carnaval Sound
+            - link "Carnaval Video" [ref=e145] [cursor=pointer]:
+              - /url: /music/search/carnaval%20video/
+              - generic [ref=e146]: Carnaval Video
+            - link "Carnaval Intro" [ref=e147] [cursor=pointer]:
+              - /url: /music/search/carnaval%20intro/
+              - generic [ref=e148]: Carnaval Intro
+            - link "Carnaval Theme" [ref=e149] [cursor=pointer]:
+              - /url: /music/search/carnaval%20theme/
+              - generic [ref=e150]: Carnaval Theme
+            - link "Brazilian Carnaval" [ref=e151] [cursor=pointer]:
+              - /url: /music/search/brazilian%20carnaval/
+              - generic [ref=e152]: Brazilian Carnaval
+            - link "Samba Carnaval" [ref=e153] [cursor=pointer]:
+              - /url: /music/search/samba%20carnaval/
+              - generic [ref=e154]: Samba Carnaval
+            - link "Rio Carnaval" [ref=e155] [cursor=pointer]:
+              - /url: /music/search/rio%20carnaval/
+              - generic [ref=e156]: Rio Carnaval
+            - link "Carnaval Brazil" [ref=e157] [cursor=pointer]:
+              - /url: /music/search/carnaval%20brazil/
+              - generic [ref=e158]: Carnaval Brazil
+            - link "Latin Carnaval" [ref=e159] [cursor=pointer]:
+              - /url: /music/search/latin%20carnaval/
+              - generic [ref=e160]: Latin Carnaval
+            - link "Carnaval Dance" [ref=e161] [cursor=pointer]:
+              - /url: /music/search/carnaval%20dance/
+              - generic [ref=e162]: Carnaval Dance
+            - link "Carnaval Festival" [ref=e163] [cursor=pointer]:
+              - /url: /music/search/carnaval%20festival/
+              - generic [ref=e164]: Carnaval Festival
+            - link "Carnaval Celebration" [ref=e165] [cursor=pointer]:
+              - /url: /music/search/carnaval%20celebration/
+              - generic [ref=e166]: Carnaval Celebration
+            - link "Carnaval Party" [ref=e167] [cursor=pointer]:
+              - /url: /music/search/carnaval%20party/
+              - generic [ref=e168]: Carnaval Party
+            - link "Street Carnaval" [ref=e169] [cursor=pointer]:
+              - /url: /music/search/street%20carnaval/
+              - generic [ref=e170]: Street Carnaval
+            - link "Colorful Carnaval" [ref=e171] [cursor=pointer]:
+              - /url: /music/search/colorful%20carnaval/
+              - generic [ref=e172]: Colorful Carnaval
+            - link "Summer Carnaval" [ref=e173] [cursor=pointer]:
+              - /url: /music/search/summer%20carnaval/
+              - generic [ref=e174]: Summer Carnaval
+            - link "Carnaval Percussion" [ref=e175] [cursor=pointer]:
+              - /url: /music/search/carnaval%20percussion/
+              - generic [ref=e176]: Carnaval Percussion
+            - link "Carnaval Drums" [ref=e177] [cursor=pointer]:
+              - /url: /music/search/carnaval%20drums/
+              - generic [ref=e178]: Carnaval Drums
+            - link "Carnaval Instrumental" [ref=e179] [cursor=pointer]:
+              - /url: /music/search/carnaval%20instrumental/
+              - generic [ref=e180]: Carnaval Instrumental
+            - link "Festive Carnaval" [ref=e181] [cursor=pointer]:
+              - /url: /music/search/festive%20carnaval/
+              - generic [ref=e182]: Festive Carnaval
+            - link "Happy Carnaval" [ref=e183] [cursor=pointer]:
+              - /url: /music/search/happy%20carnaval/
+              - generic [ref=e184]: Happy Carnaval
+        - generic [ref=e185]:
+          - generic [ref=e187]:
+            - heading "Related free music" [level=2] [ref=e188]
+            - generic [ref=e190]:
+              - generic [ref=e191]:
+                - generic [ref=e192]:
+                  - button "Play" [ref=e193] [cursor=pointer]:
+                    - button "Play" [ref=e196]:
+                      - img "Play" [ref=e197]:
+                        - img [ref=e198]
+                  - generic [ref=e200]:
+                    - link "Brazil Rio Samba Carnival Music" [ref=e201] [cursor=pointer]:
+                      - /url: /music/samba-latin-brazil-rio-samba-carnival-music-481483/
+                    - link "HitsLab" [ref=e202] [cursor=pointer]:
+                      - /url: /users/hitslab-47305729/
+                - slider [ref=e205] [cursor=pointer]:
+                  - img [ref=e206]:
+                    - img
+                - generic [ref=e207]:
+                  - generic [ref=e208]: 1:04
+                  - img "Shield" [ref=e211]:
+                    - img [ref=e212]
+                  - generic [ref=e214]:
+                    - link "Samba (Latin)" [ref=e215] [cursor=pointer]:
+                      - /url: /music/search/genre/Samba (Latin)/
+                    - generic [ref=e216]:
+                      - link "Brazil," [ref=e217] [cursor=pointer]:
+                        - /url: /music/search/brazil/
+                      - link "Carnival," [ref=e218] [cursor=pointer]:
+                        - /url: /music/search/carnival/
+                      - link "Samba" [ref=e219] [cursor=pointer]:
+                        - /url: /music/search/samba/
+                  - button "Download" [ref=e222] [cursor=pointer]:
+                    - generic:
+                      - img "Download":
+                        - img
+              - generic [ref=e223]:
+                - generic [ref=e224]:
+                  - button "Play" [ref=e225] [cursor=pointer]:
+                    - button "Play" [ref=e228]:
+                      - img "Play" [ref=e229]:
+                        - img [ref=e230]
+                  - generic [ref=e232]:
+                    - link "Up In The Air" [ref=e233] [cursor=pointer]:
+                      - /url: /music/samba-latin-up-in-the-air-499093/
+                    - link "DonnySombrero" [ref=e234] [cursor=pointer]:
+                      - /url: /users/donnysombrero-52390068/
+                - slider [ref=e237] [cursor=pointer]:
+                  - img [ref=e238]:
+                    - img
+                - generic [ref=e239]:
+                  - generic [ref=e240]: 3:12
+                  - img "Shield" [ref=e243]:
+                    - img [ref=e244]
+                  - generic [ref=e246]:
+                    - link "Samba (Latin)" [ref=e247] [cursor=pointer]:
+                      - /url: /music/search/genre/Samba (Latin)/
+                    - generic [ref=e248]:
+                      - link "Brazil," [ref=e249] [cursor=pointer]:
+                        - /url: /music/search/brazil/
+                      - link "Music" [ref=e250] [cursor=pointer]:
+                        - /url: /music/search/music/
+                  - button "Download" [ref=e253] [cursor=pointer]:
+                    - generic:
+                      - img "Download":
+                        - img
+              - generic [ref=e254]:
+                - generic [ref=e255]:
+                  - button "Play" [ref=e256] [cursor=pointer]:
+                    - button "Play" [ref=e259]:
+                      - img "Play" [ref=e260]:
+                        - img [ref=e261]
+                  - generic [ref=e263]:
+                    - link "Brazil Football Carnival Samba Music" [ref=e264] [cursor=pointer]:
+                      - /url: /music/upbeat-brazil-football-carnival-samba-music-412756/
+                    - link "ViacheslavStarostin" [ref=e265] [cursor=pointer]:
+                      - /url: /users/viacheslavstarostin-50153119/
+                - slider [ref=e268] [cursor=pointer]:
+                  - img [ref=e269]:
+                    - img
+                - generic [ref=e270]:
+                  - generic [ref=e271]: 2:55
+                  - img "Shield" [ref=e274]:
+                    - img [ref=e275]
+                  - generic [ref=e277]:
+                    - link "Upbeat" [ref=e278] [cursor=pointer]:
+                      - /url: /music/search/genre/Upbeat/
+                    - generic [ref=e279]:
+                      - link "Brazil," [ref=e280] [cursor=pointer]:
+                        - /url: /music/search/brazil/
+                      - link "Football" [ref=e281] [cursor=pointer]:
+                        - /url: /music/search/football/
+                  - button "Download" [ref=e284] [cursor=pointer]:
+                    - generic:
+                      - img "Download":
+                        - img
+            - button "Load more" [ref=e286] [cursor=pointer]:
+              - generic: Load more
+          - generic [ref=e288]:
+            - generic [ref=e289]:
+              - generic [ref=e290]:
+                - generic [ref=e291]: Genre
+                - generic [ref=e292]:
+                  - link "Samba (Latin)" [ref=e293] [cursor=pointer]:
+                    - /url: /music/search/genre/samba%20(latin)/
+                    - generic [ref=e294]: Samba (Latin)
+                  - link "Percussion" [ref=e295] [cursor=pointer]:
+                    - /url: /music/search/genre/percussion/
+                    - generic [ref=e296]: Percussion
+              - generic [ref=e297]:
+                - generic [ref=e298]: Mood
+                - generic [ref=e299]:
+                  - link "Energetic" [ref=e300] [cursor=pointer]:
+                    - /url: /music/search/mood/energetic/
+                    - generic [ref=e301]: Energetic
+                  - link "Epic" [ref=e302] [cursor=pointer]:
+                    - /url: /music/search/mood/epic/
+                    - generic [ref=e303]: Epic
+            - generic [ref=e304]:
+              - generic [ref=e305]:
+                - generic [ref=e306]: Movement
+                - generic [ref=e307]:
+                  - link "Marching" [ref=e308] [cursor=pointer]:
+                    - /url: /music/search/movement/marching/
+                    - generic [ref=e309]: Marching
+                  - link "Heavy & Ponderous" [ref=e310] [cursor=pointer]:
+                    - /url: /music/search/movement/heavy%20%26%20ponderous/
+                    - generic [ref=e311]: Heavy & Ponderous
+              - generic [ref=e313]: Theme
+      - generic [ref=e317]:
+        - generic [ref=e318]:
+          - generic [ref=e319]:
+            - img "Check" [ref=e321]:
+              - img [ref=e322]
+            - generic [ref=e324]:
+              - text: Free for use under the Pixabay
+              - link "Content License" [ref=e325] [cursor=pointer]:
+                - /url: /service/license-summary/
+          - generic [ref=e328]:
+            - button "Free download" [ref=e329] [cursor=pointer]:
+              - generic: Free download
+            - button [ref=e330] [cursor=pointer]:
+              - generic:
+                - img:
+                  - img
+        - separator [ref=e331]
+        - generic [ref=e332]:
+          - generic [ref=e333]:
+            - button "HeartOutline 226" [ref=e336] [cursor=pointer]:
+              - generic:
+                - img "HeartOutline":
+                  - img
+              - generic: "226"
+            - button "Save" [ref=e339] [cursor=pointer]:
+              - generic:
+                - img:
+                  - img
+              - generic: Save
+            - button "CommentOutline" [ref=e341] [cursor=pointer]:
+              - generic:
+                - img "CommentOutline":
+                  - img
+            - button "Share" [ref=e343] [cursor=pointer]:
+              - generic:
+                - img "Share":
+                  - img
+            - button "Flag" [ref=e346] [cursor=pointer]:
+              - generic:
+                - img "Flag":
+                  - img
+          - generic [ref=e348]:
+            - generic [ref=e349]:
+              - generic [ref=e350]: Plays
+              - generic [ref=e351]: 355,363
+            - generic [ref=e352]:
+              - generic [ref=e353]: Downloads
+              - generic [ref=e354]: 15,148
+            - button "Show details " [ref=e355] [cursor=pointer]:
+              - generic [ref=e356]: Show details
+              - generic [ref=e357]: 
+        - separator [ref=e358]
+        - generic [ref=e361]:
+          - generic [ref=e362]:
+            - link "Alec_Koff" [ref=e365] [cursor=pointer]:
+              - /url: /users/alec_koff-54645061/
+              - img "Alec_Koff" [ref=e366]
+            - generic [ref=e367]:
+              - link "Alec_Koff" [ref=e369] [cursor=pointer]:
+                - /url: /users/alec_koff-54645061/
+              - generic [ref=e370]: 78 followers
+            - button "Follow" [ref=e371] [cursor=pointer]:
+              - generic:
+                - img:
+                  - img
+              - generic: Follow
+          - generic [ref=e372]:
+            - paragraph [ref=e374]: Music by ALEC KOFF is used in over 5 million YouTube videos. The tracks have appeared in promo content for video games (PUBG, Roblox, War Thunder, Konami titles) and in trailers and advertising for major brands including Acer, Renault, and BenQ.
+            - button "Show more " [ref=e376] [cursor=pointer]:
+              - generic [ref=e377]: Show more
+              - generic [ref=e378]: 
+    - contentinfo [ref=e379]:
+      - generic [ref=e380]:
+        - generic [ref=e381]:
+          - img [ref=e383]
+          - generic [ref=e386]: Over 6.1 million+ high quality stock images, videos and music shared by our talented community.
+          - generic [ref=e387]:
+            - link "Instagram" [ref=e388] [cursor=pointer]:
+              - /url: https://www.instagram.com/pixabay/
+              - img "Instagram" [ref=e389]:
+                - img [ref=e390]
+            - link "Facebook" [ref=e392] [cursor=pointer]:
+              - /url: https://www.facebook.com/pixabay
+              - img "Facebook" [ref=e393]:
+                - img [ref=e394]
+            - link "TikTok" [ref=e396] [cursor=pointer]:
+              - /url: https://www.tiktok.com/@pixabaymedia
+              - img "TikTokBrand" [ref=e397]:
+                - img [ref=e398]
+            - link "Twitter" [ref=e408] [cursor=pointer]:
+              - /url: https://x.com/pixabay
+              - img "TwitterX" [ref=e409]:
+                - img [ref=e410]
+            - link "LinkedIn" [ref=e415] [cursor=pointer]:
+              - /url: https://www.linkedin.com/company/pixabay/
+              - img "Linkedin" [ref=e416]:
+                - img [ref=e417]
+            - link "YouTube" [ref=e419] [cursor=pointer]:
+              - /url: https://www.youtube.com/@pixabaymedia
+              - img "Youtube" [ref=e420]:
+                - img [ref=e421]
+            - link "Pinterest" [ref=e423] [cursor=pointer]:
+              - /url: https://pinterest.com/pixabay/
+              - img "Pinterest" [ref=e424]:
+                - img [ref=e425]
+        - generic [ref=e427]:
+          - generic [ref=e428]: Discover
+          - generic [ref=e429]:
+            - link "Editor's Choice" [ref=e430] [cursor=pointer]:
+              - /url: /editors_choice/
+              - generic [ref=e431]: Editor's Choice
+            - link "Curated Collections" [ref=e432] [cursor=pointer]:
+              - /url: /collections/
+              - generic [ref=e433]: Curated Collections
+            - link "Pixabay Radio" [ref=e434] [cursor=pointer]:
+              - /url: /playlists/
+              - generic [ref=e435]: Pixabay Radio
+            - link "Popular Images" [ref=e436] [cursor=pointer]:
+              - /url: /images/search/
+              - generic [ref=e437]: Popular Images
+            - link "Popular Videos" [ref=e438] [cursor=pointer]:
+              - /url: /videos/search/
+              - generic [ref=e439]: Popular Videos
+            - link "Popular Music" [ref=e440] [cursor=pointer]:
+              - /url: /music/search/
+              - generic [ref=e441]: Popular Music
+            - link "Popular Searches" [ref=e442] [cursor=pointer]:
+              - /url: /popular-searches/
+              - generic [ref=e443]: Popular Searches
+        - generic [ref=e444]:
+          - generic [ref=e445]: Community
+          - generic [ref=e446]:
+            - link "Contests" [ref=e447] [cursor=pointer]:
+              - /url: /contests/
+              - generic [ref=e448]: Contests
+            - link "Creators" [ref=e449] [cursor=pointer]:
+              - /url: /users/
+              - generic [ref=e450]: Creators
+            - link "Ambassadors New" [ref=e451] [cursor=pointer]:
+              - /url: /service/ambassador/
+              - generic [ref=e452]: Ambassadors
+              - generic [ref=e454]: New
+            - link "Forum" [ref=e455] [cursor=pointer]:
+              - /url: /forum/
+              - generic [ref=e456]: Forum
+            - link "Blog" [ref=e457] [cursor=pointer]:
+              - /url: /blog/
+              - generic [ref=e458]: Blog
+        - generic [ref=e459]:
+          - generic [ref=e460]: About
+          - generic [ref=e461]:
+            - link "About Us" [ref=e462] [cursor=pointer]:
+              - /url: /service/about/
+              - generic [ref=e463]: About Us
+            - link "FAQ" [ref=e464] [cursor=pointer]:
+              - /url: /service/faq/
+              - generic [ref=e465]: FAQ
+            - link "License Summary" [ref=e466] [cursor=pointer]:
+              - /url: /service/license-summary/
+              - generic [ref=e467]: License Summary
+            - link "Terms of Service" [ref=e468] [cursor=pointer]:
+              - /url: /service/terms/
+              - generic [ref=e469]: Terms of Service
+            - link "Privacy Policy" [ref=e470] [cursor=pointer]:
+              - /url: /service/privacy/
+              - generic [ref=e471]: Privacy Policy
+            - link "Cookies Policy" [ref=e472] [cursor=pointer]:
+              - /url: /service/cookies/
+              - generic [ref=e473]: Cookies Policy
+            - link "Digital Services Act" [ref=e474] [cursor=pointer]:
+              - /url: /service/digital-services-act/
+              - generic [ref=e475]: Digital Services Act
+            - link "Report Content" [ref=e476] [cursor=pointer]:
+              - /url: /content-reports/
+              - generic [ref=e477]: Report Content
+            - link "API" [ref=e478] [cursor=pointer]:
+              - /url: /service/about/api/
+              - generic [ref=e479]: API
+  - generic: Cookies Settings

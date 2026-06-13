@@ -271,6 +271,13 @@
       transition: all 0.2s; width: 100%;
     }
     .add-time-btn:hover { border-color: #3b82f6; background: rgba(59,130,246,0.06); }
+
+    .slot-date-input {
+      background: transparent; border: none;
+      color: #e2e8f0; font-size: 12px; font-weight: 600;
+      outline: none; cursor: pointer; padding: 0;
+      color-scheme: dark; width: 116px;
+    }
   </style>
 </head>
 <body>
@@ -304,6 +311,31 @@
     <div class="mode-toggle">
       <button class="mode-btn active" id="btn-photo" onclick="setMode('photo')">📷 Insta Post</button>
       <button class="mode-btn" id="btn-reel" onclick="setMode('reel')">🎬 Insta Reel</button>
+    </div>
+
+    <!-- Reel destination toggles (only shown in reel mode) -->
+    <div id="reel-options" style="display:none; background:#0a1628; border:1px solid #1e3a5f; border-radius:10px; padding:14px 18px; margin-bottom:20px;">
+      <div style="font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:.05em; margin-bottom:12px;">Reel Destinations</div>
+      <div class="toggle-row" style="margin-bottom:12px;">
+        <div>
+          <div style="font-size:14px;color:#e2e8f0;font-weight:600;">Publish to Instagram</div>
+          <div style="font-size:12px;color:#475569;margin-top:2px;">Upload &amp; post the reel directly</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toggle-publish">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row" style="margin-bottom:0;">
+        <div>
+          <div style="font-size:14px;color:#e2e8f0;font-weight:600;">Upload to Google Drive</div>
+          <div style="font-size:12px;color:#475569;margin-top:2px;">Save a copy in Styleus Reels folder</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="toggle-drive" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
     </div>
 
     <div class="field">
@@ -358,9 +390,8 @@
           <span class="slider"></span>
         </label>
       </div>
-      <label style="font-size:12px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;">Times (IST)</label>
       <div id="photo-times" class="times-list"></div>
-      <button class="add-time-btn" onclick="addTime('photo')">+ Add Time</button>
+      <button class="add-time-btn" onclick="addSlot('photo')">+ Add Date &amp; Time</button>
     </div>
 
     <!-- Reel schedule -->
@@ -372,9 +403,8 @@
           <span class="slider"></span>
         </label>
       </div>
-      <label style="font-size:12px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;">Times (IST)</label>
       <div id="reel-times" class="times-list"></div>
-      <button class="add-time-btn" onclick="addTime('reel')">+ Add Time</button>
+      <button class="add-time-btn" onclick="addSlot('reel')">+ Add Date &amp; Time</button>
     </div>
 
     <!-- Blog schedule -->
@@ -386,9 +416,8 @@
           <span class="slider"></span>
         </label>
       </div>
-      <label style="font-size:12px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;">Times (IST)</label>
       <div id="blog-times" class="times-list"></div>
-      <button class="add-time-btn" onclick="addTime('blog')">+ Add Time</button>
+      <button class="add-time-btn" onclick="addSlot('blog')">+ Add Date &amp; Time</button>
     </div>
 
     <div class="sched-info" id="sched-summary" style="margin-bottom:20px">Loading…</div>
@@ -428,6 +457,8 @@
     mode = m;
     document.getElementById('btn-photo').classList.toggle('active', m === 'photo');
     document.getElementById('btn-reel').classList.toggle('active', m === 'reel');
+    document.getElementById('reel-options').style.display = m === 'reel' ? 'block' : 'none';
+    document.getElementById('post-btn').textContent = m === 'reel' ? 'Generate Reel' : 'Post Now';
   }
 
   // ── Post ──────────────────────────────────────────────────────────────────
@@ -441,7 +472,7 @@
     const result = document.getElementById('result');
 
     btn.disabled = true;
-    btn.textContent = 'Posting…';
+    btn.textContent = mode === 'reel' ? 'Generating…' : 'Posting…';
     log.textContent = '';
     result.style.display = 'none';
     result.className = '';
@@ -451,6 +482,10 @@
 
     const params = new URLSearchParams({ mode });
     if (title) params.set('title', title);
+    if (mode === 'reel') {
+      if (document.getElementById('toggle-publish').checked) params.set('publish', '1');
+      if (document.getElementById('toggle-drive').checked)   params.set('drive',   '1');
+    }
 
     const es = new EventSource(`/post?${params}`);
     es.onmessage = (e) => {
@@ -459,7 +494,7 @@
         es.close();
         const code = parseInt(line.replace('__EXIT__', ''));
         btn.disabled = false;
-        btn.textContent = 'Post Now';
+        btn.textContent = mode === 'reel' ? 'Generate Reel' : 'Post Now';
         if (code === 0) {
           dot.className = 'dot done';
           status.textContent = 'Done';
@@ -486,7 +521,7 @@
     es.onerror = () => {
       es.close();
       btn.disabled = false;
-      btn.textContent = 'Post Now';
+      btn.textContent = mode === 'reel' ? 'Generate Reel' : 'Post Now';
       dot.className = 'dot error';
       status.textContent = 'Connection error';
       result.textContent = '❌ Lost connection to server.';
@@ -586,29 +621,63 @@
     }
   }
 
-  function renderTimes(mode, times) {
+  function isoTomorrow() {
+    const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    now.setDate(now.getDate() + 1);
+    return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  }
+
+  function fmtSlotDate(dateStr) {
+    if (!dateStr) return '—';
+    const [y, mo, d] = dateStr.split('-').map(Number);
+    const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${mon[mo-1]} ${d}`;
+  }
+
+  function slotRemaining(dateStr, time24) {
+    if (!dateStr) return '';
+    const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+    const [y, mo, d] = dateStr.split('-').map(Number);
+    const [h, m]     = time24.split(':').map(Number);
+    const target = new Date(y, mo - 1, d, h, m, 0);
+    const diff   = target - now;
+    if (diff <= 0) return 'past';
+    const days = Math.floor(diff / 86400000);
+    const hrs  = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    if (days > 0) return `in ${days}d ${hrs}h`;
+    if (hrs  > 0) return `in ${hrs}h ${mins}m`;
+    return `in ${mins}m`;
+  }
+
+  function renderSlots(mode, slots) {
     const container = document.getElementById(`${mode}-times`);
     container.innerHTML = '';
-    (times || ['09:00']).forEach((t, i) => {
-      const { h, m, ampm } = to12h(t);
+    (slots || []).forEach((slot, i) => {
+      const { h, m, ampm } = to12h(slot.time || '09:00');
       const chip = document.createElement('div');
       chip.className = 'time-chip';
 
+      const dateIn = document.createElement('input');
+      dateIn.type = 'date'; dateIn.className = 'slot-date-input';
+      dateIn.value = slot.date || '';
+      dateIn.onchange = schedChanged;
+
+      const sep1 = document.createElement('span');
+      sep1.className = 'sep'; sep1.textContent = '·';
+
       const hSel = document.createElement('select');
       hSel.onchange = schedChanged;
-      makeHourOpts(hSel);
-      hSel.value = h;
+      makeHourOpts(hSel); hSel.value = h;
 
-      const sep = document.createElement('span');
-      sep.className = 'sep'; sep.textContent = ':';
+      const sep2 = document.createElement('span');
+      sep2.className = 'sep'; sep2.textContent = ':';
 
       const mSel = document.createElement('select');
       mSel.onchange = schedChanged;
       makeMinOpts(mSel);
-      // add exact minute if not on 5-min boundary
       if (!mSel.querySelector(`option[value="${m}"]`)) {
-        const o = document.createElement('option'); o.value = o.textContent = m;
-        mSel.appendChild(o);
+        const o = document.createElement('option'); o.value = o.textContent = m; mSel.appendChild(o);
       }
       mSel.value = m;
 
@@ -619,31 +688,31 @@
 
       const btn = document.createElement('button');
       btn.textContent = '✕'; btn.title = 'Remove';
-      btn.onclick = () => removeTime(mode, i);
+      btn.onclick = () => removeSlot(mode, i);
 
-      chip.append(hSel, sep, mSel, amSel, btn);
+      chip.append(dateIn, sep1, hSel, sep2, mSel, amSel, btn);
       container.appendChild(chip);
     });
   }
 
-  function addTime(mode) {
-    const times = getTimes(mode);
-    times.push('12:00');
-    renderTimes(mode, times);
+  function addSlot(mode) {
+    const slots = getSlots(mode);
+    slots.push({ date: isoTomorrow(), time: '09:00' });
+    renderSlots(mode, slots);
     schedChanged();
   }
 
-  function removeTime(mode, idx) {
-    const times = getTimes(mode).filter((_, i) => i !== idx);
-    if (times.length === 0) times.push('09:00');
-    renderTimes(mode, times);
+  function removeSlot(mode, idx) {
+    const slots = getSlots(mode).filter((_, i) => i !== idx);
+    renderSlots(mode, slots);
     schedChanged();
   }
 
-  function getTimes(mode) {
+  function getSlots(mode) {
     return [...document.querySelectorAll(`#${mode}-times .time-chip`)].map(chip => {
-      const sels = chip.querySelectorAll('select');
-      return to24h(sels[0].value, sels[1].value, sels[2].value);
+      const dateIn = chip.querySelector('input[type="date"]');
+      const sels   = chip.querySelectorAll('select');
+      return { date: dateIn.value, time: to24h(sels[0].value, sels[1].value, sels[2].value) };
     });
   }
 
@@ -653,18 +722,18 @@
       document.getElementById('photo-enabled').checked = d.photo?.enabled || false;
       document.getElementById('reel-enabled').checked  = d.reel?.enabled  || false;
       document.getElementById('blog-enabled').checked  = d.blog?.enabled  || false;
-      renderTimes('photo', d.photo?.times || ['09:00']);
-      renderTimes('reel',  d.reel?.times  || ['18:00']);
-      renderTimes('blog',  d.blog?.times  || ['13:50']);
+      renderSlots('photo', d.photo?.slots || []);
+      renderSlots('reel',  d.reel?.slots  || []);
+      renderSlots('blog',  d.blog?.slots  || []);
       updateSchedSummary();
     });
   }
 
   function schedChanged() {
     schedData = {
-      photo: { enabled: document.getElementById('photo-enabled').checked, times: getTimes('photo') },
-      reel:  { enabled: document.getElementById('reel-enabled').checked,  times: getTimes('reel')  },
-      blog:  { enabled: document.getElementById('blog-enabled').checked,  times: getTimes('blog')  },
+      photo: { enabled: document.getElementById('photo-enabled').checked, slots: getSlots('photo') },
+      reel:  { enabled: document.getElementById('reel-enabled').checked,  slots: getSlots('reel')  },
+      blog:  { enabled: document.getElementById('blog-enabled').checked,  slots: getSlots('blog')  },
     };
     updateSchedSummary();
   }
@@ -674,35 +743,6 @@
     const ampm = h >= 12 ? 'PM' : 'AM';
     const hour = h % 12 || 12;
     return `${hour}:${String(m).padStart(2,'0')} ${ampm}`;
-  }
-
-  function nextRunRemaining(t24) {
-    const now  = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-    const [h, m] = t24.split(':').map(Number);
-    const next = new Date(now);
-    next.setHours(h, m, 0, 0);
-    if (next <= now) next.setDate(next.getDate() + 1);
-    const diff = next - now;
-    const hrs  = Math.floor(diff / 3600000);
-    const mins = Math.floor((diff % 3600000) / 60000);
-    if (hrs >= 24) return 'tomorrow';
-    if (hrs > 0)   return `in ${hrs}h ${mins}m`;
-    if (mins > 0)  return `in ${mins}m`;
-    return 'now';
-  }
-
-  function nearestRun(times) {
-    const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
-    let minMs = Infinity, minTime = times[0];
-    times.forEach(t => {
-      const [h, m] = t.split(':').map(Number);
-      const next = new Date(now);
-      next.setHours(h, m, 0, 0);
-      if (next <= now) next.setDate(next.getDate() + 1);
-      const diff = next - now;
-      if (diff < minMs) { minMs = diff; minTime = t; }
-    });
-    return minTime;
   }
 
   function updateSchedSummary() {
@@ -715,14 +755,17 @@
     ];
     entries.forEach(({ key, icon, label }) => {
       const cfg = schedData[key];
-      if (!cfg?.enabled || !cfg.times?.length) return;
-      const timeFmts  = cfg.times.map(fmt12h).join(', ');
-      const next      = nearestRun(cfg.times);
-      const remaining = nextRunRemaining(next);
-      parts.push(
-        `${icon} <b>${label}</b> at <b>${timeFmts}</b> IST &nbsp;` +
-        `<span style="color:#64748b;font-size:11px">(next: ${fmt12h(next)}, ${remaining})</span>`
-      );
+      if (!cfg?.enabled || !cfg.slots?.length) return;
+      const slotFmts = cfg.slots
+        .filter(s => s.date)
+        .map(s => {
+          const rem = slotRemaining(s.date, s.time);
+          const col = rem === 'past' ? '#ef4444' : '#64748b';
+          return `<b>${fmtSlotDate(s.date)}</b> at <b>${fmt12h(s.time)}</b> ` +
+                 `<span style="color:${col};font-size:11px">(${rem})</span>`;
+        });
+      if (!slotFmts.length) return;
+      parts.push(`${icon} <b>${label}</b>: ` + slotFmts.join(' &nbsp;·&nbsp; ') + ' IST');
     });
     el.innerHTML = parts.length ? parts.join('<br><br>') : 'No schedules enabled.';
   }
@@ -766,8 +809,8 @@
   updateClock();
   setInterval(updateClock, 1000);
 
-  // Refresh countdown every minute
-  setInterval(() => { if (Object.keys(schedData).length) updateSchedSummary(); }, 60000);
+  // Refresh countdown every 30s
+  setInterval(() => { if (Object.keys(schedData).length) updateSchedSummary(); }, 30000);
 
   // Init
   loadSchedule();

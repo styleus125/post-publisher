@@ -9,7 +9,8 @@ import subprocess
 from datetime import datetime
 from flask import Flask, render_template, request, Response, stream_with_context, jsonify
 from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.cron import CronTrigger
+from apscheduler.triggers.date import DateTrigger
+from zoneinfo import ZoneInfo
 
 app = Flask(__name__)
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -40,21 +41,23 @@ def _used_count():
 
 def _load_schedule():
     defaults = {
-        'photo': {'enabled': False, 'times': ['09:00']},
-        'reel':  {'enabled': False, 'times': ['18:00']},
-        'blog':  {'enabled': False, 'times': ['13:50']},
+        'photo': {'enabled': False, 'slots': []},
+        'reel':  {'enabled': False, 'slots': []},
+        'blog':  {'enabled': False, 'slots': []},
     }
     if not os.path.exists(SCHEDULE_FILE):
         return defaults
     with open(SCHEDULE_FILE) as f:
         data = json.load(f)
     for mode, dflt in defaults.items():
-        if mode in data and 'time' in data[mode]:
-            data[mode]['times'] = [data[mode].pop('time')]
         if mode not in data:
             data[mode] = dflt
-        if 'times' not in data[mode]:
-            data[mode]['times'] = dflt['times']
+            continue
+        # migrate old times/days format — no date info, drop it
+        if 'slots' not in data[mode]:
+            data[mode]['slots'] = []
+        for old_key in ('times', 'days', 'time'):
+            data[mode].pop(old_key, None)
     return data
 
 
@@ -97,19 +100,36 @@ def _make_runner(mode: str):
 def _apply_schedule():
     scheduler.remove_all_jobs()
     sched = _load_schedule()
+    ist = ZoneInfo('Asia/Kolkata')
+    now = datetime.now(ist)
     for mode in ('photo', 'reel', 'blog'):
         cfg = sched.get(mode, {})
-        if cfg.get('enabled'):
-            for i, t in enumerate(cfg.get('times', [])):
-                h, m = t.split(':')
-                scheduler.add_job(
-                    _make_runner(mode),
-                    CronTrigger(hour=int(h), minute=int(m), timezone='Asia/Kolkata'),
-                    id=f'daily_{mode}_{i}',
-                    replace_existing=True,
-                    misfire_grace_time=3600,
-                )
-                logger.info(f"Schedule set: {mode} daily at {t} IST")
+        if not cfg.get('enabled'):
+            continue
+        for slot in cfg.get('slots', []):
+            date_str = slot.get('date', '')
+            time_str = slot.get('time', '00:00')
+            if not date_str:
+                continue
+            try:
+                year, month, day = map(int, date_str.split('-'))
+                hour, minute     = map(int, time_str.split(':'))
+                run_date = datetime(year, month, day, hour, minute, tzinfo=ist)
+            except Exception as exc:
+                logger.warning(f"Bad slot {mode} {date_str} {time_str}: {exc}")
+                continue
+            if run_date <= now:
+                logger.info(f"Skipping past slot: {mode} on {date_str} at {time_str}")
+                continue
+            job_id = f'once_{mode}_{date_str}_{time_str.replace(":", "")}'
+            scheduler.add_job(
+                _make_runner(mode),
+                DateTrigger(run_date=run_date),
+                id=job_id,
+                replace_existing=True,
+                misfire_grace_time=3600,
+            )
+            logger.info(f"Schedule set: {mode} once on {date_str} at {time_str} IST")
 
 
 # ── Routes ────────────────────────────────────────────────────────────────────
@@ -155,14 +175,20 @@ def blog():
 
 @app.route('/post')
 def post():
-    mode  = request.args.get('mode', 'photo')
-    title = request.args.get('title', '').strip()
+    mode    = request.args.get('mode', 'photo')
+    title   = request.args.get('title', '').strip()
+    publish = request.args.get('publish', '0') == '1'
+    drive   = request.args.get('drive',   '0') == '1'
 
     cmd = [sys.executable, os.path.join(HERE, 'instagram_post.py')]
     if mode == 'reel':
         cmd.append('--reel')
     if title:
         cmd.extend(['--title', title])
+    if publish:
+        cmd.append('--publish')
+    if drive:
+        cmd.append('--drive')
 
     logger.info(f"Manual post started — mode={mode}" + (f", title={title}" if title else ""))
 

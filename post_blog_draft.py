@@ -189,11 +189,12 @@ def pick_topic(argv) -> tuple:
 
 def claude(prompt: str) -> str:
     result = subprocess.run(
-        [CLAUDE_CMD, "-p", prompt],
+        [CLAUDE_CMD, "--model", "claude-sonnet-4-6", "-p", prompt],
         capture_output=True, text=True, timeout=120, shell=False,
     )
     if result.returncode != 0:
-        raise RuntimeError(f"claude CLI failed:\n{result.stderr}")
+        detail = (result.stderr or result.stdout or '(no output)').strip()
+        raise RuntimeError(f"claude CLI failed:\n{detail}")
     raw = result.stdout.strip()
     if raw.startswith("```"):
         raw = raw.split("```")[1]

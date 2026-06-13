@@ -1,0 +1,791 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "Pixabay" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e9]
+      - generic [ref=e12]:
+        - button "Explore" [ref=e16] [cursor=pointer]:
+          - generic: Explore
+          - generic:
+            - img:
+              - img
+        - button "Log in" [ref=e18] [cursor=pointer]:
+          - generic: Log in
+        - button "Join" [ref=e19] [cursor=pointer]:
+          - generic: Join
+        - button "Upload" [ref=e21] [cursor=pointer]:
+          - generic:
+            - img:
+              - img
+          - generic: Upload
+  - generic [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - img "Free Hand Turntable photo and picture" [ref=e28]
+        - generic [ref=e31]:
+          - img [ref=e33]
+          - generic [ref=e34]:
+            - generic [ref=e36]: Pexels
+            - link "Featured Photo" [ref=e38] [cursor=pointer]:
+              - /url: /photos/hand-turntable-dj-neon-lights-1850120/
+              - text: Featured
+              - strong [ref=e39]: Photo
+      - generic [ref=e40]:
+        - button "Go to slide 1" [ref=e41] [cursor=pointer]
+        - button "Go to slide 2" [ref=e42] [cursor=pointer]
+        - button "Go to slide 3" [ref=e43] [cursor=pointer]
+      - button "ChevronLeft" [ref=e45] [cursor=pointer]:
+        - generic:
+          - img "ChevronLeft":
+            - img
+      - button "ChevronRight" [ref=e47] [cursor=pointer]:
+        - generic:
+          - img "ChevronRight":
+            - img
+    - generic [ref=e48]:
+      - heading "Royalty free music downloads" [level=1] [ref=e50]
+      - generic [ref=e51]:
+        - generic [ref=e54]:
+          - link "Explore" [ref=e56] [cursor=pointer]:
+            - /url: /
+            - generic: Explore
+          - link "Photos" [ref=e58] [cursor=pointer]:
+            - /url: /photos/
+            - generic: Photos
+          - link "Illustrations" [ref=e60] [cursor=pointer]:
+            - /url: /illustrations/
+            - generic: Illustrations
+          - link "Vectors" [ref=e62] [cursor=pointer]:
+            - /url: /vectors/
+            - generic: Vectors
+          - link "Videos" [ref=e64] [cursor=pointer]:
+            - /url: /videos/
+            - generic: Videos
+          - link "Music" [ref=e66] [cursor=pointer]:
+            - /url: /music/
+            - generic: Music
+          - link "Sound Effects" [ref=e68] [cursor=pointer]:
+            - /url: /sound-effects/
+            - generic: Sound Effects
+          - link "3D Models" [ref=e70] [cursor=pointer]:
+            - /url: /3d-models/
+            - generic: 3D Models
+          - link "GIFs" [ref=e72] [cursor=pointer]:
+            - /url: /gifs/
+            - generic: GIFs
+        - generic [ref=e74]:
+          - button "Search for music" [ref=e75] [cursor=pointer]:
+            - img "Search" [ref=e76]:
+              - img [ref=e77]
+          - searchbox "Search for music" [ref=e80]
+        - generic [ref=e83]:
+          - link "background music" [ref=e85] [cursor=pointer]:
+            - /url: /music/search/background%20music/
+            - generic [ref=e86]: background music
+          - link "birthday" [ref=e88] [cursor=pointer]:
+            - /url: /music/search/birthday/
+            - generic [ref=e89]: birthday
+          - link "spring" [ref=e91] [cursor=pointer]:
+            - /url: /music/search/spring/
+            - generic [ref=e92]: spring
+          - link "no copyright music" [ref=e94] [cursor=pointer]:
+            - /url: /music/search/no%20copyright%20music/
+            - generic [ref=e95]: no copyright music
+          - link "corporate" [ref=e97] [cursor=pointer]:
+            - /url: /music/search/corporate/
+            - generic [ref=e98]: corporate
+          - link "cinematic" [ref=e100] [cursor=pointer]:
+            - /url: /music/search/cinematic/
+            - generic [ref=e101]: cinematic
+          - link "motivation" [ref=e103] [cursor=pointer]:
+            - /url: /music/search/motivation/
+            - generic [ref=e104]: motivation
+          - link "phonk" [ref=e106] [cursor=pointer]:
+            - /url: /music/search/phonk/
+            - generic [ref=e107]: phonk
+          - link "horror" [ref=e109] [cursor=pointer]:
+            - /url: /music/search/horror/
+            - generic [ref=e110]: horror
+          - link "song" [ref=e112] [cursor=pointer]:
+            - /url: /music/search/song/
+            - generic [ref=e113]: song
+          - link "lofi" [ref=e115] [cursor=pointer]:
+            - /url: /music/search/lofi/
+            - generic [ref=e116]: lofi
+          - link "suspense" [ref=e118] [cursor=pointer]:
+            - /url: /music/search/suspense/
+            - generic [ref=e119]: suspense
+          - link "sad" [ref=e121] [cursor=pointer]:
+            - /url: /music/search/sad/
+            - generic [ref=e122]: sad
+    - link "Read more about the Content License" [ref=e125] [cursor=pointer]:
+      - /url: /service/license-summary/
+      - text: Read more about the
+      - strong [ref=e126]: Content License
+  - generic [ref=e127]:
+    - generic [ref=e128]:
+      - heading "Over 250,000+ free music tracks shared by our talented community." [level=3] [ref=e129]
+      - generic [ref=e130]:
+        - generic [ref=e131]:
+          - generic [ref=e132]:
+            - generic [ref=e133]:
+              - button "Play" [ref=e134] [cursor=pointer]:
+                - button "Play" [ref=e137]:
+                  - img "Play" [ref=e138]:
+                    - img [ref=e139]
+              - generic [ref=e141]:
+                - link "Escape Your Love (Upbeat Fashion Pop Dance)" [ref=e142] [cursor=pointer]:
+                  - /url: /music/pop-escape-your-love-upbeat-fashion-pop-dance-412230/
+                - link "FASSounds" [ref=e143] [cursor=pointer]:
+                  - /url: /users/fassounds-3433550/
+            - slider [ref=e146] [cursor=pointer]:
+              - img [ref=e147]:
+                - img
+            - generic [ref=e148]:
+              - generic [ref=e149]: 2:18
+              - generic [ref=e150]:
+                - img "EditorsChoice" [ref=e152]:
+                  - img [ref=e153]
+                - img "Shield" [ref=e158]:
+                  - img [ref=e159]
+              - generic [ref=e161]:
+                - link "Pop" [ref=e162] [cursor=pointer]:
+                  - /url: /music/search/genre/Pop/
+                - link "Fashion Style" [ref=e164] [cursor=pointer]:
+                  - /url: /music/search/fashion%20style/
+              - button "Download" [ref=e167] [cursor=pointer]:
+                - generic:
+                  - img "Download":
+                    - img
+          - generic [ref=e168]:
+            - generic [ref=e169]:
+              - button "Play" [ref=e170] [cursor=pointer]:
+                - button "Play" [ref=e173]:
+                  - img "Play" [ref=e174]:
+                    - img [ref=e175]
+              - generic [ref=e177]:
+                - link "Water | Afro-pop Music" [ref=e178] [cursor=pointer]:
+                  - /url: /music/afrobeat-water-afro-pop-music-445661/
+                - link "kontraa" [ref=e179] [cursor=pointer]:
+                  - /url: /users/kontraa-24653570/
+            - slider [ref=e182] [cursor=pointer]:
+              - img [ref=e183]:
+                - img
+            - generic [ref=e184]:
+              - generic [ref=e185]: 1:09
+              - img "EditorsChoice" [ref=e188]:
+                - img [ref=e189]
+              - generic [ref=e193]:
+                - link "Afrobeat" [ref=e194] [cursor=pointer]:
+                  - /url: /music/search/genre/Afrobeat/
+                - generic [ref=e195]:
+                  - link "Afro," [ref=e196] [cursor=pointer]:
+                    - /url: /music/search/afro/
+                  - link "Pop," [ref=e197] [cursor=pointer]:
+                    - /url: /music/search/pop/
+                  - link "Music For Vlog" [ref=e198] [cursor=pointer]:
+                    - /url: /music/search/music%20for%20vlog/
+              - button "Download" [ref=e201] [cursor=pointer]:
+                - generic:
+                  - img "Download":
+                    - img
+          - generic [ref=e202]:
+            - generic [ref=e203]:
+              - button "Play" [ref=e204] [cursor=pointer]:
+                - button "Play" [ref=e207]:
+                  - img "Play" [ref=e208]:
+                    - img [ref=e209]
+              - generic [ref=e211]:
+                - link "Carnaval" [ref=e212] [cursor=pointer]:
+                  - /url: /music/samba-latin-carnaval-484622/
+                - link "Alec_Koff" [ref=e213] [cursor=pointer]:
+                  - /url: /users/alec_koff-54645061/
+            - slider [ref=e216] [cursor=pointer]:
+              - img [ref=e217]:
+                - img
+            - generic [ref=e218]:
+              - generic [ref=e219]: 1:00
+              - generic [ref=e220]:
+                - img "EditorsChoice" [ref=e222]:
+                  - img [ref=e223]
+                - img "Shield" [ref=e228]:
+                  - img [ref=e229]
+              - generic [ref=e231]:
+                - link "Samba (Latin)" [ref=e232] [cursor=pointer]:
+                  - /url: /music/search/genre/Samba (Latin)/
+                - generic [ref=e233]:
+                  - link "Carnaval," [ref=e234] [cursor=pointer]:
+                    - /url: /music/search/carnaval/
+                  - link "Carnaval Music" [ref=e235] [cursor=pointer]:
+                    - /url: /music/search/carnaval%20music/
+              - button "Download" [ref=e238] [cursor=pointer]:
+                - generic:
+                  - img "Download":
+                    - img
+          - generic [ref=e239]:
+            - generic [ref=e240]:
+              - button "Play" [ref=e241] [cursor=pointer]:
+                - button "Play" [ref=e244]:
+                  - img "Play" [ref=e245]:
+                    - img [ref=e246]
+              - generic [ref=e248]:
+                - link "Acoustic Spring Mothers Day Music" [ref=e249] [cursor=pointer]:
+                  - /url: /music/acoustic-group-acoustic-spring-mothers-day-music-320427/
+                - link "ikoliks_aj" [ref=e250] [cursor=pointer]:
+                  - /url: /users/ikoliks_aj-48415707/
+            - slider [ref=e253] [cursor=pointer]:
+              - img [ref=e254]:
+                - img
+            - generic [ref=e255]:
+              - generic [ref=e256]: 2:23
+              - generic [ref=e257]:
+                - img "EditorsChoice" [ref=e259]:
+                  - img [ref=e260]
+                - img "Shield" [ref=e265]:
+                  - img [ref=e266]
+              - generic [ref=e268]:
+                - link "Acoustic Group" [ref=e269] [cursor=pointer]:
+                  - /url: /music/search/genre/Acoustic Group/
+                - generic [ref=e270]:
+                  - link "Acoustic," [ref=e271] [cursor=pointer]:
+                    - /url: /music/search/acoustic/
+                  - link "Spring" [ref=e272] [cursor=pointer]:
+                    - /url: /music/search/spring/
+              - button "Download" [ref=e275] [cursor=pointer]:
+                - generic:
+                  - img "Download":
+                    - img
+          - generic [ref=e276]:
+            - generic [ref=e277]:
+              - button "Play" [ref=e278] [cursor=pointer]:
+                - button "Play" [ref=e281]:
+                  - img "Play" [ref=e282]:
+                    - img [ref=e283]
+              - generic [ref=e285]:
+                - link "Gvidon - Medicine" [ref=e286] [cursor=pointer]:
+                  - /url: /music/drum-n-bass-gvidon-medicine-364031/
+                - link "Gvidon" [ref=e287] [cursor=pointer]:
+                  - /url: /users/gvidon-25326719/
+            - slider [ref=e290] [cursor=pointer]:
+              - img [ref=e291]:
+                - img
+            - generic [ref=e292]:
+              - generic [ref=e293]: 2:37
+              - generic [ref=e294]:
+                - img "EditorsChoice" [ref=e296]:
+                  - img [ref=e297]
+                - img "Shield" [ref=e302]:
+                  - img [ref=e303]
+              - generic [ref=e305]:
+                - link "Drum N Bass" [ref=e306] [cursor=pointer]:
+                  - /url: /music/search/genre/Drum N Bass/
+                - generic [ref=e307]:
+                  - link "Pop," [ref=e308] [cursor=pointer]:
+                    - /url: /music/search/pop/
+                  - link "Dance," [ref=e309] [cursor=pointer]:
+                    - /url: /music/search/dance/
+                  - link "Club" [ref=e310] [cursor=pointer]:
+                    - /url: /music/search/club/
+              - button "Download" [ref=e313] [cursor=pointer]:
+                - generic:
+                  - img "Download":
+                    - img
+          - generic [ref=e314]:
+            - generic [ref=e315]:
+              - button "Play" [ref=e316] [cursor=pointer]:
+                - button "Play" [ref=e319]:
+                  - img "Play" [ref=e320]:
+                    - img [ref=e321]
+              - generic [ref=e323]:
+                - link "Dance Playful Night" [ref=e324] [cursor=pointer]:
+                  - /url: /music/upbeat-dance-playful-night-510786/
+                - link "AleXZavesa" [ref=e325] [cursor=pointer]:
+                  - /url: /users/alexzavesa-24262182/
+            - slider [ref=e328] [cursor=pointer]:
+              - img [ref=e329]:
+                - img
+            - generic [ref=e330]:
+              - generic [ref=e331]: 1:45
+              - generic [ref=e332]:
+                - img "EditorsChoice" [ref=e334]:
+                  - img [ref=e335]
+                - img "Shield" [ref=e340]:
+                  - img [ref=e341]
+              - generic [ref=e343]:
+                - link "Upbeat" [ref=e344] [cursor=pointer]:
+                  - /url: /music/search/genre/Upbeat/
+                - generic [ref=e345]:
+                  - link "Bright," [ref=e346] [cursor=pointer]:
+                    - /url: /music/search/bright/
+                  - link "Catchy," [ref=e347] [cursor=pointer]:
+                    - /url: /music/search/catchy/
+                  - link "Cheerful" [ref=e348] [cursor=pointer]:
+                    - /url: /music/search/cheerful/
+              - button "Download" [ref=e351] [cursor=pointer]:
+                - generic:
+                  - img "Download":
+                    - img
+          - generic [ref=e352]:
+            - generic [ref=e353]:
+              - button "Play" [ref=e354] [cursor=pointer]:
+                - button "Play" [ref=e357]:
+                  - img "Play" [ref=e358]:
+                    - img [ref=e359]
+              - generic [ref=e361]:
+                - link "Powerful Dramatic Trailer" [ref=e362] [cursor=pointer]:
+                  - /url: /music/adventure-powerful-dramatic-trailer-514242/
+                - link "ArtMyLife" [ref=e363] [cursor=pointer]:
+                  - /url: /users/artmylife-36532103/
+            - slider [ref=e366] [cursor=pointer]:
+              - img [ref=e367]:
+                - img
+            - generic [ref=e368]:
+              - generic [ref=e369]: 2:12
+              - generic [ref=e370]:
+                - img "EditorsChoice" [ref=e372]:
+                  - img [ref=e373]
+                - img "Shield" [ref=e378]:
+                  - img [ref=e379]
+              - generic [ref=e381]:
+                - link "Adventure" [ref=e382] [cursor=pointer]:
+                  - /url: /music/search/genre/Adventure/
+                - generic [ref=e383]:
+                  - link "Powerful," [ref=e384] [cursor=pointer]:
+                    - /url: /music/search/powerful/
+                  - link "Promotional" [ref=e385] [cursor=pointer]:
+                    - /url: /music/search/promotional/
+              - generic [ref=e386]:
+                - button "BookmarkOutline" [ref=e389] [cursor=pointer]:
+                  - generic:
+                    - img "BookmarkOutline":
+                      - img
+                - button "HeartOutline 614" [ref=e392] [cursor=pointer]:
+                  - generic:
+                    - img "HeartOutline":
+                      - img
+                  - generic: "614"
+                - button "Download" [ref=e394] [cursor=pointer]:
+                  - generic:
+                    - img "Download":
+                      - img
+          - generic [ref=e395]:
+            - generic [ref=e396]:
+              - button "Play" [ref=e397] [cursor=pointer]:
+                - button "Play" [ref=e400]:
+                  - img "Play" [ref=e401]:
+                    - img [ref=e402]
+              - generic [ref=e404]:
+                - link "Joyful Rhythm Walk Funk" [ref=e405] [cursor=pointer]:
+                  - /url: /music/funk-joyful-rhythm-walk-funk-513936/
+                - link "LightBeatsMusic" [ref=e406] [cursor=pointer]:
+                  - /url: /users/lightbeatsmusic-53332028/
+            - slider [ref=e409] [cursor=pointer]:
+              - img [ref=e410]:
+                - img
+            - generic [ref=e411]:
+              - generic [ref=e412]: 2:18
+              - generic [ref=e413]:
+                - img "EditorsChoice" [ref=e415]:
+                  - img [ref=e416]
+                - img "Shield" [ref=e421]:
+                  - img [ref=e422]
+              - generic [ref=e424]:
+                - link "Funk" [ref=e425] [cursor=pointer]:
+                  - /url: /music/search/genre/Funk/
+                - generic [ref=e426]:
+                  - link "Funk," [ref=e427] [cursor=pointer]:
+                    - /url: /music/search/funk/
+                  - link "Funky," [ref=e428] [cursor=pointer]:
+                    - /url: /music/search/funky/
+                  - link "Beat," [ref=e429] [cursor=pointer]:
+                    - /url: /music/search/beat/
+                  - link "Music" [ref=e430] [cursor=pointer]:
+                    - /url: /music/search/music/
+              - button "Download" [ref=e433] [cursor=pointer]:
+                - generic:
+                  - img "Download":
+                    - img
+          - generic [ref=e434]:
+            - generic [ref=e435]:
+              - button "Play" [ref=e436] [cursor=pointer]:
+                - button "Play" [ref=e439]:
+                  - img "Play" [ref=e440]:
+                    - img [ref=e441]
+              - generic [ref=e443]:
+                - link "Stomp Drum Percussion" [ref=e444] [cursor=pointer]:
+                  - /url: /music/beats-stomp-drum-percussion-513744/
+                - link "EnergySound" [ref=e445] [cursor=pointer]:
+                  - /url: /users/energysound-41316904/
+            - slider [ref=e448] [cursor=pointer]:
+              - img [ref=e449]:
+                - img
+            - generic [ref=e450]:
+              - generic [ref=e451]: 1:22
+              - generic [ref=e452]:
+                - img "EditorsChoice" [ref=e454]:
+                  - img [ref=e455]
+                - img "Shield" [ref=e460]:
+                  - img [ref=e461]
+              - generic [ref=e463]:
+                - link "Beats" [ref=e464] [cursor=pointer]:
+                  - /url: /music/search/genre/Beats/
+                - generic [ref=e465]:
+                  - link "Percussion," [ref=e466] [cursor=pointer]:
+                    - /url: /music/search/percussion/
+                  - link "Drums," [ref=e467] [cursor=pointer]:
+                    - /url: /music/search/drums/
+                  - link "Drum" [ref=e468] [cursor=pointer]:
+                    - /url: /music/search/drum/
+              - button "Download" [ref=e471] [cursor=pointer]:
+                - generic:
+                  - img "Download":
+                    - img
+          - generic [ref=e472]:
+            - generic [ref=e473]:
+              - button "Play" [ref=e474] [cursor=pointer]:
+                - button "Play" [ref=e477]:
+                  - img "Play" [ref=e478]:
+                    - img [ref=e479]
+              - generic [ref=e481]:
+                - link "Stomp Action Music" [ref=e482] [cursor=pointer]:
+                  - /url: /music/beats-stomp-action-music-513718/
+                - link "EnergySound" [ref=e483] [cursor=pointer]:
+                  - /url: /users/energysound-41316904/
+            - slider [ref=e486] [cursor=pointer]:
+              - img [ref=e487]:
+                - img
+            - generic [ref=e488]:
+              - generic [ref=e489]: 1:42
+              - generic [ref=e490]:
+                - img "EditorsChoice" [ref=e492]:
+                  - img [ref=e493]
+                - img "Shield" [ref=e498]:
+                  - img [ref=e499]
+              - generic [ref=e501]:
+                - link "Beats" [ref=e502] [cursor=pointer]:
+                  - /url: /music/search/genre/Beats/
+                - generic [ref=e503]:
+                  - link "Percussion," [ref=e504] [cursor=pointer]:
+                    - /url: /music/search/percussion/
+                  - link "Drums," [ref=e505] [cursor=pointer]:
+                    - /url: /music/search/drums/
+                  - link "Drum" [ref=e506] [cursor=pointer]:
+                    - /url: /music/search/drum/
+              - button "Download" [ref=e509] [cursor=pointer]:
+                - generic:
+                  - img "Download":
+                    - img
+          - generic [ref=e510]:
+            - generic [ref=e511]:
+              - button "Play" [ref=e512] [cursor=pointer]:
+                - button "Play" [ref=e515]:
+                  - img "Play" [ref=e516]:
+                    - img [ref=e517]
+              - generic [ref=e519]:
+                - link "Powerful Percussion" [ref=e520] [cursor=pointer]:
+                  - /url: /music/beats-powerful-percussion-513717/
+                - link "EnergySound" [ref=e521] [cursor=pointer]:
+                  - /url: /users/energysound-41316904/
+            - slider [ref=e524] [cursor=pointer]:
+              - img [ref=e525]:
+                - img
+            - generic [ref=e526]:
+              - generic [ref=e527]: 1:08
+              - generic [ref=e528]:
+                - img "EditorsChoice" [ref=e530]:
+                  - img [ref=e531]
+                - img "Shield" [ref=e536]:
+                  - img [ref=e537]
+              - generic [ref=e539]:
+                - link "Beats" [ref=e540] [cursor=pointer]:
+                  - /url: /music/search/genre/Beats/
+                - generic [ref=e541]:
+                  - link "Percussion," [ref=e542] [cursor=pointer]:
+                    - /url: /music/search/percussion/
+                  - link "Drums," [ref=e543] [cursor=pointer]:
+                    - /url: /music/search/drums/
+                  - link "Drum" [ref=e544] [cursor=pointer]:
+                    - /url: /music/search/drum/
+              - button "Download" [ref=e547] [cursor=pointer]:
+                - generic:
+                  - img "Download":
+                    - img
+          - generic [ref=e548]:
+            - generic [ref=e549]:
+              - button "Play" [ref=e550] [cursor=pointer]:
+                - button "Play" [ref=e553]:
+                  - img "Play" [ref=e554]:
+                    - img [ref=e555]
+              - generic [ref=e557]:
+                - link "Action trailer promo rock" [ref=e558] [cursor=pointer]:
+                  - /url: /music/rock-action-trailer-promo-rock-513687/
+                - link "MagpieMusic" [ref=e559] [cursor=pointer]:
+                  - /url: /users/magpiemusic-40918098/
+            - slider [ref=e562] [cursor=pointer]:
+              - img [ref=e563]:
+                - img
+            - generic [ref=e564]:
+              - generic [ref=e565]: 1:43
+              - generic [ref=e566]:
+                - img "EditorsChoice" [ref=e568]:
+                  - img [ref=e569]
+                - img "Shield" [ref=e574]:
+                  - img [ref=e575]
+              - generic [ref=e577]:
+                - link "Rock" [ref=e578] [cursor=pointer]:
+                  - /url: /music/search/genre/Rock/
+                - generic [ref=e579]:
+                  - link "Action," [ref=e580] [cursor=pointer]:
+                    - /url: /music/search/action/
+                  - link "Aggressive" [ref=e581] [cursor=pointer]:
+                    - /url: /music/search/aggressive/
+              - button "Download" [ref=e584] [cursor=pointer]:
+                - generic:
+                  - img "Download":
+                    - img
+        - link "See more Editor's Choice" [ref=e586] [cursor=pointer]:
+          - /url: /music/search/?order=ec
+          - generic: See more Editor's Choice
+    - generic [ref=e587]:
+      - generic [ref=e588]:
+        - heading "Pixabay curated playlists" [level=3] [ref=e589]
+        - link "See all Playlists" [ref=e590] [cursor=pointer]:
+          - /url: /curated_playlists/
+          - generic: See all Playlists
+      - generic [ref=e591]:
+        - link "Play Commercial, Tutorials and Vlogs Discover background music for your commercials, media, and vlogs. 52 tracks 1 hr 56 mins" [ref=e592] [cursor=pointer]:
+          - /url: /playlists/commercial-tutorials-and-vlogs-32697991/
+          - generic [ref=e593]:
+            - img [ref=e595]
+            - img [ref=e599]
+            - button "Play" [ref=e601]:
+              - img "Play" [ref=e602]:
+                - img [ref=e603]
+            - generic [ref=e605]: Commercial, Tutorials and Vlogs
+          - generic [ref=e606]:
+            - generic [ref=e607]: Discover background music for your commercials, media, and vlogs.
+            - generic [ref=e608]:
+              - generic [ref=e609]: 52 tracks
+              - generic [ref=e611]: 1 hr 56 mins
+        - link "Play Funky Grooves Bring fun, warmth, and momentum to any project with upbeat rhythms and feel-good grooves. 44 tracks 1 hr 23 mins" [ref=e612] [cursor=pointer]:
+          - /url: /playlists/funky-grooves-32665153/
+          - generic [ref=e613]:
+            - img [ref=e615]
+            - img [ref=e619]
+            - button "Play" [ref=e621]:
+              - img "Play" [ref=e622]:
+                - img [ref=e623]
+            - generic [ref=e625]: Funky Grooves
+          - generic [ref=e626]:
+            - generic [ref=e627]: Bring fun, warmth, and momentum to any project with upbeat rhythms and feel-good grooves.
+            - generic [ref=e628]:
+              - generic [ref=e629]: 44 tracks
+              - generic [ref=e631]: 1 hr 23 mins
+        - link "Play Powerful Percussion A high-energy playlist packed with beats, drums, and stomps made for bold storytelling. Perfect for intros and outros, rising build-up scenes, and cinematic chase moments. 37 tracks 41 mins 25 secs" [ref=e632] [cursor=pointer]:
+          - /url: /playlists/powerful-percussion-32665149/
+          - generic [ref=e633]:
+            - img [ref=e635]
+            - img [ref=e639]
+            - button "Play" [ref=e641]:
+              - img "Play" [ref=e642]:
+                - img [ref=e643]
+            - generic [ref=e645]: Powerful Percussion
+          - generic [ref=e646]:
+            - generic [ref=e647]: A high-energy playlist packed with beats, drums, and stomps made for bold storytelling. Perfect for intros and outros, rising build-up scenes, and cinematic chase moments.
+            - generic [ref=e648]:
+              - generic [ref=e649]: 37 tracks
+              - generic [ref=e651]: 41 mins 25 secs
+        - link "Play Brazil A curated mix of Brazilian folk. From bossa nova and samba to forró, carnival rhythms, and Brazilian phonk. 34 tracks 1 hr 40 mins" [ref=e652] [cursor=pointer]:
+          - /url: /playlists/brazil-32474486/
+          - generic [ref=e653]:
+            - img [ref=e655]
+            - img [ref=e659]
+            - button "Play" [ref=e661]:
+              - img "Play" [ref=e662]:
+                - img [ref=e663]
+            - generic [ref=e665]: Brazil
+          - generic [ref=e666]:
+            - generic [ref=e667]: A curated mix of Brazilian folk. From bossa nova and samba to forró, carnival rhythms, and Brazilian phonk.
+            - generic [ref=e668]:
+              - generic [ref=e669]: 34 tracks
+              - generic [ref=e671]: 1 hr 40 mins
+    - generic [ref=e672]:
+      - generic [ref=e673]:
+        - heading "Top music creators" [level=3] [ref=e674]
+        - link "See all creators" [ref=e675] [cursor=pointer]:
+          - /url: /users/
+          - generic: See all creators
+      - generic [ref=e676]:
+        - generic [ref=e677]:
+          - img [ref=e680]
+          - generic [ref=e682]:
+            - generic [ref=e683]:
+              - link [ref=e685] [cursor=pointer]:
+                - /url: /users/music_for_video-22579021/
+                - img [ref=e686]
+              - link "music_for_video" [ref=e689] [cursor=pointer]:
+                - /url: /users/music_for_video-22579021/
+              - generic [ref=e690]:
+                - button "Bubbles" [ref=e692] [cursor=pointer]:
+                  - generic:
+                    - img "Bubbles":
+                      - img
+                - button "Follow" [ref=e694] [cursor=pointer]:
+                  - generic:
+                    - img "Follow":
+                      - img
+            - generic [ref=e695]:
+              - generic [ref=e696]: 6.3M downloads
+              - generic [ref=e698]: 77,580 likes
+        - generic [ref=e699]:
+          - img [ref=e702]
+          - generic [ref=e704]:
+            - generic [ref=e705]:
+              - link [ref=e707] [cursor=pointer]:
+                - /url: /users/white_records-32584949/
+                - img [ref=e708]
+              - link "White_Records" [ref=e711] [cursor=pointer]:
+                - /url: /users/white_records-32584949/
+              - generic [ref=e712]:
+                - button "Bubbles" [ref=e714] [cursor=pointer]:
+                  - generic:
+                    - img "Bubbles":
+                      - img
+                - button "Follow" [ref=e716] [cursor=pointer]:
+                  - generic:
+                    - img "Follow":
+                      - img
+            - generic [ref=e717]:
+              - generic [ref=e718]: 5.2M downloads
+              - generic [ref=e720]: 700k likes
+        - generic [ref=e721]:
+          - img [ref=e724]
+          - generic [ref=e726]:
+            - generic [ref=e727]:
+              - link [ref=e729] [cursor=pointer]:
+                - /url: /users/good_b_music-22836301/
+                - img [ref=e730]
+              - generic [ref=e731]:
+                - link "Good_B_Music" [ref=e733] [cursor=pointer]:
+                  - /url: /users/good_b_music-22836301/
+                - generic [ref=e734]: 1 new upload
+              - generic [ref=e735]:
+                - button "Bubbles" [ref=e737] [cursor=pointer]:
+                  - generic:
+                    - img "Bubbles":
+                      - img
+                - button "Follow" [ref=e739] [cursor=pointer]:
+                  - generic:
+                    - img "Follow":
+                      - img
+            - generic [ref=e740]:
+              - generic [ref=e741]: 5.31M downloads
+              - generic [ref=e743]: 68,006 likes
+  - contentinfo [ref=e744]:
+    - generic [ref=e745]:
+      - generic [ref=e746]:
+        - img [ref=e748]
+        - generic [ref=e751]: Over 6.1 million+ high quality stock images, videos and music shared by our talented community.
+        - generic [ref=e752]:
+          - link "Instagram" [ref=e753] [cursor=pointer]:
+            - /url: https://www.instagram.com/pixabay/
+            - img "Instagram" [ref=e754]:
+              - img [ref=e755]
+          - link "Facebook" [ref=e757] [cursor=pointer]:
+            - /url: https://www.facebook.com/pixabay
+            - img "Facebook" [ref=e758]:
+              - img [ref=e759]
+          - link "TikTok" [ref=e761] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@pixabaymedia
+            - img "TikTokBrand" [ref=e762]:
+              - img [ref=e763]
+          - link "Twitter" [ref=e773] [cursor=pointer]:
+            - /url: https://x.com/pixabay
+            - img "TwitterX" [ref=e774]:
+              - img [ref=e775]
+          - link "LinkedIn" [ref=e780] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/pixabay/
+            - img "Linkedin" [ref=e781]:
+              - img [ref=e782]
+          - link "YouTube" [ref=e784] [cursor=pointer]:
+            - /url: https://www.youtube.com/@pixabaymedia
+            - img "Youtube" [ref=e785]:
+              - img [ref=e786]
+          - link "Pinterest" [ref=e788] [cursor=pointer]:
+            - /url: https://pinterest.com/pixabay/
+            - img "Pinterest" [ref=e789]:
+              - img [ref=e790]
+      - generic [ref=e792]:
+        - generic [ref=e793]: Discover
+        - generic [ref=e794]:
+          - link "Editor's Choice" [ref=e795] [cursor=pointer]:
+            - /url: /editors_choice/
+            - generic [ref=e796]: Editor's Choice
+          - link "Curated Collections" [ref=e797] [cursor=pointer]:
+            - /url: /collections/
+            - generic [ref=e798]: Curated Collections
+          - link "Pixabay Radio" [ref=e799] [cursor=pointer]:
+            - /url: /playlists/
+            - generic [ref=e800]: Pixabay Radio
+          - link "Popular Images" [ref=e801] [cursor=pointer]:
+            - /url: /images/search/
+            - generic [ref=e802]: Popular Images
+          - link "Popular Videos" [ref=e803] [cursor=pointer]:
+            - /url: /videos/search/
+            - generic [ref=e804]: Popular Videos
+          - link "Popular Music" [ref=e805] [cursor=pointer]:
+            - /url: /music/search/
+            - generic [ref=e806]: Popular Music
+          - link "Popular Searches" [ref=e807] [cursor=pointer]:
+            - /url: /popular-searches/
+            - generic [ref=e808]: Popular Searches
+      - generic [ref=e809]:
+        - generic [ref=e810]: Community
+        - generic [ref=e811]:
+          - link "Contests" [ref=e812] [cursor=pointer]:
+            - /url: /contests/
+            - generic [ref=e813]: Contests
+          - link "Creators" [ref=e814] [cursor=pointer]:
+            - /url: /users/
+            - generic [ref=e815]: Creators
+          - link "Ambassadors New" [ref=e816] [cursor=pointer]:
+            - /url: /service/ambassador/
+            - generic [ref=e817]: Ambassadors
+            - generic [ref=e819]: New
+          - link "Forum" [ref=e820] [cursor=pointer]:
+            - /url: /forum/
+            - generic [ref=e821]: Forum
+          - link "Blog" [ref=e822] [cursor=pointer]:
+            - /url: /blog/
+            - generic [ref=e823]: Blog
+      - generic [ref=e824]:
+        - generic [ref=e825]: About
+        - generic [ref=e826]:
+          - link "About Us" [ref=e827] [cursor=pointer]:
+            - /url: /service/about/
+            - generic [ref=e828]: About Us
+          - link "FAQ" [ref=e829] [cursor=pointer]:
+            - /url: /service/faq/
+            - generic [ref=e830]: FAQ
+          - link "License Summary" [ref=e831] [cursor=pointer]:
+            - /url: /service/license-summary/
+            - generic [ref=e832]: License Summary
+          - link "Terms of Service" [ref=e833] [cursor=pointer]:
+            - /url: /service/terms/
+            - generic [ref=e834]: Terms of Service
+          - link "Privacy Policy" [ref=e835] [cursor=pointer]:
+            - /url: /service/privacy/
+            - generic [ref=e836]: Privacy Policy
+          - link "Cookies Policy" [ref=e837] [cursor=pointer]:
+            - /url: /service/cookies/
+            - generic [ref=e838]: Cookies Policy
+          - link "Digital Services Act" [ref=e839] [cursor=pointer]:
+            - /url: /service/digital-services-act/
+            - generic [ref=e840]: Digital Services Act
+          - link "Report Content" [ref=e841] [cursor=pointer]:
+            - /url: /content-reports/
+            - generic [ref=e842]: Report Content
+          - link "API" [ref=e843] [cursor=pointer]:
+            - /url: /service/about/api/
+            - generic [ref=e844]: API

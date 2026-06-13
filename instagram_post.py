@@ -64,6 +64,8 @@ GDRIVE_SCOPES       = ['https://www.googleapis.com/auth/drive.file']
 GDRIVE_CREDS_FILE   = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'credentials.json')
 GDRIVE_TOKEN_FILE   = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'token.json')
 GDRIVE_FOLDER_NAME  = 'Styleus Reels'
+MUSIC_DIR           = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'music')
+MUSIC_VOLUME        = 0.6  # 0.0–1.0; original video audio is dropped
 
 # ── Load .env ─────────────────────────────────────────────────────────────────
 def load_env(path: str):
@@ -202,11 +204,12 @@ def mark_used(number: int):
 
 def claude(prompt: str) -> str:
     result = subprocess.run(
-        f'"{CLAUDE_CMD}" -p "{prompt.replace(chr(34), chr(39))}"',
+        f'"{CLAUDE_CMD}" --model claude-sonnet-4-6 -p "{prompt.replace(chr(34), chr(39))}"',
         capture_output=True, text=True, timeout=120, shell=True,
     )
     if result.returncode != 0:
-        raise RuntimeError(f"Claude CLI failed:\n{result.stderr}")
+        detail = (result.stderr or result.stdout or '(no output)').strip()
+        raise RuntimeError(f"Claude CLI failed:\n{detail}")
     raw = result.stdout.strip()
     if raw.startswith('```'):
         raw = raw.split('```')[1]
@@ -465,6 +468,20 @@ def build_reel_overlay(W: int, H: int, hook: str, title: str) -> Image.Image:
     return overlay
 
 
+# ── Background music helpers ──────────────────────────────────────────────────
+
+def _pick_music_track() -> str | None:
+    """Return path to a random royalty-free track from the music/ folder, or None."""
+    if not os.path.isdir(MUSIC_DIR):
+        return None
+    tracks = [
+        os.path.join(MUSIC_DIR, f)
+        for f in os.listdir(MUSIC_DIR)
+        if f.lower().endswith(('.mp3', '.wav', '.aac', '.m4a', '.ogg'))
+    ]
+    return random.choice(tracks) if tracks else None
+
+
 # ── Reel video processing (ffmpeg native) ────────────────────────────────────
 
 def _ffmpeg_bin() -> str:
@@ -491,51 +508,54 @@ def process_reel_video(video_data: bytes, hook: str, title: str) -> bytes:
     out_path = in_path.replace('.mp4', '_out.mp4')
 
     try:
-        # Probe source duration to decide whether to loop
-        probe = subprocess.run(
-            [ffmpeg, '-v', 'quiet', '-print_format', 'json', '-show_streams', '-i', in_path],
-            capture_output=True, text=True,
-        )
-        # ffprobe is a separate binary; fall back to ffmpeg stderr duration parse
-        src_duration = REEL_DURATION  # safe default
-        for token in (probe.stdout + probe.stderr).split():
-            if token.startswith('Duration:'):
-                pass
-        # Use ffprobe if available, otherwise assume loop needed
-        try:
-            import imageio_ffmpeg
-            ffprobe = imageio_ffmpeg.get_ffmpeg_exe().replace('ffmpeg', 'ffprobe')
-            pr = subprocess.run(
-                [ffprobe, '-v', 'quiet', '-print_format', 'json',
-                 '-show_entries', 'format=duration', in_path],
-                capture_output=True, text=True,
+        music_path = _pick_music_track()
+        # Always loop the video input so short Pexels clips (often <20s) fill the
+        # full reel duration. trim=0:REEL_DURATION in the filter graph then clamps
+        # the output to exactly REEL_DURATION seconds regardless of source length.
+        if music_path:
+            print(f"        Music: {os.path.basename(music_path)}")
+            filter_graph = (
+                f'[0:v]trim=0:{REEL_DURATION},setpts=PTS-STARTPTS,'
+                f'scale={TARGET_W}:{TARGET_H}:force_original_aspect_ratio=increase,'
+                f'crop={TARGET_W}:{TARGET_H},setsar=1[v];'
+                f'[v][1:v]overlay=0:0,format=yuv420p[out];'
+                f'[2:a]volume={MUSIC_VOLUME},atrim=0:{REEL_DURATION},asetpts=PTS-STARTPTS[a]'
             )
-            src_duration = float(json.loads(pr.stdout).get('format', {}).get('duration', REEL_DURATION))
-        except Exception:
-            pass
-
-        loop_args = ['-stream_loop', '-1'] if src_duration < REEL_DURATION else []
-
-        # Single ffmpeg pass: loop if short → scale+crop to 9:16 → overlay → encode
-        filter_graph = (
-            f'[0:v]scale={TARGET_W}:{TARGET_H}:force_original_aspect_ratio=increase,'
-            f'crop={TARGET_W}:{TARGET_H},setsar=1[v];'
-            f'[v][1:v]overlay=0:0,format=yuv420p[out]'
-        )
-
-        cmd = [
-            ffmpeg, '-y',
-            *loop_args, '-i', in_path,
-            '-i', ovr_path,
-            '-filter_complex', filter_graph,
-            '-map', '[out]',
-            '-map', '0:a?',
-            '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '23',
-            '-c:a', 'aac', '-b:a', '128k',
-            '-t', str(REEL_DURATION),
-            '-movflags', '+faststart',
-            out_path,
-        ]
+            cmd = [
+                ffmpeg, '-y',
+                '-stream_loop', '-1', '-i', in_path,
+                '-i', ovr_path,
+                '-stream_loop', '-1', '-i', music_path,
+                '-filter_complex', filter_graph,
+                '-map', '[out]',
+                '-map', '[a]',
+                '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '23',
+                '-c:a', 'aac', '-b:a', '128k',
+                '-t', str(REEL_DURATION),
+                '-movflags', '+faststart',
+                out_path,
+            ]
+        else:
+            # No music files — loop video and keep source audio
+            filter_graph = (
+                f'[0:v]trim=0:{REEL_DURATION},setpts=PTS-STARTPTS,'
+                f'scale={TARGET_W}:{TARGET_H}:force_original_aspect_ratio=increase,'
+                f'crop={TARGET_W}:{TARGET_H},setsar=1[v];'
+                f'[v][1:v]overlay=0:0,format=yuv420p[out]'
+            )
+            cmd = [
+                ffmpeg, '-y',
+                '-stream_loop', '-1', '-i', in_path,
+                '-i', ovr_path,
+                '-filter_complex', filter_graph,
+                '-map', '[out]',
+                '-map', '0:a?',
+                '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '23',
+                '-c:a', 'aac', '-b:a', '128k',
+                '-t', str(REEL_DURATION),
+                '-movflags', '+faststart',
+                out_path,
+            ]
 
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
@@ -554,7 +574,7 @@ def process_reel_video(video_data: bytes, hook: str, title: str) -> bytes:
 
 # ── Upload helpers ────────────────────────────────────────────────────────────
 
-def _multipart_upload(endpoint: str, data: bytes, filename: str, content_type: str) -> str:
+def _multipart_upload(endpoint: str, data: bytes, filename: str, content_type: str, timeout: int = 120) -> str:
     boundary = "----FormBoundary" + uuid.uuid4().hex
     body = (
         f"--{boundary}\r\n"
@@ -572,10 +592,25 @@ def _multipart_upload(endpoint: str, data: bytes, filename: str, content_type: s
         method="POST",
     )
     try:
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            result = json.loads(resp.read())
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            status = resp.status
+            raw    = resp.read()
     except urllib.error.HTTPError as e:
-        raise RuntimeError(f"Upload {e.code} from {endpoint}: {e.read().decode()}")
+        body = e.read().decode(errors='replace')
+        raise RuntimeError(f"Upload HTTP {e.code} from {endpoint}: {body[:400]}")
+
+    if not raw:
+        raise RuntimeError(
+            f"Upload to {endpoint} returned HTTP {status} with empty body "
+            f"(file size: {len(data)//1024} KB)"
+        )
+    try:
+        result = json.loads(raw)
+    except json.JSONDecodeError:
+        raise RuntimeError(
+            f"Upload to {endpoint} returned non-JSON (HTTP {status}, "
+            f"{len(raw)}b): {raw[:300]!r}"
+        )
     relative = result.get('url', '')
     if not relative:
         raise RuntimeError(f"Upload to {endpoint} returned no URL: {result}")
@@ -590,7 +625,45 @@ def upload_to_styleus(image_data: bytes) -> str:
 
 def upload_video_to_styleus(video_data: bytes) -> str:
     filename = f"reel_{uuid.uuid4().hex}.mp4"
-    return _multipart_upload('upload-image', video_data, filename, 'video/mp4')
+    return _multipart_upload('upload-image', video_data, filename, 'video/mp4', timeout=600)
+
+
+def upload_video_for_instagram(video_data: bytes) -> str:
+    """Upload video to a public URL so Instagram can fetch it.
+    Uses catbox.moe (free, 200 MB limit, permanent links) via requests
+    to avoid Windows SSL/urllib issues. Falls back to tmpfiles.org."""
+    import requests as _req
+    filename = f"reel_{uuid.uuid4().hex}.mp4"
+
+    # ── Primary: catbox.moe ───────────────────────────────────────────────────
+    try:
+        resp = _req.post(
+            "https://catbox.moe/user/api.php",
+            data={"reqtype": "fileupload"},
+            files={"fileToUpload": (filename, video_data, "video/mp4")},
+            timeout=600,
+        )
+        resp.raise_for_status()
+        url = resp.text.strip()
+        if url.startswith("https://"):
+            return url
+        raise RuntimeError(f"catbox returned unexpected: {url[:200]}")
+    except Exception as e:
+        print(f"        catbox.moe failed ({e}), trying tmpfiles.org...")
+
+    # ── Fallback: tmpfiles.org ────────────────────────────────────────────────
+    resp = _req.post(
+        "https://tmpfiles.org/api/v1/upload",
+        files={"file": (filename, video_data, "video/mp4")},
+        timeout=600,
+    )
+    resp.raise_for_status()
+    result = resp.json()
+    viewer_url = result.get("data", {}).get("url", "")
+    if not viewer_url:
+        raise RuntimeError(f"tmpfiles returned no URL: {result}")
+    # Convert viewer URL → direct download URL
+    return viewer_url.replace("tmpfiles.org/", "tmpfiles.org/dl/")
 
 
 # ── Instagram Graph API ───────────────────────────────────────────────────────
@@ -758,14 +831,107 @@ def validate_config():
 def main():
     validate_config()
 
-    is_reel = '--reel' in sys.argv
-    entry   = pick_title(sys.argv)
+    is_reel    = '--reel'    in sys.argv
+    is_publish = '--publish' in sys.argv
+    is_drive   = '--drive'   in sys.argv
+    entry    = pick_title(sys.argv)
     title    = entry['title']
     category = entry['category']
     number   = entry['number']
     mode     = 'REEL' if is_reel else 'PHOTO'
 
     print(f"[{datetime.now():%Y-%m-%d %H:%M}] [{mode}] #{number} — {title}  [{category}]")
+
+    if is_reel:
+        # ── Reel pipeline ────────────────────────────────────────────────────
+        # Steps 1-3 run ONCE (caption + video fetch + encode are expensive).
+        # Only the network publish step retries on timeout/failure.
+
+        # 1 — Generate caption
+        print("  [1/4] Generating caption...")
+        content = generate_caption(title, category)
+        caption = content.get('caption', '')
+        hook    = content.get('hook', title)
+        print(f"        Hook   : {hook}")
+        print(f"        Caption: {caption[:80]}...")
+
+        # 2 — Fetch Pexels video
+        print(f"  [2/4] Fetching video from Pexels [{category}]...")
+        video_raw = fetch_pexels_video(category, title, number)
+        print(f"        Downloaded {len(video_raw)//1024} KB")
+
+        # 3 — Process reel (crop + overlay + encode)
+        print("  [3/4] Processing reel video (crop + overlay + encode)...")
+        video_branded = process_reel_video(video_raw, hook, title)
+        print(f"        Processed {len(video_branded)//1024} KB")
+
+        # Save locally
+        out_dir = os.path.join(HERE, 'reels_output')
+        os.makedirs(out_dir, exist_ok=True)
+        safe_title   = re.sub(r'[^\w\s-]', '', title).strip().replace(' ', '_')[:40]
+        base_name    = f"{number:03d}_{safe_title}"
+        video_path   = os.path.join(out_dir, f"{base_name}.mp4")
+        caption_path = os.path.join(out_dir, f"{base_name}.txt")
+        with open(video_path, 'wb') as f:
+            f.write(video_branded)
+        with open(caption_path, 'w', encoding='utf-8') as f:
+            f.write(f"HOOK: {hook}\n\n{caption}")
+        print(f"\n  Reel saved -> {video_path}")
+        print(f"  Caption   -> {caption_path}")
+
+        # 4 — Drive + Instagram publish (retry only this step on failure)
+        drive_link = ''
+        post_id    = ''
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                if attempt > 1:
+                    print(f"  Publish retry {attempt}/{MAX_RETRIES} (waiting {RETRY_DELAY}s)...")
+                    time.sleep(RETRY_DELAY)
+
+                if is_drive:
+                    if GDRIVE_OK and os.path.exists(GDRIVE_CREDS_FILE):
+                        print("  Uploading to Google Drive...")
+                        drive_link = upload_reel_to_drive(video_path, f"{base_name}.mp4")
+                        print(f"  Drive link -> {drive_link}")
+                    else:
+                        print("  Drive upload skipped (credentials not found)")
+
+                if is_publish:
+                    print("  [4/4] Publishing reel to Instagram...")
+                    print(f"        Uploading {len(video_branded)//1024} KB to tmpfiles.org...")
+                    public_url   = upload_video_for_instagram(video_branded)
+                    print(f"        Public URL: {public_url}")
+                    print("        Creating Instagram reel container...")
+                    container_id = create_reel_container(public_url, caption)
+                    print(f"        Container: {container_id} — waiting for Instagram to process...")
+                    wait_for_reel_ready(container_id)
+                    print("        Publishing...")
+                    post_id = publish_container(container_id)
+                    print(f"        Published -> Post ID: {post_id}")
+
+                break  # success
+
+            except Exception as e:
+                print(f"  ERROR (attempt {attempt}/{MAX_RETRIES}): {e}")
+                if attempt == MAX_RETRIES:
+                    print("  Publish failed after all retries — reel is saved locally.")
+
+        send_telegram(
+            f"🎬 <b>Reel {'Published' if post_id else 'Ready'}</b>\n"
+            f"<b>{title}</b>\n"
+            f"Category: {category}\n"
+            + (f"Post ID: {post_id}\n" if post_id else "")
+            + (f"Drive: {drive_link}" if drive_link else "")
+        )
+
+        mark_used(number)
+        print(f"  Titles used so far: {len(load_used())}/500")
+        if not is_publish:
+            print(f"\n  Next steps:")
+            print(f"  1. Open Instagram app")
+            print(f"  2. Create Reel -> pick the video above")
+            print(f"  3. Paste caption from the .txt file")
+        return 0
 
     for attempt in range(1, MAX_RETRIES + 1):
         try:
@@ -781,76 +947,22 @@ def main():
             print(f"        Hook   : {hook}")
             print(f"        Caption: {caption[:80]}...")
 
-            if is_reel:
-                # 2 — Fetch Pexels video
-                print(f"  [2/4] Fetching video from Pexels [{category}]...")
-                video_raw = fetch_pexels_video(category, title, number)
-                print(f"        Downloaded {len(video_raw)//1024} KB")
+            # 2 — Fetch Pexels image
+            print(f"  [2/4] Fetching image from Pexels [{category}]...")
+            image_data = fetch_pexels_image(category, title, number)
+            print(f"        Downloaded {len(image_data)//1024} KB")
 
-                # 3 — Process reel (crop + overlay + encode)
-                print("  [3/4] Processing reel video (crop + overlay + encode)...")
-                video_branded = process_reel_video(video_raw, hook, title)
-                print(f"        Processed {len(video_branded)//1024} KB")
+            # 3 — Add overlay and upload
+            print("  [3/4] Adding text overlay and uploading...")
+            branded = add_text_overlay(image_data, hook, title)
+            public_url = upload_to_styleus(branded)
+            print(f"        Uploaded: {public_url}")
 
-                # 4 — Save locally (user uploads manually with trending music)
-                out_dir = os.path.join(HERE, 'reels_output')
-                os.makedirs(out_dir, exist_ok=True)
-                safe_title = re.sub(r'[^\w\s-]', '', title).strip().replace(' ', '_')[:40]
-                base_name  = f"{number:03d}_{safe_title}"
-                video_path = os.path.join(out_dir, f"{base_name}.mp4")
-                caption_path = os.path.join(out_dir, f"{base_name}.txt")
-
-                with open(video_path, 'wb') as f:
-                    f.write(video_branded)
-                with open(caption_path, 'w', encoding='utf-8') as f:
-                    f.write(f"HOOK: {hook}\n\n{caption}")
-
-                mark_used(number)
-                print(f"\n  Reel saved -> {video_path}")
-                print(f"  Caption   -> {caption_path}")
-
-                # Upload to Google Drive
-                drive_link = ''
-                if GDRIVE_OK and os.path.exists(GDRIVE_CREDS_FILE):
-                    print("  Uploading to Google Drive...")
-                    try:
-                        drive_link = upload_reel_to_drive(video_path, f"{base_name}.mp4")
-                        print(f"  Drive link -> {drive_link}")
-                    except Exception as drive_err:
-                        print(f"  Drive upload failed: {drive_err}")
-
-                send_telegram(
-                    f"🎬 <b>Reel Ready</b>\n"
-                    f"<b>{title}</b>\n"
-                    f"Category: {category}\n"
-                    + (f"Drive: {drive_link}" if drive_link else "")
-                )
-
-                print(f"  Titles used so far: {len(load_used())}/500")
-                print(f"\n  Next steps:")
-                print(f"  1. Open Instagram app")
-                print(f"  2. Create Reel -> pick the video above")
-                print(f"  3. Add trending music")
-                print(f"  4. Paste caption from the .txt file")
-                return 0
-
-            else:
-                # 2 — Fetch Pexels image
-                print(f"  [2/4] Fetching image from Pexels [{category}]...")
-                image_data = fetch_pexels_image(category, title, number)
-                print(f"        Downloaded {len(image_data)//1024} KB")
-
-                # 3 — Add overlay and upload
-                print("  [3/4] Adding text overlay and uploading...")
-                branded = add_text_overlay(image_data, hook, title)
-                public_url = upload_to_styleus(branded)
-                print(f"        Uploaded: {public_url}")
-
-                # 4 — Post photo
-                print("  [4/4] Posting to Instagram...")
-                creation_id = create_container(public_url, caption)
-                time.sleep(3)
-                post_id = publish_container(creation_id)
+            # 4 — Post photo
+            print("  [4/4] Posting to Instagram...")
+            creation_id = create_container(public_url, caption)
+            time.sleep(3)
+            post_id = publish_container(creation_id)
 
             mark_used(number)
             print(f"\n  Done -> Post ID: {post_id}")  # noqa: F821
