@@ -322,7 +322,7 @@
           <div style="font-size:12px;color:#475569;margin-top:2px;">Upload &amp; post the reel directly</div>
         </div>
         <label class="switch">
-          <input type="checkbox" id="toggle-publish">
+          <input type="checkbox" id="toggle-publish" onchange="saveToggles()">
           <span class="slider"></span>
         </label>
       </div>
@@ -332,7 +332,7 @@
           <div style="font-size:12px;color:#475569;margin-top:2px;">Save a copy in Styleus Reels folder</div>
         </div>
         <label class="switch">
-          <input type="checkbox" id="toggle-drive" checked>
+          <input type="checkbox" id="toggle-drive" onchange="saveToggles()">
           <span class="slider"></span>
         </label>
       </div>
@@ -812,7 +812,22 @@
   // Refresh countdown every 30s
   setInterval(() => { if (Object.keys(schedData).length) updateSchedSummary(); }, 30000);
 
+  // ── Toggle persistence ────────────────────────────────────────────────────
+  function saveToggles() {
+    localStorage.setItem('toggle-publish', document.getElementById('toggle-publish').checked);
+    localStorage.setItem('toggle-drive',   document.getElementById('toggle-drive').checked);
+  }
+
+  function restoreToggles() {
+    const pub   = localStorage.getItem('toggle-publish');
+    const drive = localStorage.getItem('toggle-drive');
+    // Default: publish=false, drive=true (first visit)
+    document.getElementById('toggle-publish').checked = pub   !== null ? pub   === 'true' : false;
+    document.getElementById('toggle-drive').checked   = drive !== null ? drive === 'true' : true;
+  }
+
   // Init
+  restoreToggles();
   loadSchedule();
 </script>
 </body>

@@ -72,7 +72,7 @@ scheduler = BackgroundScheduler(timezone='Asia/Kolkata')
 
 SCRIPT_MAP = {
     'photo': (os.path.join(HERE, 'instagram_post.py'), []),
-    'reel':  (os.path.join(HERE, 'instagram_post.py'), ['--reel']),
+    'reel':  (os.path.join(HERE, 'instagram_post.py'), ['--reel', '--publish']),
     'blog':  (os.path.join(HERE, 'post_blog_draft.py'), []),
 }
 
@@ -272,4 +272,4 @@ if __name__ == '__main__':
     scheduler.start()
     _apply_schedule()
     print("Starting Styleus Instagram Agent UI -> http://localhost:5000")
-    app.run(debug=False, port=5000)
+    app.run(debug=True, use_reloader=False, port=5000)
