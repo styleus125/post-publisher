@@ -49,7 +49,10 @@ TELEGRAM_CHAT_IDS   = [c.strip() for c in os.environ.get('TELEGRAM_CHAT_ID', '')
 
 
 def send_telegram(message: str):
-    for token, chat in zip(TELEGRAM_BOT_TOKENS, TELEGRAM_CHAT_IDS):
+    if not TELEGRAM_BOT_TOKENS or not TELEGRAM_CHAT_IDS:
+        return
+    for i, chat in enumerate(TELEGRAM_CHAT_IDS):
+        token = TELEGRAM_BOT_TOKENS[i % len(TELEGRAM_BOT_TOKENS)]
         try:
             payload = urllib.parse.urlencode({
                 'chat_id': chat, 'text': message, 'parse_mode': 'HTML'
