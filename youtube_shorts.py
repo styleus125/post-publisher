@@ -202,78 +202,71 @@ def _font_path(bold: bool = False) -> str:
 def _escape_dt(s: str) -> str:
     """Escape a string for use in ffmpeg drawtext text= option."""
     s = s.replace('\\', '\\\\')  # backslash first
-    s = s.replace("'",  "\\'")   # single quote
-    s = s.replace(':',  '\\:')   # colon (option separator)
-    s = s.replace('%',  '%%')    # percent (strftime escape)
+    s = s.replace("'",  "\\'")   # single quote  (can't live unescaped in quoted string)
+    s = s.replace(':',  '\\:')   # colon         (option separator)
+    s = s.replace(',',  '\\,')   # comma         (filter separator)
+    s = s.replace('%',  '%%')    # percent       (strftime escape)
     return s
 
 
 def _quote_filter(quote: str, philosopher: str, duration: float) -> tuple[str, None]:
     """
-    Build ffmpeg filter string for a scrolling philosopher quote overlay.
-    Each sentence/wrapped segment is its own drawtext layer; all share the
-    same x-scroll expression so the whole block moves as one paragraph.
+    Vertical bottom-to-top scroll overlay.
+    Emits one drawtext filter per line — avoids \\n escape issues entirely.
+    Quote lines: bold yellow, centred.
+    Author line: bold yellow, right-aligned, below the last quote line.
     """
     font = _font_path(bold=True)
     if not font:
         print("  Warning: no font found, skipping quote overlay")
         return '', None
 
-    # Sentence-aware split, then wrap long sentences
-    sentences = re.split(r'(?<=[.!?])\s+', quote.strip())
-    lines: list = []
-    for sent in sentences:
-        if len(sent) <= 36:
-            lines.append(sent)
-        else:
-            lines.extend(textwrap.wrap(sent, width=36))
+    fontsize    = 42
+    line_h      = 58   # px between consecutive line tops
+    author_gap  = 16   # extra px between last quote line and author
+    side_margin = 60   # px from right edge for author
 
-    author_line  = f'— {philosopher}'
-    font_ff      = font.replace('\\', '/').replace(':', '\\:')
-    fontsize     = 40
-    px_per_char  = 22           # ~22 px/char for Arial Bold at fontsize=40
-    line_h       = 52           # px per line (font size + spacing)
-    bottom_margin = 180         # px from frame bottom to author baseline
+    # Split quote into ≤6-word chunks
+    words = quote.strip().split()
+    lines = [' '.join(words[i:i + 6]) for i in range(0, len(words), 6)]
 
-    # Block width from the widest quote line
-    max_chars    = max(len(l) for l in lines)
-    text_block_w = max_chars * px_per_char
+    font_ff = font.replace('\\', '/').replace(':', '\\:')
 
-    # Single scroll expression shared by both filters
-    scroll_x = f"w-(t*(w+{text_block_w})/{duration:.2f})"
+    # Total block height → drives the scroll speed
+    total_h = len(lines) * line_h + author_gap + line_h  # +line_h for author row
 
-    # ── Quote block: all lines in ONE drawtext using \n (2 filters total) ──
-    text_esc = '\\n'.join(_escape_dt(l) for l in lines)
-    quote_y  = f"h-{bottom_margin + (len(lines) + 1) * line_h}"
+    # y(t=0) = h (just off bottom), y(t=duration) ≈ -total_h (just off top)
+    scroll_y = f"h-(t*({total_h}+h)/{duration:.3f})"
 
-    quote_dt = (
-        f"drawtext=text='{text_esc}'"
-        f":fontfile='{font_ff}'"
-        f":fontsize={fontsize}:fontcolor=0xFFD700"
-        f":bordercolor=black:borderw=2"
-        f":y={quote_y}"
-        f":x='{scroll_x}'"
-    )
+    filters = []
 
-    # ── Author line: right-aligned via static width estimate ──
-    # Use ASCII "--" instead of em dash to avoid Unicode in the filter expression
-    author_ascii = f"-- {philosopher}"
-    auth_esc     = _escape_dt(author_ascii)
-    auth_w       = len(author_ascii) * px_per_char
-    # right edge of author = right edge of block → x = block_left + block_w - author_w
-    author_x = f"({scroll_x})+{text_block_w}-{auth_w}"
-    auth_y   = f"h-{bottom_margin}"
+    # One drawtext per quote line — centred horizontally
+    for idx, line in enumerate(lines):
+        y_expr = f"({scroll_y})+{idx * line_h}"
+        filters.append(
+            f"drawtext=text='{_escape_dt(line)}'"
+            f":fontfile='{font_ff}'"
+            f":fontsize={fontsize}"
+            f":fontcolor=0xFFD700"
+            f":bordercolor=black:borderw=3"
+            f":x=(w-text_w)/2"
+            f":y={y_expr}"
+        )
 
-    author_dt = (
+    # Author attribution — right-aligned, below the last quote line
+    auth_y   = f"({scroll_y})+{len(lines) * line_h + author_gap}"
+    auth_esc = _escape_dt("- " + philosopher)
+    filters.append(
         f"drawtext=text='{auth_esc}'"
         f":fontfile='{font_ff}'"
-        f":fontsize={fontsize}:fontcolor=0xFFD700"
-        f":bordercolor=black:borderw=2"
+        f":fontsize={fontsize}"
+        f":fontcolor=0xFFD700"
+        f":bordercolor=black:borderw=3"
+        f":x=w-text_w-{side_margin}"
         f":y={auth_y}"
-        f":x='{author_x}'"
     )
 
-    return f"{quote_dt},{author_dt}", None
+    return ','.join(filters), None
 
 
 def cut_clips(video_path: str, windows: list, output_dir: str,
@@ -354,6 +347,10 @@ def cmd_cut(video_path: str, output_dir: str, count: int, duration: int, add_quo
     print("\n  [2/3] Finding best motion windows...")
     smoothed = _smooth(scores, window=int(fps / sample_every))
     windows  = find_best_windows(smoothed, fps, sample_every, duration, count)
+    min_video_len = count * duration
+    if total_dur < min_video_len:
+        print(f"  WARNING: Video is {total_dur:.0f}s — need ≥{min_video_len}s for {count}×{duration}s clips.")
+        print(f"           Only {len(windows)} non-overlapping window(s) found.")
     print(f"  Selected {len(windows)} windows:")
     for i, (s, e, sc) in enumerate(windows, 1):
         m = int(s // 60)

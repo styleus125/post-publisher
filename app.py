@@ -2,21 +2,24 @@
 """Flask UI for the Styleus Instagram post agent."""
 
 import os
+import re
 import sys
 import json
 import logging
 import subprocess
 from datetime import datetime
-from flask import Flask, render_template, request, Response, stream_with_context, jsonify
+from flask import Flask, render_template, request, Response, stream_with_context, jsonify, send_file
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.date import DateTrigger
 from zoneinfo import ZoneInfo
 
 app = Flask(__name__)
 HERE = os.path.dirname(os.path.abspath(__file__))
-USED_FILE    = os.path.join(HERE, 'instagram_used_titles.json')
-LOG_FILE     = os.path.join(HERE, 'agent.log')
+USED_FILE     = os.path.join(HERE, 'instagram_used_titles.json')
+LOG_FILE      = os.path.join(HERE, 'agent.log')
 SCHEDULE_FILE = os.path.join(HERE, 'schedule.json')
+ADV_CONFIG    = os.path.join(HERE, 'advanced_config.json')
+PREVIEW_DIR   = os.path.join(HERE, 'tmp_previews')
 
 # ── File logger ───────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -237,6 +240,247 @@ def logs():
     with open(LOG_FILE, encoding='utf-8') as f:
         all_lines = f.readlines()
     return jsonify({'log': ''.join(all_lines[-lines:])})
+
+
+# ── Advanced config helpers ───────────────────────────────────────────────────
+
+def _load_adv_config() -> dict:
+    if not os.path.exists(ADV_CONFIG):
+        return {'posts_folder': '', 'used_images': []}
+    with open(ADV_CONFIG, encoding='utf-8') as f:
+        return json.load(f)
+
+
+def _save_adv_config(data: dict):
+    with open(ADV_CONFIG, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2)
+
+
+# ── Posts Advanced routes ─────────────────────────────────────────────────────
+
+@app.route('/advanced/posts/config', methods=['GET', 'POST'])
+def adv_posts_config():
+    if request.method == 'POST':
+        data = request.get_json()
+        cfg = _load_adv_config()
+        cfg['posts_folder'] = data.get('posts_folder', '').strip()
+        _save_adv_config(cfg)
+        logger.info(f"Posts Advanced config saved: folder={cfg['posts_folder']}")
+        return jsonify({'ok': True})
+    return jsonify(_load_adv_config())
+
+
+@app.route('/advanced/posts/generate')
+def adv_posts_generate():
+    folder = request.args.get('folder', '').strip()
+    title  = request.args.get('title',  '').strip()
+
+    def _err(msg):
+        def _gen():
+            yield f"data: ERROR: {msg}\n\n"
+            yield "data: __EXIT__1\n\n"
+        return Response(stream_with_context(_gen()), mimetype='text/event-stream',
+                        headers={'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no'})
+
+    if not folder:
+        return _err("No folder configured — set the folder path and save first.")
+    if not os.path.isdir(folder):
+        return _err(f"Folder not found: {folder}")
+
+    script = os.path.join(HERE, 'instagram_post_advanced.py')
+    cmd    = [sys.executable, script, 'generate', '--folder', folder]
+    if title:
+        cmd.extend(['--title', title])
+
+    def generate():
+        env = os.environ.copy()
+        env['PYTHONUTF8'] = '1'
+        env['PYTHONIOENCODING'] = 'utf-8'
+        process = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+            text=True, encoding='utf-8', errors='replace', cwd=HERE, env=env,
+        )
+        for line in process.stdout:
+            stripped = line.rstrip()
+            logger.info(f"[adv_gen] {stripped}")
+            yield f"data: {stripped}\n\n"
+        process.wait()
+        if process.returncode != 0:
+            logger.error(f"Posts Advanced generate failed (exit {process.returncode})")
+        yield f"data: __EXIT__{process.returncode}\n\n"
+
+    return Response(stream_with_context(generate()), mimetype='text/event-stream',
+                    headers={'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no'})
+
+
+@app.route('/advanced/posts/preview-image/<preview_id>')
+def adv_preview_image(preview_id):
+    preview_id = re.sub(r'[^a-f0-9]', '', preview_id)
+    path = os.path.join(PREVIEW_DIR, f"{preview_id}.jpg")
+    if not os.path.exists(path):
+        return 'Preview not found', 404
+    with open(path, 'rb') as f:
+        data = f.read()
+    return Response(data, mimetype='image/jpeg', headers={'Cache-Control': 'no-store'})
+
+
+@app.route('/advanced/posts/publish')
+def adv_posts_publish():
+    preview_id = re.sub(r'[^a-f0-9]', '', request.args.get('id', ''))
+    caption    = request.args.get('caption', '').strip()
+
+    if not preview_id:
+        def _err():
+            yield "data: ERROR: Missing preview id.\n\n"
+            yield "data: __EXIT__1\n\n"
+        return Response(stream_with_context(_err()), mimetype='text/event-stream',
+                        headers={'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no'})
+
+    script = os.path.join(HERE, 'instagram_post_advanced.py')
+    cmd    = [sys.executable, script, 'publish', '--id', preview_id, '--caption', caption]
+
+    def publish_stream():
+        env = os.environ.copy()
+        env['PYTHONUTF8'] = '1'
+        env['PYTHONIOENCODING'] = 'utf-8'
+        process = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+            text=True, encoding='utf-8', errors='replace', cwd=HERE, env=env,
+        )
+        for line in process.stdout:
+            stripped = line.rstrip()
+            logger.info(f"[adv_pub] {stripped}")
+            yield f"data: {stripped}\n\n"
+        process.wait()
+        if process.returncode == 0:
+            logger.info("Posts Advanced publish completed")
+        else:
+            logger.error(f"Posts Advanced publish failed (exit {process.returncode})")
+        yield f"data: __EXIT__{process.returncode}\n\n"
+
+    return Response(stream_with_context(publish_stream()), mimetype='text/event-stream',
+                    headers={'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no'})
+
+
+# ── Native file/folder picker ─────────────────────────────────────────────────
+
+@app.route('/browse/file')
+def browse_file():
+    import tkinter as tk
+    from tkinter import filedialog
+    exts = request.args.get('exts', '')
+    root = tk.Tk()
+    root.withdraw()
+    root.wm_attributes('-topmost', 1)
+    filetypes = [
+        ("Video files", " ".join(f"*.{e}" for e in exts.split())) if exts else ("All files", "*.*"),
+        ("All files", "*.*"),
+    ]
+    path = filedialog.askopenfilename(title="Select File", filetypes=filetypes, parent=root)
+    root.destroy()
+    return jsonify({'path': path or ''})
+
+
+@app.route('/browse/folder')
+def browse_folder():
+    import tkinter as tk
+    from tkinter import filedialog
+    title = request.args.get('title', 'Select Folder')
+    root  = tk.Tk()
+    root.withdraw()
+    root.wm_attributes('-topmost', 1)
+    path = filedialog.askdirectory(title=title, parent=root)
+    root.destroy()
+    return jsonify({'path': path or ''})
+
+
+# ── YouTube Shorts routes ─────────────────────────────────────────────────────
+
+@app.route('/yt-shorts/config', methods=['GET', 'POST'])
+def yt_shorts_config():
+    cfg = _load_adv_config()
+    if request.method == 'POST':
+        data = request.get_json()
+        cfg.setdefault('yt_shorts', {})
+        cfg['yt_shorts']['video_path']    = data.get('video_path',    '').strip()
+        cfg['yt_shorts']['output_folder'] = data.get('output_folder', '').strip()
+        cfg['yt_shorts']['clip_count']    = int(data.get('clip_count',    5))
+        cfg['yt_shorts']['clip_duration'] = int(data.get('clip_duration', 18))
+        cfg['yt_shorts']['add_quote']     = bool(data.get('add_quote', False))
+        _save_adv_config(cfg)
+        logger.info(f"YT Shorts config saved: {cfg['yt_shorts']}")
+        return jsonify({'ok': True})
+    return jsonify(cfg.get('yt_shorts', {}))
+
+
+@app.route('/yt-shorts/cut')
+def yt_shorts_cut():
+    video_path    = request.args.get('video_path',    '').strip()
+    output_folder = request.args.get('output_folder', '').strip()
+    clip_count    = request.args.get('clip_count',    '5').strip()
+    clip_duration = request.args.get('clip_duration', '18').strip()
+    add_quote     = request.args.get('add_quote',     '0') == '1'
+
+    def _err(msg):
+        def _g():
+            yield f"data: ERROR: {msg}\n\n"
+            yield "data: __EXIT__1\n\n"
+        return Response(stream_with_context(_g()), mimetype='text/event-stream',
+                        headers={'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no'})
+
+    if not video_path:
+        return _err("No video path provided.")
+    if not os.path.isfile(video_path):
+        return _err(f"Video file not found: {video_path}")
+    if not output_folder:
+        return _err("No output folder provided.")
+
+    script = os.path.join(HERE, 'youtube_shorts.py')
+    cmd = [
+        sys.executable, script, 'cut',
+        '--video',    video_path,
+        '--output',   output_folder,
+        '--count',    clip_count,
+        '--duration', clip_duration,
+    ]
+    if add_quote:
+        cmd.append('--add-quote')
+
+    logger.info(f"YT Shorts cut — video={video_path}, count={clip_count}, "
+                f"dur={clip_duration}s, add_quote={add_quote}")
+
+    def stream():
+        env = os.environ.copy()
+        env['PYTHONUTF8'] = '1'
+        env['PYTHONIOENCODING'] = 'utf-8'
+        env['PYTHONUNBUFFERED'] = '1'
+        process = subprocess.Popen(
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+            text=True, encoding='utf-8', errors='replace', cwd=HERE, env=env,
+        )
+        for line in process.stdout:
+            stripped = line.rstrip()
+            logger.info(f"[yt_shorts] {stripped}")
+            yield f"data: {stripped}\n\n"
+        process.wait()
+        if process.returncode == 0:
+            logger.info("YT Shorts cut completed successfully")
+        else:
+            logger.error(f"YT Shorts cut failed (exit {process.returncode})")
+        yield f"data: __EXIT__{process.returncode}\n\n"
+
+    return Response(stream_with_context(stream()), mimetype='text/event-stream',
+                    headers={'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no'})
+
+
+@app.route('/yt-shorts/video')
+def yt_shorts_video():
+    path = request.args.get('path', '').strip()
+    if not path or not os.path.isfile(path):
+        return 'Not found', 404
+    if os.path.splitext(path)[1].lower() not in {'.mp4', '.mov', '.avi', '.mkv', '.webm'}:
+        return 'Invalid file type', 400
+    return send_file(path, mimetype='video/mp4', conditional=True)
 
 
 # ── Quotes routes ─────────────────────────────────────────────────────────────

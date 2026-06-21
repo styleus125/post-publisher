@@ -9,14 +9,14 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #070e1a;
+      background: #050b14;
       color: #e2e8f0;
       height: 100vh;
       overflow: hidden;
       display: flex;
       align-items: stretch;
       justify-content: center;
-      padding: 24px 40px;
+      padding: 20px 36px;
     }
 
     /* ── Layout ──────────────────────────────────────────────────────────── */
@@ -24,75 +24,121 @@
       display: flex;
       width: 100%;
       max-width: 1140px;
-      border-radius: 16px;
+      border-radius: 18px;
       overflow: hidden;
-      border: 1px solid #1e3a5f;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      border: 1px solid rgba(30,58,95,0.7);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(59,130,246,0.04);
     }
 
     /* ── Sidebar ─────────────────────────────────────────────────────────── */
     .sidebar {
-      width: 196px; min-width: 196px;
-      background: #070e1a;
-      border-right: 1px solid #1e3a5f;
-      display: flex; flex-direction: column;
+      width: 200px;
+      min-width: 200px;
+      background: #040a12;
+      border-right: 1px solid rgba(30,58,95,0.5);
+      display: flex;
+      flex-direction: column;
       overflow-y: auto;
     }
+
     .sidebar-logo {
-      display: flex; align-items: center; gap: 10px;
-      padding: 20px 14px 18px;
-      border-bottom: 1px solid #1e3a5f;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 22px 16px 18px;
+      border-bottom: 1px solid rgba(30,58,95,0.5);
+      background: linear-gradient(180deg, #060e1c 0%, #040a12 100%);
       flex-shrink: 0;
     }
     .logo-icon {
-      width: 34px; height: 34px;
-      background: #3b82f6; border-radius: 9px;
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 17px; flex-shrink: 0;
+      font-size: 18px; flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(59,130,246,0.35);
     }
-    .sidebar-title { font-size: 13px; font-weight: 700; color: #fff; }
-    .sidebar-sub   { font-size: 11px; color: #475569; margin-top: 1px; }
+    .sidebar-title { font-size: 13px; font-weight: 700; color: #f1f5f9; letter-spacing: -0.01em; }
+    .sidebar-sub   { font-size: 11px; color: #3d5478; margin-top: 1px; }
 
-    .nav-section { padding: 10px 8px 4px; }
+    .nav-section { padding: 10px 0 4px; }
     .nav-label {
       font-size: 10px; font-weight: 700;
-      color: #334155; text-transform: uppercase;
-      letter-spacing: 0.07em; padding: 8px 8px 5px;
+      color: #1e3a5f; text-transform: uppercase;
+      letter-spacing: 0.09em; padding: 10px 16px 6px;
     }
     .nav-item {
-      display: flex; align-items: center; gap: 8px;
-      width: 100%; text-align: left; padding: 9px 12px;
-      border: none; border-radius: 8px; background: transparent;
-      color: #64748b; font-size: 13px; font-weight: 600;
-      cursor: pointer; transition: all 0.15s; margin-bottom: 2px;
+      display: flex; align-items: center; gap: 9px;
+      width: 100%; text-align: left;
+      padding: 9px 14px 9px 14px;
+      border: none; border-left: 2px solid transparent;
+      background: transparent;
+      color: #4a6580; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+      margin-bottom: 1px;
     }
-    .nav-item:hover  { background: #0f2040; color: #94a3b8; }
-    .nav-item.active { background: #1e3a5f; color: #60a5fa; }
-
-    .nav-adv        { color: #7c6fa0; }
-    .nav-adv:hover  { background: #160f2e; color: #a78bfa; }
-    .nav-adv.active { background: #1e1550; color: #a78bfa; }
+    .nav-item:hover {
+      background: rgba(15,32,64,0.7);
+      color: #7a97b8;
+      border-left-color: rgba(59,130,246,0.25);
+    }
+    .nav-item.active {
+      background: linear-gradient(90deg, rgba(59,130,246,0.14), rgba(59,130,246,0.03));
+      color: #60a5fa;
+      border-left-color: #3b82f6;
+    }
+    .nav-adv        { color: #4a3d6a; }
+    .nav-adv:hover  { background: rgba(88,28,135,0.08); color: #7c6fa0; border-left-color: rgba(139,92,246,0.25); }
+    .nav-adv.active {
+      background: linear-gradient(90deg, rgba(139,92,246,0.14), rgba(139,92,246,0.03));
+      color: #a78bfa; border-left-color: #8b5cf6;
+    }
 
     .sidebar-footer {
-      margin-top: auto; padding: 12px 12px 16px;
-      border-top: 1px solid #1e3a5f;
-      display: flex; flex-direction: column; gap: 6px;
+      margin-top: auto; padding: 14px 12px 18px;
+      border-top: 1px solid rgba(30,58,95,0.4);
+      display: flex; flex-direction: column; gap: 7px;
       flex-shrink: 0;
     }
 
     /* ── Content Area ────────────────────────────────────────────────────── */
-    .content-area { flex: 1; overflow-y: auto; padding: 32px 36px; min-width: 0; }
-
-    .stat-badge {
+    .content-area {
+      flex: 1; overflow-y: auto;
+      padding: 30px 36px;
+      min-width: 0;
       background: #0a1628;
-      border: 1px solid #1e3a5f;
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 12px;
-      color: #64748b;
-      white-space: nowrap;
+    }
+
+    /* ── Stat badge ──────────────────────────────────────────────────────── */
+    .stat-badge {
+      background: rgba(5,11,20,0.8);
+      border: 1px solid rgba(30,58,95,0.7);
+      border-radius: 8px; padding: 6px 12px;
+      font-size: 11.5px; color: #4a6580; white-space: nowrap;
     }
     .stat-badge b { color: #3b82f6; }
+
+    /* ── Panel heading ───────────────────────────────────────────────────── */
+    .panel-heading {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 26px; padding-bottom: 20px;
+      border-bottom: 1px solid rgba(30,58,95,0.5);
+    }
+    .ph-icon {
+      width: 44px; height: 44px; border-radius: 13px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 21px; flex-shrink: 0;
+    }
+    .ph-blue   { background: linear-gradient(135deg,#1e3a8a,#3b82f6); box-shadow: 0 4px 14px rgba(59,130,246,0.35); }
+    .ph-green  { background: linear-gradient(135deg,#064e3b,#10b981); box-shadow: 0 4px 14px rgba(16,185,129,0.3); }
+    .ph-amber  { background: linear-gradient(135deg,#78350f,#f59e0b); box-shadow: 0 4px 14px rgba(245,158,11,0.3); }
+    .ph-slate  { background: linear-gradient(135deg,#1e293b,#64748b); box-shadow: 0 4px 14px rgba(100,116,139,0.3); }
+    .ph-purple { background: linear-gradient(135deg,#4c1d95,#8b5cf6); box-shadow: 0 4px 14px rgba(139,92,246,0.35); }
+    .ph-red    { background: linear-gradient(135deg,#7f1d1d,#ef4444); box-shadow: 0 4px 14px rgba(239,68,68,0.3); }
+    .ph-cyan   { background: linear-gradient(135deg,#164e63,#06b6d4); box-shadow: 0 4px 14px rgba(6,182,212,0.3); }
+    .ph-indigo { background: linear-gradient(135deg,#312e81,#6366f1); box-shadow: 0 4px 14px rgba(99,102,241,0.35); }
+    .panel-heading-title { font-size: 20px; font-weight: 700; color: #f1f5f9; letter-spacing: -0.02em; }
+    .panel-heading-sub   { font-size: 12.5px; color: #3d5478; margin-top: 3px; }
 
     /* ── Panels ──────────────────────────────────────────────────────────── */
     .panel { display: none; max-width: 640px; }
@@ -102,92 +148,97 @@
     /* Mode toggle */
     .mode-toggle {
       display: flex;
-      background: #0a1628;
-      border: 1px solid #1e3a5f;
-      border-radius: 10px;
-      padding: 4px;
-      margin-bottom: 20px;
+      background: rgba(5,11,20,0.7);
+      border: 1px solid rgba(30,58,95,0.7);
+      border-radius: 12px; padding: 4px; margin-bottom: 22px;
     }
     .mode-btn {
-      flex: 1; padding: 10px;
-      border: none; border-radius: 7px;
+      flex: 1; padding: 10px; border: none; border-radius: 9px;
       cursor: pointer; font-size: 14px; font-weight: 600;
-      transition: all 0.2s;
-      background: transparent; color: #64748b;
+      transition: all 0.2s; background: transparent; color: #4a6580;
     }
     .mode-btn.active {
-      background: #3b82f6; color: #fff;
-      box-shadow: 0 2px 8px rgba(59,130,246,0.4);
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #fff; box-shadow: 0 3px 10px rgba(59,130,246,0.4);
     }
 
     /* Fields */
     .field { margin-bottom: 20px; }
     .field label {
-      display: block; font-size: 12px; font-weight: 600;
-      color: #94a3b8; text-transform: uppercase;
-      letter-spacing: 0.05em; margin-bottom: 8px;
+      display: block; font-size: 11px; font-weight: 700;
+      color: #3d5478; text-transform: uppercase;
+      letter-spacing: 0.07em; margin-bottom: 8px;
     }
     .field input, .field select {
-      width: 100%;
-      background: #0a1628; border: 1px solid #1e3a5f;
-      border-radius: 8px; padding: 11px 14px;
+      width: 100%; background: rgba(5,11,20,0.7);
+      border: 1px solid rgba(30,58,95,0.8);
+      border-radius: 10px; padding: 11px 14px;
       font-size: 14px; color: #e2e8f0; outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .field input::placeholder { color: #334155; }
-    .field input:focus, .field select:focus { border-color: #3b82f6; }
-    .field select option { background: #0f2040; }
+    .field input::placeholder { color: #1e3a5f; }
+    .field input:focus, .field select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+    }
+    .field select option { background: #0a1628; }
 
     /* Toggle switch */
     .toggle-row {
       display: flex; align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
+      justify-content: space-between; margin-bottom: 20px;
     }
-    .toggle-row label { font-size: 14px; color: #94a3b8; font-weight: 600; }
+    .toggle-row > label:first-child { font-size: 14px; color: #7a97b8; font-weight: 600; }
     .switch { position: relative; width: 44px; height: 24px; }
     .switch input { opacity: 0; width: 0; height: 0; }
     .slider {
       position: absolute; inset: 0;
-      background: #1e3a5f; border-radius: 24px;
+      background: rgba(30,58,95,0.6); border-radius: 24px;
       cursor: pointer; transition: 0.2s;
     }
     .slider:before {
       content: ''; position: absolute;
       width: 18px; height: 18px; border-radius: 50%;
-      background: #fff; left: 3px; top: 3px;
-      transition: 0.2s;
+      background: #fff; left: 3px; top: 3px; transition: 0.2s;
     }
     input:checked + .slider { background: #3b82f6; }
     input:checked + .slider:before { transform: translateX(20px); }
 
     /* Buttons */
     .btn-primary {
-      width: 100%; padding: 14px;
-      background: #3b82f6; color: #fff;
-      border: none; border-radius: 10px;
-      font-size: 15px; font-weight: 700;
+      width: 100%; padding: 13px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #fff; border: none; border-radius: 12px;
+      font-size: 14.5px; font-weight: 700;
       cursor: pointer; transition: all 0.2s;
-      margin-bottom: 24px; letter-spacing: 0.02em;
+      margin-bottom: 22px; letter-spacing: 0.01em;
+      box-shadow: 0 4px 14px rgba(59,130,246,0.35);
     }
-    .btn-primary:hover:not(:disabled) { background: #2563eb; transform: translateY(-1px); }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      box-shadow: 0 6px 20px rgba(59,130,246,0.45);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active:not(:disabled) { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
 
     .btn-secondary {
       width: 100%; padding: 11px;
       background: transparent;
-      border: 1px solid #3b82f6; color: #3b82f6;
-      border-radius: 10px; font-size: 14px; font-weight: 600;
+      border: 1px solid rgba(59,130,246,0.45); color: #3b82f6;
+      border-radius: 12px; font-size: 14px; font-weight: 600;
       cursor: pointer; transition: all 0.2s;
     }
-    .btn-secondary:hover { background: rgba(59,130,246,0.1); }
+    .btn-secondary:hover {
+      background: rgba(59,130,246,0.08);
+      border-color: #3b82f6;
+    }
 
     /* Schedule info */
     .sched-info {
-      background: #0a1628; border: 1px solid #1e3a5f;
-      border-radius: 8px; padding: 12px 16px;
-      font-size: 13px; color: #64748b;
-      margin-bottom: 20px;
+      background: rgba(5,11,20,0.6); border: 1px solid rgba(30,58,95,0.6);
+      border-radius: 10px; padding: 12px 16px;
+      font-size: 13px; color: #4a6580; margin-bottom: 20px;
     }
     .sched-info b { color: #3b82f6; }
 
@@ -195,234 +246,253 @@
     .log-wrap { display: none; flex-direction: column; gap: 8px; }
     .log-header {
       display: flex; align-items: center; gap: 8px;
-      font-size: 12px; font-weight: 600;
-      color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;
+      font-size: 11px; font-weight: 700;
+      color: #3d5478; text-transform: uppercase; letter-spacing: 0.07em;
     }
     .dot {
       width: 8px; height: 8px; border-radius: 50%;
-      background: #3b82f6; animation: pulse 1s infinite;
+      background: #3b82f6; animation: pulse 1.2s infinite;
     }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.85)} }
     .dot.done  { background: #22c55e; animation: none; }
     .dot.error { background: #ef4444; animation: none; }
 
     #log, #file-log {
-      background: #070e1a; border: 1px solid #1e3a5f;
-      border-radius: 10px; padding: 16px;
+      background: #030810; border: 1px solid rgba(30,58,95,0.6);
+      border-radius: 12px; padding: 16px;
       font-family: 'Cascadia Code','Fira Code','Consolas',monospace;
-      font-size: 12px; line-height: 1.7;
-      color: #94a3b8; overflow-y: auto;
-      white-space: pre-wrap; word-break: break-all;
+      font-size: 12px; line-height: 1.75; color: #5d7fa3;
+      overflow-y: auto; white-space: pre-wrap; word-break: break-all;
     }
     #log { max-height: 260px; }
-    #file-log { max-height: 420px; }
+    #file-log { max-height: 460px; }
 
     #result {
       display: none; border-radius: 10px;
-      padding: 14px 18px; font-size: 14px; font-weight: 600;
+      padding: 13px 18px; font-size: 14px; font-weight: 600;
       margin-top: 12px;
     }
     #result.success {
-      background: rgba(34,197,94,0.12);
-      border: 1px solid rgba(34,197,94,0.3); color: #4ade80;
+      background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); color: #4ade80;
     }
     #result.error {
-      background: rgba(239,68,68,0.12);
-      border: 1px solid rgba(239,68,68,0.3); color: #f87171;
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #f87171;
     }
 
-    .highlight { color: #3b82f6; }
-    .log-actions { display: flex; gap: 8px; margin-bottom: 8px; }
+    .highlight { color: #60a5fa; }
+    .log-actions { display: flex; gap: 8px; margin-bottom: 10px; }
     .log-actions button {
-      padding: 6px 14px; border-radius: 6px; font-size: 12px;
-      font-weight: 600; cursor: pointer; border: 1px solid #1e3a5f;
-      background: #0a1628; color: #64748b; transition: all 0.2s;
+      padding: 6px 14px; border-radius: 8px; font-size: 12px;
+      font-weight: 600; cursor: pointer; border: 1px solid rgba(30,58,95,0.7);
+      background: rgba(5,11,20,0.6); color: #4a6580; transition: all 0.2s;
     }
-    .log-actions button:hover { border-color: #3b82f6; color: #3b82f6; }
+    .log-actions button:hover { border-color: #3b82f6; color: #60a5fa; background: rgba(59,130,246,0.06); }
 
     .saved-toast {
       display: none; font-size: 12px; color: #22c55e;
-      margin-top: 8px; text-align: center;
+      margin-top: 8px; text-align: center; font-weight: 600;
     }
 
     .sched-block {
-      background: #0a1628;
-      border: 1px solid #1e3a5f;
-      border-radius: 10px;
-      padding: 16px 18px;
-      margin-bottom: 14px;
-      overflow: visible;
+      background: linear-gradient(135deg, rgba(10,22,40,0.8), rgba(5,11,20,0.5));
+      border: 1px solid rgba(30,58,95,0.65);
+      border-radius: 14px; padding: 18px 20px;
+      margin-bottom: 14px; overflow: visible;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+    .sched-block-label {
+      font-size: 10px; font-weight: 700; color: #1e3a5f;
+      text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 14px;
     }
     .sched-block-header {
       display: flex; align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      font-size: 14px; font-weight: 700; color: #e2e8f0;
+      justify-content: space-between; margin-bottom: 14px;
+      font-size: 14px; font-weight: 700; color: #c4d4e8;
     }
     .times-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 10px; }
     .time-chip {
       display: inline-flex; align-items: center; gap: 4px;
-      background: #0f2040; border: 1px solid #1e3a5f;
-      border-radius: 8px; padding: 5px 10px 5px 10px;
+      background: rgba(15,32,64,0.8); border: 1px solid rgba(30,58,95,0.8);
+      border-radius: 10px; padding: 6px 10px;
     }
     .time-chip select {
-      background: transparent; border: none; color: #e2e8f0;
+      background: transparent; border: none; color: #c4d4e8;
       font-size: 13px; font-weight: 600; outline: none; cursor: pointer;
       padding: 0; -webkit-appearance: none; appearance: none; text-align: center;
     }
-    .time-chip select option { background: #0f2040; color: #e2e8f0; }
-    .time-chip .sep { color: #475569; font-weight: 700; font-size: 13px; }
+    .time-chip select option { background: #0a1628; color: #e2e8f0; }
+    .time-chip .sep { color: #2d4f7a; font-weight: 700; font-size: 13px; }
     .time-chip button {
-      background: transparent; border: none; color: #475569;
+      background: transparent; border: none; color: #2d4f7a;
       cursor: pointer; font-size: 14px; line-height: 1; padding: 2px 4px;
       border-radius: 4px; transition: color 0.15s; margin-left: 4px;
     }
     .time-chip button:hover { color: #ef4444; }
     .add-time-btn {
-      background: transparent; border: 1px dashed #1e3a5f;
-      border-radius: 8px; color: #3b82f6; font-size: 12px;
-      font-weight: 600; padding: 6px 14px; cursor: pointer;
+      background: transparent; border: 1px dashed rgba(30,58,95,0.7);
+      border-radius: 10px; color: #3b82f6; font-size: 12px;
+      font-weight: 600; padding: 7px 14px; cursor: pointer;
       transition: all 0.2s; width: 100%;
     }
     .add-time-btn:hover { border-color: #3b82f6; background: rgba(59,130,246,0.06); }
 
     .slot-date-input {
       background: transparent; border: none;
-      color: #e2e8f0; font-size: 12px; font-weight: 600;
+      color: #c4d4e8; font-size: 12px; font-weight: 600;
       outline: none; cursor: pointer; padding: 0;
       color-scheme: dark; width: 116px;
     }
 
-    /* ── Path row (input + browse) ─────────────────────────────── */
+    /* Path row */
     .path-row { display: flex; gap: 8px; align-items: center; }
     .path-row input { flex: 1; }
     .btn-sm {
       white-space: nowrap; flex-shrink: 0;
-      padding: 9px 14px; font-size: 13px; font-weight: 600;
-      background: #0a1628; border: 1px solid #1e3a5f;
-      color: #64748b; border-radius: 8px; cursor: pointer;
-      transition: all 0.2s;
+      padding: 9px 14px; font-size: 12.5px; font-weight: 600;
+      background: rgba(5,11,20,0.7); border: 1px solid rgba(30,58,95,0.7);
+      color: #4a6580; border-radius: 10px; cursor: pointer; transition: all 0.2s;
     }
-    .btn-sm:hover { border-color: #3b82f6; color: #3b82f6; }
+    .btn-sm:hover { border-color: #3b82f6; color: #60a5fa; background: rgba(59,130,246,0.06); }
     .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
     .btn-row .btn-secondary { width: auto; }
     .btn-row .btn-primary   { width: auto; margin-bottom: 0; }
 
-    /* ── Textarea ──────────────────────────────────────────────── */
+    /* Textarea */
     .field textarea {
-      width: 100%; background: #0a1628; border: 1px solid #1e3a5f;
-      border-radius: 8px; padding: 11px 14px;
+      width: 100%; background: rgba(5,11,20,0.7);
+      border: 1px solid rgba(30,58,95,0.8);
+      border-radius: 10px; padding: 11px 14px;
       font-size: 14px; color: #e2e8f0; outline: none;
-      transition: border-color 0.2s; resize: vertical; min-height: 80px;
-      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      resize: vertical; min-height: 80px; font-family: inherit;
     }
-    .field textarea:focus { border-color: #3b82f6; }
-    .field textarea::placeholder { color: #334155; }
+    .field textarea:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+    }
+    .field textarea::placeholder { color: #1e3a5f; }
 
-    /* ── Advanced log boxes ────────────────────────────────────── */
+    /* Advanced log boxes */
     .adv-log {
-      background: #070e1a; border: 1px solid #1e3a5f;
-      border-radius: 10px; padding: 16px;
+      background: #030810; border: 1px solid rgba(30,58,95,0.6);
+      border-radius: 12px; padding: 16px;
       font-family: 'Cascadia Code','Fira Code','Consolas',monospace;
-      font-size: 12px; line-height: 1.7; color: #94a3b8;
+      font-size: 12px; line-height: 1.75; color: #5d7fa3;
       overflow-y: auto; white-space: pre-wrap; word-break: break-all;
       max-height: 240px;
     }
     .adv-log-wrap { display: none; flex-direction: column; gap: 8px; margin-top: 14px; }
     .adv-log-header {
       display: flex; align-items: center; gap: 8px;
-      font-size: 12px; font-weight: 600; color: #64748b;
-      text-transform: uppercase; letter-spacing: 0.05em;
+      font-size: 11px; font-weight: 700; color: #3d5478;
+      text-transform: uppercase; letter-spacing: 0.07em;
     }
     .adv-result {
-      display: none; border-radius: 8px; padding: 10px 14px;
+      display: none; border-radius: 10px; padding: 10px 14px;
       font-size: 13px; font-weight: 600; margin-top: 8px;
     }
-    .adv-result.success { background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3); color: #4ade80; }
-    .adv-result.error   { background: rgba(239,68,68,0.12);  border: 1px solid rgba(239,68,68,0.3);  color: #f87171; }
+    .adv-result.success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25); color: #4ade80; }
+    .adv-result.error   { background: rgba(239,68,68,0.1);  border: 1px solid rgba(239,68,68,0.25);  color: #f87171; }
 
-    /* ── Image preview ─────────────────────────────────────────── */
+    /* Image preview */
     .preview-wrap {
-      background: #070e1a; border: 1px solid #1e3a5f;
-      border-radius: 10px; overflow: hidden;
+      background: #030810; border: 1px solid rgba(30,58,95,0.6);
+      border-radius: 12px; overflow: hidden;
       min-height: 120px; display: flex;
       align-items: center; justify-content: center; margin-bottom: 16px;
     }
     .preview-wrap img { max-width: 100%; max-height: 300px; border-radius: 10px; display: block; }
-    .preview-placeholder { color: #334155; font-size: 13px; text-align: center; padding: 20px; }
+    .preview-placeholder { color: #1e3a5f; font-size: 13px; text-align: center; padding: 20px; }
 
-    /* ── Video player ──────────────────────────────────────────── */
+    /* Video player */
     .video-wrap {
-      background: #070e1a; border: 1px solid #1e3a5f;
-      border-radius: 10px; overflow: hidden;
+      background: #030810; border: 1px solid rgba(30,58,95,0.6);
+      border-radius: 12px; overflow: hidden;
       min-height: 120px; display: flex;
       align-items: center; justify-content: center;
     }
     .video-wrap video { max-width: 100%; max-height: 320px; border-radius: 10px; }
 
-    /* ── Clip list ─────────────────────────────────────────────── */
+    /* Clip list */
     .clip-list { display: flex; flex-direction: column; gap: 8px; }
     .clip-item {
       display: flex; align-items: center; gap: 12px;
-      background: #070e1a; border: 1px solid #1e3a5f;
-      border-radius: 8px; padding: 10px 14px;
+      background: rgba(3,8,16,0.7); border: 1px solid rgba(30,58,95,0.6);
+      border-radius: 10px; padding: 10px 14px;
+      transition: border-color 0.15s;
     }
+    .clip-item:hover { border-color: #2d4f7a; }
     .clip-num {
-      width: 24px; height: 24px; background: #0f2040;
-      border: 1px solid #1e3a5f; border-radius: 50%;
+      width: 26px; height: 26px; background: rgba(15,32,64,0.8);
+      border: 1px solid rgba(30,58,95,0.8); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 11px; font-weight: 700; color: #3b82f6; flex-shrink: 0;
     }
     .clip-info { flex: 1; }
-    .clip-name { font-size: 13px; color: #e2e8f0; font-weight: 500; }
-    .clip-meta { font-size: 11px; color: #475569; margin-top: 2px; }
+    .clip-name { font-size: 13px; color: #c4d4e8; font-weight: 500; }
+    .clip-meta { font-size: 11px; color: #2d4f7a; margin-top: 2px; }
 
-    /* ── Quotes ────────────────────────────────────────────────── */
-    .q-toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    /* Quotes */
+    .q-toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
     .q-stat-pill {
       display: inline-flex; align-items: center; gap: 4px;
-      padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 600;
+      padding: 5px 11px; border-radius: 99px; font-size: 11px; font-weight: 700;
     }
-    .q-stat-pill.q-locked { background: rgba(239,68,68,0.12); color: #f87171; }
-    .q-stat-pill.q-free   { background: rgba(34,197,94,0.12);  color: #4ade80; }
-    .q-stat-pill.q-total  { background: rgba(59,130,246,0.12); color: #60a5fa; }
+    .q-stat-pill.q-locked { background: rgba(239,68,68,0.1);  color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+    .q-stat-pill.q-free   { background: rgba(34,197,94,0.1);   color: #4ade80; border: 1px solid rgba(34,197,94,0.2); }
+    .q-stat-pill.q-total  { background: rgba(59,130,246,0.1);  color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
     .q-search {
-      flex: 1; min-width: 140px;
-      background: #0a1628; border: 1px solid #1e3a5f;
-      color: #e2e8f0; border-radius: 8px; padding: 7px 12px;
-      font-size: 13px; outline: none;
+      flex: 1; min-width: 160px;
+      background: rgba(5,11,20,0.7); border: 1px solid rgba(30,58,95,0.7);
+      color: #e2e8f0; border-radius: 10px; padding: 7px 12px;
+      font-size: 13px; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .q-search:focus { border-color: #3b82f6; }
+    .q-search:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+    .q-search::placeholder { color: #1e3a5f; }
     .q-filter-tabs { display: flex; gap: 4px; }
     .q-filter-btn {
-      padding: 5px 11px; background: #0a1628; border: 1px solid #1e3a5f;
-      color: #64748b; border-radius: 6px; font-size: 12px; font-weight: 600;
+      padding: 6px 12px; background: rgba(5,11,20,0.6);
+      border: 1px solid rgba(30,58,95,0.7);
+      color: #3d5478; border-radius: 8px; font-size: 12px; font-weight: 600;
       cursor: pointer; transition: all 0.15s;
     }
-    .q-filter-btn.active { border-color: #3b82f6; color: #3b82f6; background: rgba(59,130,246,0.08); }
+    .q-filter-btn:hover { color: #7a97b8; border-color: #2d4f7a; }
+    .q-filter-btn.active { border-color: #3b82f6; color: #60a5fa; background: rgba(59,130,246,0.1); }
     .q-list {
-      display: flex; flex-direction: column; gap: 8px;
+      display: flex; flex-direction: column; gap: 7px;
       max-height: calc(100vh - 260px); overflow-y: auto; padding-right: 2px;
     }
     .quote-card {
-      background: #070e1a; border: 1px solid #1e3a5f;
-      border-radius: 10px; padding: 12px 14px;
+      background: linear-gradient(135deg, rgba(5,11,20,0.9), rgba(10,22,40,0.5));
+      border: 1px solid rgba(30,58,95,0.6);
+      border-radius: 12px; padding: 13px 15px;
       display: flex; gap: 12px; align-items: flex-start;
-      transition: border-color 0.15s;
+      transition: all 0.2s; cursor: default;
     }
-    .quote-card.q-state-locked { border-color: rgba(239,68,68,0.3); }
+    .quote-card:hover {
+      border-color: #2d4f7a;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      transform: translateY(-1px);
+    }
+    .quote-card.q-state-locked { border-color: rgba(239,68,68,0.25); background: linear-gradient(135deg, rgba(127,29,29,0.1), rgba(5,11,20,0.8)); }
     .q-text-block { flex: 1; min-width: 0; }
-    .quote-text { font-size: 13px; color: #94a3b8; line-height: 1.55; margin-bottom: 4px; }
-    .quote-author { font-size: 11px; color: #475569; font-style: italic; }
+    .quote-text { font-size: 13px; color: #7a97b8; line-height: 1.6; margin-bottom: 5px; }
+    .quote-author { font-size: 11px; color: #2d4f7a; font-style: italic; font-weight: 600; }
     .q-lock-btn {
-      flex-shrink: 0; padding: 5px 11px; border-radius: 7px;
-      font-size: 11px; font-weight: 600; cursor: pointer; border: none;
-      transition: filter 0.15s;
+      flex-shrink: 0; padding: 5px 12px; border-radius: 8px;
+      font-size: 11px; font-weight: 700; cursor: pointer; border: none;
+      transition: all 0.15s; letter-spacing: 0.02em;
     }
-    .q-lock-btn:hover { filter: brightness(1.2); }
+    .q-lock-btn:hover { filter: brightness(1.15); transform: scale(1.03); }
     .q-lock-btn.q-btn-free   { background: rgba(59,130,246,0.15); color: #60a5fa; }
     .q-lock-btn.q-btn-locked { background: rgba(239,68,68,0.15);  color: #f87171; }
-    .q-empty { color: #334155; text-align: center; padding: 30px 0; font-size: 13px; }
+    .q-empty { color: #1e3a5f; text-align: center; padding: 32px 0; font-size: 13px; }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(30,58,95,0.6); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(59,130,246,0.4); }
   </style>
 </head>
 <body>
@@ -464,18 +534,25 @@
 
   <!-- ── POST PANEL ── -->
   <div class="panel active" id="panel-post">
+    <div class="panel-heading">
+      <div class="ph-icon ph-blue">📷</div>
+      <div>
+        <div class="panel-heading-title">Post</div>
+        <div class="panel-heading-sub">Publish photos &amp; reels to Instagram</div>
+      </div>
+    </div>
+
     <div class="mode-toggle">
       <button class="mode-btn active" id="btn-photo" onclick="setMode('photo')">📷 Insta Post</button>
       <button class="mode-btn" id="btn-reel" onclick="setMode('reel')">🎬 Insta Reel</button>
     </div>
 
-    <!-- Reel destination toggles (only shown in reel mode) -->
-    <div id="reel-options" style="display:none; background:#0a1628; border:1px solid #1e3a5f; border-radius:10px; padding:14px 18px; margin-bottom:20px;">
-      <div style="font-size:11px; font-weight:700; color:#64748b; text-transform:uppercase; letter-spacing:.05em; margin-bottom:12px;">Reel Destinations</div>
-      <div class="toggle-row" style="margin-bottom:12px;">
+    <div id="reel-options" style="display:none; background:rgba(5,11,20,0.6); border:1px solid rgba(30,58,95,0.7); border-radius:12px; padding:16px 18px; margin-bottom:22px;">
+      <div style="font-size:10px;font-weight:700;color:#1e3a5f;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;">Reel Destinations</div>
+      <div class="toggle-row" style="margin-bottom:14px;">
         <div>
-          <div style="font-size:14px;color:#e2e8f0;font-weight:600;">Publish to Instagram</div>
-          <div style="font-size:12px;color:#475569;margin-top:2px;">Upload &amp; post the reel directly</div>
+          <div style="font-size:14px;color:#c4d4e8;font-weight:600;">Publish to Instagram</div>
+          <div style="font-size:12px;color:#3d5478;margin-top:2px;">Upload &amp; post the reel directly</div>
         </div>
         <label class="switch">
           <input type="checkbox" id="toggle-publish" onchange="saveToggles()">
@@ -484,8 +561,8 @@
       </div>
       <div class="toggle-row" style="margin-bottom:0;">
         <div>
-          <div style="font-size:14px;color:#e2e8f0;font-weight:600;">Upload to Google Drive</div>
-          <div style="font-size:12px;color:#475569;margin-top:2px;">Save a copy in Styleus Reels folder</div>
+          <div style="font-size:14px;color:#c4d4e8;font-weight:600;">Upload to Google Drive</div>
+          <div style="font-size:12px;color:#3d5478;margin-top:2px;">Save a copy in Styleus Reels folder</div>
         </div>
         <label class="switch">
           <input type="checkbox" id="toggle-drive" onchange="saveToggles()">
@@ -513,6 +590,14 @@
 
   <!-- ── BLOG PANEL ── -->
   <div class="panel" id="panel-blog">
+    <div class="panel-heading">
+      <div class="ph-icon ph-green">✍️</div>
+      <div>
+        <div class="panel-heading-title">Blog</div>
+        <div class="panel-heading-sub">Generate and publish a blog draft</div>
+      </div>
+    </div>
+
     <div class="field">
       <label>Custom Topic (optional)</label>
       <input type="text" id="blog-topic-input" placeholder="Leave blank to use today's scheduled topic" />
@@ -536,8 +621,14 @@
 
   <!-- ── SCHEDULE PANEL ── -->
   <div class="panel" id="panel-schedule">
+    <div class="panel-heading">
+      <div class="ph-icon ph-amber">🕐</div>
+      <div>
+        <div class="panel-heading-title">Schedule</div>
+        <div class="panel-heading-sub">Set recurring post times in IST</div>
+      </div>
+    </div>
 
-    <!-- Photo schedule -->
     <div class="sched-block">
       <div class="sched-block-header">
         <span>📷 Insta Post</span>
@@ -550,7 +641,6 @@
       <button class="add-time-btn" onclick="addSlot('photo')">+ Add Date &amp; Time</button>
     </div>
 
-    <!-- Reel schedule -->
     <div class="sched-block">
       <div class="sched-block-header">
         <span>🎬 Insta Reel</span>
@@ -563,7 +653,6 @@
       <button class="add-time-btn" onclick="addSlot('reel')">+ Add Date &amp; Time</button>
     </div>
 
-    <!-- Blog schedule -->
     <div class="sched-block">
       <div class="sched-block-header">
         <span>✍️ Blog Draft</span>
@@ -583,6 +672,14 @@
 
   <!-- ── LOGS PANEL ── -->
   <div class="panel" id="panel-logs">
+    <div class="panel-heading">
+      <div class="ph-icon ph-slate">📋</div>
+      <div>
+        <div class="panel-heading-title">Logs</div>
+        <div class="panel-heading-sub">Live agent activity from agent.log</div>
+      </div>
+    </div>
+
     <div class="log-actions">
       <button onclick="loadLogs()">↻ Refresh</button>
       <button onclick="clearLogView()">Clear view</button>
@@ -592,8 +689,16 @@
 
   <!-- ── ADVANCED: Posts ── -->
   <div class="panel" id="panel-adv-posts">
+    <div class="panel-heading">
+      <div class="ph-icon ph-purple">🖼️</div>
+      <div>
+        <div class="panel-heading-title">Posts — Advanced</div>
+        <div class="panel-heading-sub">Generate overlay previews from a local folder</div>
+      </div>
+    </div>
+
     <div class="sched-block">
-      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;">Configuration</div>
+      <div class="sched-block-label">Configuration</div>
       <div class="field">
         <label>Images Folder</label>
         <div class="path-row">
@@ -612,7 +717,7 @@
     </div>
 
     <div class="sched-block" id="adv-preview-card" style="display:none">
-      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;">Preview</div>
+      <div class="sched-block-label">Preview</div>
       <div class="preview-wrap">
         <img id="adv-preview-img" src="" alt="Preview" style="display:none" />
         <div class="preview-placeholder" id="adv-preview-ph">No preview yet</div>
@@ -636,8 +741,16 @@
 
   <!-- ── ADVANCED: Reels ── -->
   <div class="panel" id="panel-adv-reels">
+    <div class="panel-heading">
+      <div class="ph-icon ph-red">🎬</div>
+      <div>
+        <div class="panel-heading-title">Reels — Advanced</div>
+        <div class="panel-heading-sub">Run and publish a reel from a local video file</div>
+      </div>
+    </div>
+
     <div class="sched-block">
-      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;">Configuration</div>
+      <div class="sched-block-label">Configuration</div>
       <div class="field">
         <label>Reel Video File</label>
         <div class="path-row">
@@ -671,8 +784,16 @@
 
   <!-- ── ADVANCED: YouTube Shorts ── -->
   <div class="panel" id="panel-adv-yt-shorts">
+    <div class="panel-heading">
+      <div class="ph-icon ph-cyan">▶️</div>
+      <div>
+        <div class="panel-heading-title">YT Shorts — Advanced</div>
+        <div class="panel-heading-sub">Auto-cut high-motion clips with ffmpeg</div>
+      </div>
+    </div>
+
     <div class="sched-block">
-      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;">Configuration</div>
+      <div class="sched-block-label">Configuration</div>
       <div class="field">
         <label>Source Video</label>
         <div class="path-row">
@@ -719,12 +840,12 @@
     </div>
 
     <div class="sched-block" id="yt-clips-card" style="display:none;margin-top:14px;">
-      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;">Clips</div>
+      <div class="sched-block-label">Clips</div>
       <div class="clip-list" id="yt-clip-list"></div>
     </div>
 
     <div class="sched-block" id="yt-player-card" style="display:none;margin-top:14px;">
-      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;">Preview</div>
+      <div class="sched-block-label">Preview</div>
       <div class="video-wrap">
         <video id="yt-player" controls></video>
       </div>
@@ -733,6 +854,14 @@
 
   <!-- ── ADVANCED: Quotes ── -->
   <div class="panel" id="panel-adv-quotes">
+    <div class="panel-heading">
+      <div class="ph-icon ph-indigo">💬</div>
+      <div>
+        <div class="panel-heading-title">Quotes</div>
+        <div class="panel-heading-sub">Manage philosopher quote pool — lock to skip in rotation</div>
+      </div>
+    </div>
+
     <div class="sched-block">
       <div class="q-toolbar">
         <span class="q-stat-pill q-locked" id="q-locked-pill">🔒 0 locked</span>
@@ -744,7 +873,7 @@
           <button class="q-filter-btn"        onclick="qSetFilter('free')"   id="qf-free">Available</button>
           <button class="q-filter-btn"        onclick="qSetFilter('locked')" id="qf-locked">Locked</button>
         </div>
-        <button class="btn-sm" onclick="qUnlockAll()" style="border-color:#22c55e;color:#22c55e;">🔓 Unlock All</button>
+        <button class="btn-sm" onclick="qUnlockAll()" style="border-color:rgba(34,197,94,0.4);color:#22c55e;">🔓 Unlock All</button>
       </div>
       <div class="q-list" id="q-list">
         <div class="q-empty">Switch to this tab to load quotes.</div>
@@ -1149,7 +1278,7 @@
           const postMatch  = log.textContent.match(/Post ID:\s*(\S+)/);
           const driveMatch = log.textContent.match(/Drive link -> (https:\/\/\S+)/);
           const idStr    = postMatch  ? ` — Post ID: <span class="highlight">${postMatch[1]}</span>` : '';
-          const driveStr = driveMatch ? `<br><a href="${driveMatch[1]}" target="_blank" style="color:#3b82f6;font-size:13px;">Open in Google Drive ↗</a>` : '';
+          const driveStr = driveMatch ? `<br><a href="${driveMatch[1]}" target="_blank" style="color:#60a5fa;font-size:13px;">Open in Google Drive ↗</a>` : '';
           result.innerHTML = `✅ Posted successfully${idStr}${driveStr}`;
           result.className = 'success';
           document.getElementById('used-count').textContent =
@@ -1214,7 +1343,7 @@
           const slugMatch  = log.textContent.match(/slug=(\S+)/);
           const adminMatch = log.textContent.match(/Review at:\s*(https:\/\/\S+)/);
           const slugStr  = slugMatch  ? ` — <span class="highlight">${slugMatch[1]}</span>` : '';
-          const adminStr = adminMatch ? `<br><a href="${adminMatch[1]}" target="_blank" style="color:#3b82f6;font-size:13px;">Review on Styleus ↗</a>` : '';
+          const adminStr = adminMatch ? `<br><a href="${adminMatch[1]}" target="_blank" style="color:#60a5fa;font-size:13px;">Review on Styleus ↗</a>` : '';
           result.innerHTML = `✅ Blog draft posted${slugStr}${adminStr}`;
           result.className = 'success';
         } else {
@@ -1245,14 +1374,12 @@
     const [h, m] = t24.split(':').map(Number);
     return { h: String(h % 12 || 12), m: String(m).padStart(2,'0'), ampm: h >= 12 ? 'PM' : 'AM' };
   }
-
   function to24h(h, m, ampm) {
     let hour = parseInt(h);
     if (ampm === 'AM' && hour === 12) hour = 0;
     if (ampm === 'PM' && hour !== 12) hour += 12;
     return `${String(hour).padStart(2,'0')}:${m}`;
   }
-
   function makeHourOpts(sel) {
     for (let i = 1; i <= 12; i++) {
       const o = document.createElement('option');
@@ -1260,7 +1387,6 @@
       sel.appendChild(o);
     }
   }
-
   function makeMinOpts(sel) {
     for (let i = 0; i < 60; i += 5) {
       const o = document.createElement('option');
@@ -1268,20 +1394,17 @@
       sel.appendChild(o);
     }
   }
-
   function isoTomorrow() {
     const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
     now.setDate(now.getDate() + 1);
     return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
   }
-
   function fmtSlotDate(dateStr) {
     if (!dateStr) return '—';
     const [y, mo, d] = dateStr.split('-').map(Number);
     const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     return `${mon[mo-1]} ${d}`;
   }
-
   function slotRemaining(dateStr, time24) {
     if (!dateStr) return '';
     const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
@@ -1297,7 +1420,6 @@
     if (hrs  > 0) return `in ${hrs}h ${mins}m`;
     return `in ${mins}m`;
   }
-
   function renderSlots(mode, slots) {
     const container = document.getElementById(`${mode}-times`);
     container.innerHTML = '';
@@ -1305,22 +1427,17 @@
       const { h, m, ampm } = to12h(slot.time || '09:00');
       const chip = document.createElement('div');
       chip.className = 'time-chip';
-
       const dateIn = document.createElement('input');
       dateIn.type = 'date'; dateIn.className = 'slot-date-input';
       dateIn.value = slot.date || '';
       dateIn.onchange = schedChanged;
-
       const sep1 = document.createElement('span');
       sep1.className = 'sep'; sep1.textContent = '·';
-
       const hSel = document.createElement('select');
       hSel.onchange = schedChanged;
       makeHourOpts(hSel); hSel.value = h;
-
       const sep2 = document.createElement('span');
       sep2.className = 'sep'; sep2.textContent = ':';
-
       const mSel = document.createElement('select');
       mSel.onchange = schedChanged;
       makeMinOpts(mSel);
@@ -1328,34 +1445,28 @@
         const o = document.createElement('option'); o.value = o.textContent = m; mSel.appendChild(o);
       }
       mSel.value = m;
-
       const amSel = document.createElement('select');
       amSel.onchange = schedChanged;
       ['AM','PM'].forEach(v => { const o = document.createElement('option'); o.value = o.textContent = v; amSel.appendChild(o); });
       amSel.value = ampm;
-
       const btn = document.createElement('button');
       btn.textContent = '✕'; btn.title = 'Remove';
       btn.onclick = () => removeSlot(mode, i);
-
       chip.append(dateIn, sep1, hSel, sep2, mSel, amSel, btn);
       container.appendChild(chip);
     });
   }
-
   function addSlot(mode) {
     const slots = getSlots(mode);
     slots.push({ date: isoTomorrow(), time: '09:00' });
     renderSlots(mode, slots);
     schedChanged();
   }
-
   function removeSlot(mode, idx) {
     const slots = getSlots(mode).filter((_, i) => i !== idx);
     renderSlots(mode, slots);
     schedChanged();
   }
-
   function getSlots(mode) {
     return [...document.querySelectorAll(`#${mode}-times .time-chip`)].map(chip => {
       const dateIn = chip.querySelector('input[type="date"]');
@@ -1363,7 +1474,6 @@
       return { date: dateIn.value, time: to24h(sels[0].value, sels[1].value, sels[2].value) };
     });
   }
-
   function loadSchedule() {
     fetch('/schedule').then(r => r.json()).then(d => {
       schedData = d;
@@ -1376,7 +1486,6 @@
       updateSchedSummary();
     });
   }
-
   function schedChanged() {
     schedData = {
       photo: { enabled: document.getElementById('photo-enabled').checked, slots: getSlots('photo') },
@@ -1385,14 +1494,12 @@
     };
     updateSchedSummary();
   }
-
   function fmt12h(t24) {
     const [h, m] = t24.split(':').map(Number);
     const ampm = h >= 12 ? 'PM' : 'AM';
     const hour = h % 12 || 12;
     return `${hour}:${String(m).padStart(2,'0')} ${ampm}`;
   }
-
   function updateSchedSummary() {
     const el = document.getElementById('sched-summary');
     const parts = [];
@@ -1408,7 +1515,7 @@
         .filter(s => s.date)
         .map(s => {
           const rem = slotRemaining(s.date, s.time);
-          const col = rem === 'past' ? '#ef4444' : '#64748b';
+          const col = rem === 'past' ? '#f87171' : '#3d5478';
           return `<b>${fmtSlotDate(s.date)}</b> at <b>${fmt12h(s.time)}</b> ` +
                  `<span style="color:${col};font-size:11px">(${rem})</span>`;
         });
@@ -1417,7 +1524,6 @@
     });
     el.innerHTML = parts.length ? parts.join('<br><br>') : 'No schedules enabled.';
   }
-
   function saveSchedule() {
     fetch('/schedule', {
       method: 'POST',
@@ -1438,7 +1544,6 @@
       el.scrollTop = el.scrollHeight;
     });
   }
-
   function clearLogView() {
     document.getElementById('file-log').textContent = '';
   }
@@ -1456,8 +1561,6 @@
   }
   updateClock();
   setInterval(updateClock, 1000);
-
-  // Refresh countdown every 30s
   setInterval(() => { if (Object.keys(schedData).length) updateSchedSummary(); }, 30000);
 
   // ── Toggle persistence ────────────────────────────────────────────────────
@@ -1465,7 +1568,6 @@
     localStorage.setItem('toggle-publish', document.getElementById('toggle-publish').checked);
     localStorage.setItem('toggle-drive',   document.getElementById('toggle-drive').checked);
   }
-
   function restoreToggles() {
     const pub   = localStorage.getItem('toggle-publish');
     const drive = localStorage.getItem('toggle-drive');

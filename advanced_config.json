@@ -10,9 +10,9 @@
     "image (2).png"
   ],
   "yt_shorts": {
-    "video_path": "C:/Users/spli5/Downloads/VID_20150704_150752.mp4",
+    "video_path": "C:/Users/spli5/Downloads/VID_20150530_173346.mp4",
     "output_folder": "D:/outputs",
-    "clip_count": 1,
+    "clip_count": 2,
     "clip_duration": 15,
     "add_quote": true
   }
