@@ -239,6 +239,59 @@ def logs():
     return jsonify({'log': ''.join(all_lines[-lines:])})
 
 
+# ── Quotes routes ─────────────────────────────────────────────────────────────
+QUOTES_FILE = os.path.join(HERE, 'quotes.json')
+
+
+def _load_quotes_data():
+    if not os.path.isfile(QUOTES_FILE):
+        return {'quotes': [], 'used': []}
+    with open(QUOTES_FILE, encoding='utf-8') as f:
+        return json.load(f)
+
+
+def _save_quotes_data(data: dict):
+    with open(QUOTES_FILE, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+
+@app.route('/quotes', methods=['GET'])
+def quotes_list():
+    data  = _load_quotes_data()
+    used  = set(data.get('used', []))
+    items = [
+        {'index': i, 'quote': q['quote'], 'author': q['author'], 'locked': i in used}
+        for i, q in enumerate(data.get('quotes', []))
+    ]
+    return jsonify({'quotes': items, 'total': len(items), 'used_count': len(used)})
+
+
+@app.route('/quotes/toggle', methods=['POST'])
+def quotes_toggle():
+    idx = request.get_json(force=True).get('index')
+    if idx is None:
+        return jsonify({'ok': False, 'error': 'Missing index'}), 400
+    data = _load_quotes_data()
+    used = set(data.get('used', []))
+    if idx in used:
+        used.discard(idx)
+        locked = False
+    else:
+        used.add(idx)
+        locked = True
+    data['used'] = list(used)
+    _save_quotes_data(data)
+    return jsonify({'ok': True, 'locked': locked, 'used_count': len(used)})
+
+
+@app.route('/quotes/reset', methods=['POST'])
+def quotes_reset():
+    data = _load_quotes_data()
+    data['used'] = []
+    _save_quotes_data(data)
+    return jsonify({'ok': True})
+
+
 if __name__ == '__main__':
     import atexit
     PID_FILE = os.path.join(HERE, 'app.pid')

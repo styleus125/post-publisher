@@ -9,81 +9,95 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0a1628;
+      background: #070e1a;
       color: #e2e8f0;
-      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
       display: flex;
-      align-items: flex-start;
+      align-items: stretch;
       justify-content: center;
-      padding: 24px;
+      padding: 24px 40px;
     }
 
-    .card {
-      background: #0f2040;
-      border: 1px solid #1e3a5f;
-      border-radius: 16px;
-      padding: 36px 40px;
-      width: 100%;
-      max-width: 640px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      overflow: visible;
-    }
-
-    /* Header */
-    .logo {
+    /* ── Layout ──────────────────────────────────────────────────────────── */
+    .layout {
       display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 28px;
+      width: 100%;
+      max-width: 1140px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #1e3a5f;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    /* ── Sidebar ─────────────────────────────────────────────────────────── */
+    .sidebar {
+      width: 196px; min-width: 196px;
+      background: #070e1a;
+      border-right: 1px solid #1e3a5f;
+      display: flex; flex-direction: column;
+      overflow-y: auto;
+    }
+    .sidebar-logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 20px 14px 18px;
+      border-bottom: 1px solid #1e3a5f;
+      flex-shrink: 0;
     }
     .logo-icon {
-      width: 40px; height: 40px;
-      background: #3b82f6;
-      border-radius: 10px;
+      width: 34px; height: 34px;
+      background: #3b82f6; border-radius: 9px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
+      font-size: 17px; flex-shrink: 0;
     }
-    .logo h1 { font-size: 20px; font-weight: 700; color: #fff; }
-    .logo span { font-size: 13px; color: #64748b; display: block; }
+    .sidebar-title { font-size: 13px; font-weight: 700; color: #fff; }
+    .sidebar-sub   { font-size: 11px; color: #475569; margin-top: 1px; }
+
+    .nav-section { padding: 10px 8px 4px; }
+    .nav-label {
+      font-size: 10px; font-weight: 700;
+      color: #334155; text-transform: uppercase;
+      letter-spacing: 0.07em; padding: 8px 8px 5px;
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 8px;
+      width: 100%; text-align: left; padding: 9px 12px;
+      border: none; border-radius: 8px; background: transparent;
+      color: #64748b; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; margin-bottom: 2px;
+    }
+    .nav-item:hover  { background: #0f2040; color: #94a3b8; }
+    .nav-item.active { background: #1e3a5f; color: #60a5fa; }
+
+    .nav-adv        { color: #7c6fa0; }
+    .nav-adv:hover  { background: #160f2e; color: #a78bfa; }
+    .nav-adv.active { background: #1e1550; color: #a78bfa; }
+
+    .sidebar-footer {
+      margin-top: auto; padding: 12px 12px 16px;
+      border-top: 1px solid #1e3a5f;
+      display: flex; flex-direction: column; gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* ── Content Area ────────────────────────────────────────────────────── */
+    .content-area { flex: 1; overflow-y: auto; padding: 32px 36px; min-width: 0; }
+
     .stat-badge {
       background: #0a1628;
       border: 1px solid #1e3a5f;
       border-radius: 8px;
-      padding: 6px 14px;
+      padding: 6px 12px;
       font-size: 12px;
       color: #64748b;
-      margin-left: auto;
       white-space: nowrap;
     }
     .stat-badge b { color: #3b82f6; }
 
-    /* Tabs */
-    .tabs {
-      display: flex;
-      gap: 4px;
-      background: #0a1628;
-      border: 1px solid #1e3a5f;
-      border-radius: 10px;
-      padding: 4px;
-      margin-bottom: 24px;
-    }
-    .tab {
-      flex: 1;
-      padding: 9px;
-      border: none;
-      border-radius: 7px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 600;
-      background: transparent;
-      color: #64748b;
-      transition: all 0.2s;
-    }
-    .tab.active { background: #3b82f6; color: #fff; box-shadow: 0 2px 8px rgba(59,130,246,0.4); }
-
-    /* Panels */
-    .panel { display: none; }
+    /* ── Panels ──────────────────────────────────────────────────────────── */
+    .panel { display: none; max-width: 640px; }
     .panel.active { display: block; }
+    #panel-adv-quotes { max-width: 860px; }
 
     /* Mode toggle */
     .mode-toggle {
@@ -278,33 +292,175 @@
       outline: none; cursor: pointer; padding: 0;
       color-scheme: dark; width: 116px;
     }
+
+    /* ── Path row (input + browse) ─────────────────────────────── */
+    .path-row { display: flex; gap: 8px; align-items: center; }
+    .path-row input { flex: 1; }
+    .btn-sm {
+      white-space: nowrap; flex-shrink: 0;
+      padding: 9px 14px; font-size: 13px; font-weight: 600;
+      background: #0a1628; border: 1px solid #1e3a5f;
+      color: #64748b; border-radius: 8px; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-sm:hover { border-color: #3b82f6; color: #3b82f6; }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .btn-row .btn-secondary { width: auto; }
+    .btn-row .btn-primary   { width: auto; margin-bottom: 0; }
+
+    /* ── Textarea ──────────────────────────────────────────────── */
+    .field textarea {
+      width: 100%; background: #0a1628; border: 1px solid #1e3a5f;
+      border-radius: 8px; padding: 11px 14px;
+      font-size: 14px; color: #e2e8f0; outline: none;
+      transition: border-color 0.2s; resize: vertical; min-height: 80px;
+      font-family: inherit;
+    }
+    .field textarea:focus { border-color: #3b82f6; }
+    .field textarea::placeholder { color: #334155; }
+
+    /* ── Advanced log boxes ────────────────────────────────────── */
+    .adv-log {
+      background: #070e1a; border: 1px solid #1e3a5f;
+      border-radius: 10px; padding: 16px;
+      font-family: 'Cascadia Code','Fira Code','Consolas',monospace;
+      font-size: 12px; line-height: 1.7; color: #94a3b8;
+      overflow-y: auto; white-space: pre-wrap; word-break: break-all;
+      max-height: 240px;
+    }
+    .adv-log-wrap { display: none; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .adv-log-header {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; color: #64748b;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .adv-result {
+      display: none; border-radius: 8px; padding: 10px 14px;
+      font-size: 13px; font-weight: 600; margin-top: 8px;
+    }
+    .adv-result.success { background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3); color: #4ade80; }
+    .adv-result.error   { background: rgba(239,68,68,0.12);  border: 1px solid rgba(239,68,68,0.3);  color: #f87171; }
+
+    /* ── Image preview ─────────────────────────────────────────── */
+    .preview-wrap {
+      background: #070e1a; border: 1px solid #1e3a5f;
+      border-radius: 10px; overflow: hidden;
+      min-height: 120px; display: flex;
+      align-items: center; justify-content: center; margin-bottom: 16px;
+    }
+    .preview-wrap img { max-width: 100%; max-height: 300px; border-radius: 10px; display: block; }
+    .preview-placeholder { color: #334155; font-size: 13px; text-align: center; padding: 20px; }
+
+    /* ── Video player ──────────────────────────────────────────── */
+    .video-wrap {
+      background: #070e1a; border: 1px solid #1e3a5f;
+      border-radius: 10px; overflow: hidden;
+      min-height: 120px; display: flex;
+      align-items: center; justify-content: center;
+    }
+    .video-wrap video { max-width: 100%; max-height: 320px; border-radius: 10px; }
+
+    /* ── Clip list ─────────────────────────────────────────────── */
+    .clip-list { display: flex; flex-direction: column; gap: 8px; }
+    .clip-item {
+      display: flex; align-items: center; gap: 12px;
+      background: #070e1a; border: 1px solid #1e3a5f;
+      border-radius: 8px; padding: 10px 14px;
+    }
+    .clip-num {
+      width: 24px; height: 24px; background: #0f2040;
+      border: 1px solid #1e3a5f; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: #3b82f6; flex-shrink: 0;
+    }
+    .clip-info { flex: 1; }
+    .clip-name { font-size: 13px; color: #e2e8f0; font-weight: 500; }
+    .clip-meta { font-size: 11px; color: #475569; margin-top: 2px; }
+
+    /* ── Quotes ────────────────────────────────────────────────── */
+    .q-toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .q-stat-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 600;
+    }
+    .q-stat-pill.q-locked { background: rgba(239,68,68,0.12); color: #f87171; }
+    .q-stat-pill.q-free   { background: rgba(34,197,94,0.12);  color: #4ade80; }
+    .q-stat-pill.q-total  { background: rgba(59,130,246,0.12); color: #60a5fa; }
+    .q-search {
+      flex: 1; min-width: 140px;
+      background: #0a1628; border: 1px solid #1e3a5f;
+      color: #e2e8f0; border-radius: 8px; padding: 7px 12px;
+      font-size: 13px; outline: none;
+    }
+    .q-search:focus { border-color: #3b82f6; }
+    .q-filter-tabs { display: flex; gap: 4px; }
+    .q-filter-btn {
+      padding: 5px 11px; background: #0a1628; border: 1px solid #1e3a5f;
+      color: #64748b; border-radius: 6px; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .q-filter-btn.active { border-color: #3b82f6; color: #3b82f6; background: rgba(59,130,246,0.08); }
+    .q-list {
+      display: flex; flex-direction: column; gap: 8px;
+      max-height: calc(100vh - 260px); overflow-y: auto; padding-right: 2px;
+    }
+    .quote-card {
+      background: #070e1a; border: 1px solid #1e3a5f;
+      border-radius: 10px; padding: 12px 14px;
+      display: flex; gap: 12px; align-items: flex-start;
+      transition: border-color 0.15s;
+    }
+    .quote-card.q-state-locked { border-color: rgba(239,68,68,0.3); }
+    .q-text-block { flex: 1; min-width: 0; }
+    .quote-text { font-size: 13px; color: #94a3b8; line-height: 1.55; margin-bottom: 4px; }
+    .quote-author { font-size: 11px; color: #475569; font-style: italic; }
+    .q-lock-btn {
+      flex-shrink: 0; padding: 5px 11px; border-radius: 7px;
+      font-size: 11px; font-weight: 600; cursor: pointer; border: none;
+      transition: filter 0.15s;
+    }
+    .q-lock-btn:hover { filter: brightness(1.2); }
+    .q-lock-btn.q-btn-free   { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .q-lock-btn.q-btn-locked { background: rgba(239,68,68,0.15);  color: #f87171; }
+    .q-empty { color: #334155; text-align: center; padding: 30px 0; font-size: 13px; }
   </style>
 </head>
 <body>
-<div class="card">
+<div class="layout">
 
-  <!-- Header -->
-  <div class="logo">
-    <div class="logo-icon">📸</div>
-    <div>
-      <h1>Styleus Agent</h1>
-      <span>Instagram Auto-Poster</span>
-    </div>
-    <div style="margin-left:auto; display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
-      <div class="stat-badge"><b id="used-count">{{ used }}</b> / 500 titles used</div>
-      <div class="stat-badge" style="font-size:13px; color:#e2e8f0;">
-        🇮🇳 <b id="ist-clock">--:--:--</b> IST
+  <!-- ── Sidebar ── -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">📸</div>
+      <div>
+        <div class="sidebar-title">Styleus Agent</div>
+        <div class="sidebar-sub">Auto-Poster</div>
       </div>
     </div>
-  </div>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('post')">Post</button>
-    <button class="tab" onclick="switchTab('blog')">Blog</button>
-    <button class="tab" onclick="switchTab('schedule')">Schedule</button>
-    <button class="tab" onclick="switchTab('logs')">Logs</button>
-  </div>
+    <div class="nav-section">
+      <button class="nav-item active" data-panel="post"     onclick="switchNav('post')">📷 Post</button>
+      <button class="nav-item"        data-panel="blog"     onclick="switchNav('blog')">✍️ Blog</button>
+      <button class="nav-item"        data-panel="schedule" onclick="switchNav('schedule')">🕐 Schedule</button>
+      <button class="nav-item"        data-panel="logs"     onclick="switchNav('logs')">📋 Logs</button>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Advanced</div>
+      <button class="nav-item nav-adv" data-panel="adv-posts"     onclick="switchNav('adv-posts')">🖼️ Posts</button>
+      <button class="nav-item nav-adv" data-panel="adv-reels"     onclick="switchNav('adv-reels')">🎬 Reels</button>
+      <button class="nav-item nav-adv" data-panel="adv-yt-shorts" onclick="switchNav('adv-yt-shorts')">▶️ YT Shorts</button>
+      <button class="nav-item nav-adv" data-panel="adv-quotes"    onclick="switchNav('adv-quotes')">💬 Quotes</button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="stat-badge"><b id="used-count">{{ used }}</b> / 500 used</div>
+      <div class="stat-badge">🇮🇳 <b id="ist-clock">--:--:--</b> IST</div>
+    </div>
+  </nav>
+
+  <!-- ── Content Area ── -->
+  <div class="content-area">
 
   <!-- ── POST PANEL ── -->
   <div class="panel active" id="panel-post">
@@ -434,22 +590,514 @@
     <div id="file-log">Loading logs…</div>
   </div>
 
-</div>
+  <!-- ── ADVANCED: Posts ── -->
+  <div class="panel" id="panel-adv-posts">
+    <div class="sched-block">
+      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;">Configuration</div>
+      <div class="field">
+        <label>Images Folder</label>
+        <div class="path-row">
+          <input type="text" id="adv-folder" placeholder="D:\photos\instagram" />
+          <button class="btn-sm" onclick="browseFolder('adv-folder')">📂 Browse</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Custom Title (optional)</label>
+        <input type="text" id="adv-title" placeholder="Leave blank for AI caption" />
+      </div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="advSaveConfig()">💾 Save</button>
+        <button class="btn-primary" id="btn-adv-gen" onclick="advGenerate()">▶ Generate Preview</button>
+      </div>
+    </div>
+
+    <div class="sched-block" id="adv-preview-card" style="display:none">
+      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;">Preview</div>
+      <div class="preview-wrap">
+        <img id="adv-preview-img" src="" alt="Preview" style="display:none" />
+        <div class="preview-placeholder" id="adv-preview-ph">No preview yet</div>
+      </div>
+      <div class="field">
+        <label>Caption (editable)</label>
+        <textarea id="adv-caption" rows="5" placeholder="Caption will appear after generation"></textarea>
+      </div>
+      <button class="btn-primary" id="btn-adv-pub" onclick="advPublish()" style="margin-bottom:0">📤 Publish to Instagram</button>
+    </div>
+
+    <div class="adv-log-wrap" id="adv-log-wrap">
+      <div class="adv-log-header">
+        <div class="dot" id="adv-dot"></div>
+        <span id="adv-log-status">Running…</span>
+      </div>
+      <div class="adv-log" id="adv-log"></div>
+      <div class="adv-result" id="adv-result"></div>
+    </div>
+  </div>
+
+  <!-- ── ADVANCED: Reels ── -->
+  <div class="panel" id="panel-adv-reels">
+    <div class="sched-block">
+      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;">Configuration</div>
+      <div class="field">
+        <label>Reel Video File</label>
+        <div class="path-row">
+          <input type="text" id="reel-adv-path" placeholder="D:\videos\reel.mp4" />
+          <button class="btn-sm" onclick="browseFile('reel-adv-path','mp4 mov avi mkv')">📂 Browse</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Custom Caption (optional)</label>
+        <input type="text" id="reel-adv-title" placeholder="Leave blank for AI caption" />
+      </div>
+      <div class="toggle-row">
+        <label>Publish to Instagram</label>
+        <label class="switch">
+          <input type="checkbox" id="reel-adv-publish" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <button class="btn-primary" id="btn-reel-adv" onclick="runReelAdv()">▶ Run Reel</button>
+    </div>
+
+    <div class="adv-log-wrap" id="reel-adv-log-wrap">
+      <div class="adv-log-header">
+        <div class="dot" id="reel-adv-dot"></div>
+        <span id="reel-adv-log-status">Running…</span>
+      </div>
+      <div class="adv-log" id="reel-adv-log"></div>
+      <div class="adv-result" id="reel-adv-result"></div>
+    </div>
+  </div>
+
+  <!-- ── ADVANCED: YouTube Shorts ── -->
+  <div class="panel" id="panel-adv-yt-shorts">
+    <div class="sched-block">
+      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;">Configuration</div>
+      <div class="field">
+        <label>Source Video</label>
+        <div class="path-row">
+          <input type="text" id="yt-video" placeholder="D:\footage\long_video.mp4" />
+          <button class="btn-sm" onclick="browseFile('yt-video','mp4 mov avi mkv')">📂 Browse</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Output Folder</label>
+        <div class="path-row">
+          <input type="text" id="yt-output" placeholder="D:\shorts_output" />
+          <button class="btn-sm" onclick="browseFolder('yt-output')">📂 Browse</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <div class="field" style="flex:1">
+          <label>Clip Count</label>
+          <input type="number" id="yt-count" value="5" min="1" max="20" />
+        </div>
+        <div class="field" style="flex:1">
+          <label>Duration (seconds)</label>
+          <input type="number" id="yt-duration" value="18" min="5" max="60" />
+        </div>
+      </div>
+      <div class="toggle-row">
+        <label>Add philosopher quote overlay</label>
+        <label class="switch">
+          <input type="checkbox" id="yt-quote" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="ytSaveConfig()">💾 Save Config</button>
+        <button class="btn-primary" id="btn-yt-cut" onclick="ytCut()">▶ Cut Shorts</button>
+      </div>
+    </div>
+
+    <div class="adv-log-wrap" id="yt-log-wrap">
+      <div class="adv-log-header">
+        <div class="dot" id="yt-dot"></div>
+        <span id="yt-log-status">Running…</span>
+      </div>
+      <div class="adv-log" id="yt-log"></div>
+    </div>
+
+    <div class="sched-block" id="yt-clips-card" style="display:none;margin-top:14px;">
+      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;">Clips</div>
+      <div class="clip-list" id="yt-clip-list"></div>
+    </div>
+
+    <div class="sched-block" id="yt-player-card" style="display:none;margin-top:14px;">
+      <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;">Preview</div>
+      <div class="video-wrap">
+        <video id="yt-player" controls></video>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ADVANCED: Quotes ── -->
+  <div class="panel" id="panel-adv-quotes">
+    <div class="sched-block">
+      <div class="q-toolbar">
+        <span class="q-stat-pill q-locked" id="q-locked-pill">🔒 0 locked</span>
+        <span class="q-stat-pill q-free"   id="q-free-pill">✅ 0 available</span>
+        <span class="q-stat-pill q-total"  id="q-total-pill">📖 0 total</span>
+        <input type="text" class="q-search" id="q-search" placeholder="Search quotes or authors…" oninput="qRender()" />
+        <div class="q-filter-tabs">
+          <button class="q-filter-btn active" onclick="qSetFilter('all')"    id="qf-all">All</button>
+          <button class="q-filter-btn"        onclick="qSetFilter('free')"   id="qf-free">Available</button>
+          <button class="q-filter-btn"        onclick="qSetFilter('locked')" id="qf-locked">Locked</button>
+        </div>
+        <button class="btn-sm" onclick="qUnlockAll()" style="border-color:#22c55e;color:#22c55e;">🔓 Unlock All</button>
+      </div>
+      <div class="q-list" id="q-list">
+        <div class="q-empty">Switch to this tab to load quotes.</div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /content-area -->
+</div><!-- /layout -->
 
 <script>
   let mode = 'photo';
   let schedData = {};
 
-  // ── Tabs ──────────────────────────────────────────────────────────────────
-  const TAB_NAMES = ['post','blog','schedule','logs'];
-  function switchTab(name) {
-    document.querySelectorAll('.tab').forEach((t, i) => {
-      t.classList.toggle('active', TAB_NAMES[i] === name);
-    });
+  // ── Navigation ────────────────────────────────────────────────────────────
+  function switchNav(name) {
+    document.querySelectorAll('.nav-item').forEach(t =>
+      t.classList.toggle('active', t.dataset.panel === name)
+    );
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel-' + name).classList.add('active');
-    if (name === 'logs') loadLogs();
-    if (name === 'schedule') loadSchedule();
+    if (name === 'logs')          loadLogs();
+    if (name === 'schedule')      loadSchedule();
+    if (name === 'adv-posts')     advLoadConfig();
+    if (name === 'adv-yt-shorts') ytLoadConfig();
+    if (name === 'adv-quotes')    qLoadQuotes();
+  }
+
+  // ── File / Folder browser ──────────────────────────────────────────────
+  function browseFile(inputId, exts = '') {
+    fetch('/browse/file?exts=' + encodeURIComponent(exts))
+      .then(r => r.json())
+      .then(d => { if (d.path) document.getElementById(inputId).value = d.path; })
+      .catch(() => {});
+  }
+  function browseFolder(inputId, title = 'Select Folder') {
+    fetch('/browse/folder?title=' + encodeURIComponent(title))
+      .then(r => r.json())
+      .then(d => { if (d.path) document.getElementById(inputId).value = d.path; })
+      .catch(() => {});
+  }
+
+  // ── SSE helper for advanced panels ────────────────────────────────────
+  function advStreamSSE(url, ids, btnText, onDone) {
+    const { logId, dotId, statusId, resultId, wrapId, btnId } = ids;
+    const log    = document.getElementById(logId);
+    const dot    = document.getElementById(dotId);
+    const status = document.getElementById(statusId);
+    const result = resultId ? document.getElementById(resultId) : null;
+    const wrap   = document.getElementById(wrapId);
+    const btn    = btnId   ? document.getElementById(btnId)    : null;
+
+    log.textContent = '';
+    if (result) { result.style.display = 'none'; result.className = 'adv-result'; }
+    wrap.style.display = 'flex';
+    dot.className = 'dot'; status.textContent = 'Running…';
+    if (btn) btn.disabled = true;
+
+    const es = new EventSource(url);
+    es.onmessage = e => {
+      const d = e.data;
+      if (d.startsWith('__EXIT__')) {
+        es.close();
+        const code = parseInt(d.replace('__EXIT__', ''));
+        if (code === 0) {
+          dot.className = 'dot done'; status.textContent = 'Done';
+          if (result) { result.textContent = '✅ Completed successfully.'; result.className = 'adv-result success'; result.style.display = 'block'; }
+        } else {
+          dot.className = 'dot error'; status.textContent = 'Failed';
+          if (result) { result.textContent = `❌ Exited with code ${code}.`; result.className = 'adv-result error'; result.style.display = 'block'; }
+        }
+        if (btn) { btn.disabled = false; btn.textContent = btnText; }
+        if (onDone) onDone(code);
+      } else {
+        log.textContent += d + '\n'; log.scrollTop = log.scrollHeight;
+      }
+    };
+    es.onerror = () => {
+      es.close(); dot.className = 'dot error'; status.textContent = 'Connection error';
+      if (result) { result.textContent = '❌ Lost connection.'; result.className = 'adv-result error'; result.style.display = 'block'; }
+      if (btn) { btn.disabled = false; btn.textContent = btnText; }
+    };
+    return es;
+  }
+
+  // ── Posts Advanced ─────────────────────────────────────────────────────
+  let advPreviewId = null, advEs = null;
+
+  function advLoadConfig() {
+    fetch('/advanced/posts/config').then(r => r.json()).then(d => {
+      document.getElementById('adv-folder').value = d.posts_folder || '';
+    }).catch(() => {});
+  }
+  function advSaveConfig() {
+    const folder = document.getElementById('adv-folder').value.trim();
+    fetch('/advanced/posts/config', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({posts_folder: folder}),
+    }).then(r => r.json()).then(d => {
+      if (d.ok) document.getElementById('adv-log-status').textContent = 'Config saved ✓';
+    }).catch(() => {});
+  }
+  function advGenerate() {
+    const folder = document.getElementById('adv-folder').value.trim();
+    const title  = document.getElementById('adv-title').value.trim();
+    if (!folder) { alert('Set an images folder first.'); return; }
+
+    const btn         = document.getElementById('btn-adv-gen');
+    const log         = document.getElementById('adv-log');
+    const dot         = document.getElementById('adv-dot');
+    const statusEl    = document.getElementById('adv-log-status');
+    const wrap        = document.getElementById('adv-log-wrap');
+    const previewCard = document.getElementById('adv-preview-card');
+    const result      = document.getElementById('adv-result');
+
+    btn.disabled = true; btn.textContent = 'Generating…';
+    log.textContent = ''; wrap.style.display = 'flex';
+    dot.className = 'dot'; statusEl.textContent = 'Generating…';
+    result.style.display = 'none'; result.className = 'adv-result';
+    previewCard.style.display = 'none'; advPreviewId = null;
+    if (advEs) advEs.close();
+
+    let url = `/advanced/posts/generate?folder=${encodeURIComponent(folder)}`;
+    if (title) url += `&title=${encodeURIComponent(title)}`;
+
+    advEs = new EventSource(url);
+    advEs.onmessage = e => {
+      const d = e.data;
+      if (d.startsWith('__PREVIEW__')) {
+        const info = JSON.parse(d.replace('__PREVIEW__', ''));
+        advPreviewId = info.preview_id;
+        const img = document.getElementById('adv-preview-img');
+        img.src = `/advanced/posts/preview-image/${info.preview_id}?t=${Date.now()}`;
+        img.style.display = 'block';
+        document.getElementById('adv-preview-ph').style.display = 'none';
+        document.getElementById('adv-caption').value = info.caption || '';
+        previewCard.style.display = 'block';
+      } else if (d.startsWith('__EXIT__')) {
+        advEs.close();
+        const code = parseInt(d.replace('__EXIT__', ''));
+        dot.className = code === 0 ? 'dot done' : 'dot error';
+        statusEl.textContent  = code === 0 ? 'Done' : 'Failed';
+        btn.disabled = false; btn.textContent = '▶ Generate Preview';
+      } else {
+        log.textContent += d + '\n'; log.scrollTop = log.scrollHeight;
+      }
+    };
+    advEs.onerror = () => {
+      advEs.close(); dot.className = 'dot error'; statusEl.textContent = 'Connection error';
+      btn.disabled = false; btn.textContent = '▶ Generate Preview';
+    };
+  }
+  function advPublish() {
+    if (!advPreviewId) { alert('No preview generated yet.'); return; }
+    const caption = document.getElementById('adv-caption').value;
+    const url = `/advanced/posts/publish?id=${advPreviewId}&caption=${encodeURIComponent(caption)}`;
+    document.getElementById('btn-adv-pub').textContent = 'Publishing…';
+    advStreamSSE(url,
+      { logId:'adv-log', dotId:'adv-dot', statusId:'adv-log-status',
+        resultId:'adv-result', wrapId:'adv-log-wrap', btnId:'btn-adv-pub' },
+      '📤 Publish to Instagram'
+    );
+  }
+
+  // ── Reels Advanced ─────────────────────────────────────────────────────
+  function runReelAdv() {
+    const path    = document.getElementById('reel-adv-path').value.trim();
+    const title   = document.getElementById('reel-adv-title').value.trim();
+    const publish = document.getElementById('reel-adv-publish').checked ? '1' : '0';
+    if (!path) { alert('Please specify a reel video file.'); return; }
+    let url = `/post?mode=reel&publish=${publish}`;
+    if (title) url += `&title=${encodeURIComponent(title)}`;
+    url += `&reel_path=${encodeURIComponent(path)}`;
+    document.getElementById('btn-reel-adv').textContent = 'Running…';
+    advStreamSSE(url,
+      { logId:'reel-adv-log', dotId:'reel-adv-dot', statusId:'reel-adv-log-status',
+        resultId:'reel-adv-result', wrapId:'reel-adv-log-wrap', btnId:'btn-reel-adv' },
+      '▶ Run Reel'
+    );
+  }
+
+  // ── YouTube Shorts ─────────────────────────────────────────────────────
+  let ytEs = null;
+  function ytLoadConfig() {
+    fetch('/yt-shorts/config').then(r => r.json()).then(d => {
+      document.getElementById('yt-video').value    = d.video_path    || '';
+      document.getElementById('yt-output').value   = d.output_folder || '';
+      document.getElementById('yt-count').value    = d.clip_count    || 5;
+      document.getElementById('yt-duration').value = d.clip_duration || 18;
+      document.getElementById('yt-quote').checked  = !!d.add_quote;
+    }).catch(() => {});
+  }
+  function ytSaveConfig() {
+    const payload = {
+      video_path:    document.getElementById('yt-video').value.trim(),
+      output_folder: document.getElementById('yt-output').value.trim(),
+      clip_count:    parseInt(document.getElementById('yt-count').value, 10),
+      clip_duration: parseInt(document.getElementById('yt-duration').value, 10),
+      add_quote:     document.getElementById('yt-quote').checked,
+    };
+    fetch('/yt-shorts/config', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload),
+    }).then(r => r.json()).then(d => {
+      if (d.ok) document.getElementById('yt-log-status').textContent = 'Config saved ✓';
+    }).catch(() => {});
+  }
+  function ytCut() {
+    const video    = document.getElementById('yt-video').value.trim();
+    const output   = document.getElementById('yt-output').value.trim();
+    const count    = document.getElementById('yt-count').value;
+    const duration = document.getElementById('yt-duration').value;
+    const quote    = document.getElementById('yt-quote').checked ? '1' : '0';
+    if (!video)  { alert('Set the source video first.'); return; }
+    if (!output) { alert('Set the output folder first.'); return; }
+
+    const btn      = document.getElementById('btn-yt-cut');
+    const log      = document.getElementById('yt-log');
+    const dot      = document.getElementById('yt-dot');
+    const statusEl = document.getElementById('yt-log-status');
+    const wrap     = document.getElementById('yt-log-wrap');
+
+    btn.disabled = true; btn.textContent = 'Cutting…';
+    log.textContent = ''; wrap.style.display = 'flex';
+    dot.className = 'dot'; statusEl.textContent = 'Running…';
+    document.getElementById('yt-clips-card').style.display  = 'none';
+    document.getElementById('yt-player-card').style.display = 'none';
+    document.getElementById('yt-clip-list').innerHTML = '';
+    if (ytEs) ytEs.close();
+
+    const url = `/yt-shorts/cut?video_path=${encodeURIComponent(video)}`
+              + `&output_folder=${encodeURIComponent(output)}`
+              + `&clip_count=${count}&clip_duration=${duration}&add_quote=${quote}`;
+
+    ytEs = new EventSource(url);
+    ytEs.onmessage = e => {
+      const d = e.data;
+      if (d.startsWith('__YT_DONE__')) {
+        renderYtClips(JSON.parse(d.replace('__YT_DONE__', '')).clips);
+      } else if (d.startsWith('__EXIT__')) {
+        ytEs.close();
+        const code = parseInt(d.replace('__EXIT__', ''));
+        dot.className = code === 0 ? 'dot done' : 'dot error';
+        statusEl.textContent = code === 0 ? 'Done' : 'Failed';
+        btn.disabled = false; btn.textContent = '▶ Cut Shorts';
+      } else {
+        log.textContent += d + '\n'; log.scrollTop = log.scrollHeight;
+      }
+    };
+    ytEs.onerror = () => {
+      ytEs.close(); dot.className = 'dot error'; statusEl.textContent = 'Connection error';
+      btn.disabled = false; btn.textContent = '▶ Cut Shorts';
+    };
+  }
+  function renderYtClips(clips) {
+    if (!clips || !clips.length) return;
+    const card = document.getElementById('yt-clips-card');
+    const list = document.getElementById('yt-clip-list');
+    card.style.display = 'block'; list.innerHTML = '';
+    clips.forEach((c, i) => {
+      const name = c.path.split(/[/\\]/).pop();
+      const mins = Math.floor(c.start / 60);
+      const secs = (c.start % 60).toFixed(1);
+      const div  = document.createElement('div');
+      div.className = 'clip-item';
+      div.innerHTML = `
+        <div class="clip-num">${i + 1}</div>
+        <div class="clip-info">
+          <div class="clip-name">${name}</div>
+          <div class="clip-meta">${mins}:${String(secs).padStart(4,'0')} — score ${c.score.toFixed(1)}</div>
+        </div>
+        <button class="btn-sm" onclick="previewYtClip('${c.path.replace(/\\/g,'/')}')">▶ Preview</button>
+      `;
+      list.appendChild(div);
+    });
+  }
+  function previewYtClip(path) {
+    const card   = document.getElementById('yt-player-card');
+    const player = document.getElementById('yt-player');
+    card.style.display = 'block';
+    player.src = `/yt-shorts/video?path=${encodeURIComponent(path)}`;
+    player.load(); player.play();
+    card.scrollIntoView({behavior:'smooth'});
+  }
+
+  // ── Quotes ─────────────────────────────────────────────────────────────
+  let allQuotes = [], qFilterMode = 'all';
+
+  function qLoadQuotes() {
+    document.getElementById('q-list').innerHTML = '<div class="q-empty">Loading…</div>';
+    fetch('/quotes')
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(d => { allQuotes = d.quotes || []; qUpdateStats(d); qRender(); })
+      .catch(err => {
+        document.getElementById('q-list').innerHTML =
+          `<div class="q-empty">Error: ${err.message}</div>`;
+      });
+  }
+  function qUpdateStats(d) {
+    const locked = d.used_count || 0, total = d.total || 0;
+    document.getElementById('q-locked-pill').textContent = `🔒 ${locked} locked`;
+    document.getElementById('q-free-pill').textContent   = `✅ ${total - locked} available`;
+    document.getElementById('q-total-pill').textContent  = `📖 ${total} total`;
+  }
+  function qSetFilter(mode) {
+    qFilterMode = mode;
+    document.querySelectorAll('.q-filter-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('qf-' + mode).classList.add('active');
+    qRender();
+  }
+  function qRender() {
+    const q       = (document.getElementById('q-search').value || '').toLowerCase();
+    const visible = allQuotes.filter(item => {
+      if (qFilterMode === 'locked' && !item.locked) return false;
+      if (qFilterMode === 'free'   &&  item.locked) return false;
+      if (q) return item.quote.toLowerCase().includes(q) || item.author.toLowerCase().includes(q);
+      return true;
+    });
+    const list = document.getElementById('q-list');
+    if (!visible.length) { list.innerHTML = '<div class="q-empty">No quotes match.</div>'; return; }
+    list.innerHTML = '';
+    visible.slice(0, 200).forEach(item => {
+      const div    = document.createElement('div');
+      div.className = 'quote-card' + (item.locked ? ' q-state-locked' : '');
+      div.id        = 'qcard-' + item.index;
+      const btnCls  = item.locked ? 'q-btn-locked' : 'q-btn-free';
+      const btnTxt  = item.locked ? '🔒 Locked'    : '✓ Free';
+      div.innerHTML = `
+        <div class="q-text-block">
+          <div class="quote-text">"${item.quote}"</div>
+          <div class="quote-author">— ${item.author}</div>
+        </div>
+        <button class="q-lock-btn ${btnCls}" onclick="qToggle(${item.index})">${btnTxt}</button>
+      `;
+      list.appendChild(div);
+    });
+  }
+  function qToggle(idx) {
+    fetch('/quotes/toggle', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({index: idx}),
+    }).then(r => r.json()).then(d => {
+      if (!d.ok) return;
+      const q = allQuotes.find(q => q.index === idx);
+      if (q) q.locked = d.locked;
+      qUpdateStats({ used_count: d.used_count, total: allQuotes.length });
+      qRender();
+    });
+  }
+  function qUnlockAll() {
+    fetch('/quotes/reset', {method:'POST'}).then(r => r.json()).then(d => {
+      if (d.ok) { allQuotes.forEach(q => q.locked = false); qUpdateStats({used_count:0, total:allQuotes.length}); qRender(); }
+    });
   }
 
   // ── Mode ──────────────────────────────────────────────────────────────────
@@ -821,7 +1469,6 @@
   function restoreToggles() {
     const pub   = localStorage.getItem('toggle-publish');
     const drive = localStorage.getItem('toggle-drive');
-    // Default: publish=false, drive=true (first visit)
     document.getElementById('toggle-publish').checked = pub   !== null ? pub   === 'true' : false;
     document.getElementById('toggle-drive').checked   = drive !== null ? drive === 'true' : true;
   }

@@ -1,0 +1,19 @@
+{
+  "posts_folder": "D:\\AI\\assets",
+  "used_images": [
+    "image (1).png",
+    "image (10).png",
+    "image (11).png",
+    "image (12).png",
+    "image (13).png",
+    "image (14).png",
+    "image (2).png"
+  ],
+  "yt_shorts": {
+    "video_path": "C:/Users/spli5/Downloads/VID_20150704_150752.mp4",
+    "output_folder": "D:/outputs",
+    "clip_count": 1,
+    "clip_duration": 15,
+    "add_quote": true
+  }
+}
